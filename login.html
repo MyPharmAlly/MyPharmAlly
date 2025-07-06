@@ -17,7 +17,6 @@
 
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Toast container */
     #toast {
       visibility: hidden;
       min-width: 250px;
@@ -49,15 +48,10 @@
     <ul class="navbar" id="navbar-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
-
-      <!-- Show these when logged out -->
       <li id="nav-login"><a href="login.html" aria-current="page">Login</a></li>
       <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-
-      <!-- Show these when logged in -->
       <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
       <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-
       <li><a href="contact.html">Contact Us</a></li>
       <li><a href="about.html">About Us</a></li>
     </ul>
@@ -66,35 +60,21 @@
   <main class="container" role="main">
     <h1>Login to MyPharmAlly</h1>
 
-    <form id="loginForm" novalidate aria-describedby="loginHelp" onsubmit="return validateLogin(event)">
+    <form id="loginForm" novalidate>
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          placeholder="you@example.com" 
-          aria-required="true" 
-          required 
-          autocomplete="username"
-        />
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="username" />
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          placeholder="Enter your password" 
-          aria-required="true" 
-          required 
-          autocomplete="current-password"
-        />
+        <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" />
       </div>
 
       <button type="submit" class="btn">Login</button>
-      <p id="loginHelp" class="form-text">Don't have an account? <a href="signup.html">Sign up here</a>.</p>
+
+      <p class="form-text">Don't have an account? <a href="signup.html">Sign up here</a>.</p>
+      <p class="form-text">Forgot your password? <a href="#" onclick="sendResetEmail()">Reset it</a>.</p>
     </form>
   </main>
 
@@ -102,11 +82,32 @@
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
-  <!-- Toast container -->
   <div id="toast"></div>
 
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
+
+  <!-- ✅ Firebase Config and Init -->
   <script>
-    // Toast function
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+      authDomain: "mypharmally-b87c5.firebaseapp.com",
+      projectId: "mypharmally-b87c5",
+      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      messagingSenderId: "302027821610",
+      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
+      measurementId: "G-LNED3HFPCF"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const analytics = firebase.analytics();
+  </script>
+
+  <!-- ✅ Main Logic -->
+  <script>
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -114,41 +115,6 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Login validation
-    function validateLogin(event) {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-
-      if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
-        showToast("Incorrect email or password. Please try again.");
-        return false;
-      }
-
-      localStorage.setItem("loggedIn", "true");
-      showToast("Login successful!");
-
-      setTimeout(() => {
-        window.location.href = "index.html"; // Redirect after showing toast
-      }, 1500);
-
-      updateNavbar();
-      return false;
-    }
-
-    // Toggle mobile menu
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-
-    // Update navbar links visibility based on login state
     function updateNavbar() {
       const loggedIn = localStorage.getItem('loggedIn') === 'true';
       document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
@@ -157,19 +123,77 @@
       document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
     }
 
-    // Logout function
     function logoutUser(event) {
       event.preventDefault();
-      localStorage.removeItem('loggedIn');
-      // localStorage.removeItem('user'); // Optional: also remove stored user data
-      updateNavbar();
-      showToast('Logged out successfully!');
-      setTimeout(() => {
-        window.location.href = 'index.html'; // Redirect home after logout
-      }, 1200);
+      auth.signOut().then(() => {
+        localStorage.removeItem('loggedIn');
+        updateNavbar();
+        showToast('Logged out successfully!');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+      });
     }
 
-    // Initialize navbar state on page load
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        localStorage.setItem("loggedIn", "true");
+        updateNavbar();
+        const name = user.displayName || "My Profile";
+        document.getElementById("nav-profile").innerHTML = `<a href="profile.html">${name}</a>`;
+      } else {
+        localStorage.removeItem("loggedIn");
+        updateNavbar();
+      }
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        showToast("Please enter both email and password.");
+        return;
+      }
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          localStorage.setItem("loggedIn", "true");
+          showToast("Login successful!");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1500);
+        })
+        .catch((error) => {
+          showToast("Invalid email or password.");
+        });
+    });
+
+    function sendResetEmail() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        showToast("Enter your email above first.");
+        return;
+      }
+
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          showToast("Reset link sent to your email.");
+        })
+        .catch((error) => {
+          showToast("Error sending reset link.");
+        });
+    }
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
+
     updateNavbar();
   </script>
 
