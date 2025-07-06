@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up | MyPharmAlly</title>
+  <meta name="description" content="Create your MyPharmAlly account to order medicines and manage your profile." />
+  <meta name="keywords" content="signup, create account, MyPharmAlly, pharmacy" />
+  <meta name="author" content="MyPharmAlly" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sign Up | MyPharmAlly" />
+  <meta property="og:description" content="Create your account on MyPharmAlly to enjoy seamless pharmacy services." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mypharmally.com/signup.html" />
+  <meta property="og:image" content="https://mypharmally.com/images/og-signup.jpg" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Toast container */
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #26a69a;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      padding: 14px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: visibility 0s, opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Primary navigation">
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+
+      <!-- Shown when logged out -->
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html" aria-current="page">Sign Up</a></li>
+
+      <!-- Shown when logged in -->
+      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" role="main">
+    <h1>Create Your Account</h1>
+
+    <form id="signupForm" novalidate aria-describedby="signupHelp" onsubmit="return validateSignup(event)">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input 
+          type="text" 
+          id="fullname" 
+          name="fullname" 
+          placeholder="Your full name" 
+          required 
+          autocomplete="name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          placeholder="you@example.com" 
+          required 
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="Create a password (min 6 characters)" 
+          required 
+          autocomplete="new-password"
+          minlength="6"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          name="confirmPassword" 
+          placeholder="Confirm your password" 
+          required 
+          autocomplete="new-password"
+          minlength="6"
+        />
+      </div>
+
+      <button type="submit" class="btn">Sign Up</button>
+      <p id="signupHelp" class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
+    </form>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
+
+  <!-- Toast container -->
+  <div id="toast"></div>
+
+  <script>
+    // Toast helper
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
+
+    // Update navbar links visibility based on login state
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
+      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+    }
+
+    // Logout function
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem('loggedIn');
+      updateNavbar();
+      showToast('Logged out successfully!');
+      setTimeout(() => {
+        window.location.href = 'index.html'; // Redirect home after logout
+      }, 1200);
+    }
+
+    // Signup validation
+    function validateSignup(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("fullname").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+
+      if (!name || !email || !password || !confirm) {
+        showToast("Please fill in all fields.");
+        return false;
+      }
+
+      if (password.length < 6) {
+        showToast("Password must be at least 6 characters.");
+        return false;
+      }
+
+      if (password !== confirm) {
+        showToast("Passwords do not match.");
+        return false;
+      }
+
+      // Save user to localStorage
+      const user = { name, email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+
+      showToast("Sign up successful! You can now log in.");
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+
+      return false;
+    }
+
+    // Initialize navbar state on page load
+    updateNavbar();
+  </script>
+
+</body>
+</html>

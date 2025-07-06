@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buy Medicines | MyPharmAlly</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #26a69a;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      padding: 14px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: visibility 0s, opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Primary navigation">
+      <ul class="navbar" id="navbar-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buy-medicines.html" class="active">Buy Medicines</a></li>
+        <li id="login-link"><a href="login.html">Login</a></li>
+        <li id="signup-link"><a href="signup.html">Sign Up</a></li>
+        <li id="logout-link" style="display:none;"><a href="#" id="logout-btn">Logout</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Buy Medicines</h1>
+
+    <section class="Buy OTC Medicines">
+      <h2>Buy OTC Medicines</h2>
+      <p>Browse and add your required medicines to the cart directly.</p>
+      <div class="meds-grid">
+        <article class="med-card">
+          <img src="images/paracetamol.jpg" alt="Paracetamol" />
+          <div class="med-info">
+            <h3>Paracetamol</h3>
+            <p>Effective pain reliever and fever reducer.</p>
+            <div class="med-purchase">
+              <span class="price">₹30 / 10 tablets</span>
+              <input type="number" min="1" value="1" aria-label="Quantity for Paracetamol" />
+              <button class="btn add-to-cart" data-med="Paracetamol">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="med-card">
+          <img src="images/vitamin-c.jpg" alt="Vitamin C Tablets" />
+          <div class="med-info">
+            <h3>Vitamin C Tablets</h3>
+            <p>Boosts immunity and overall health.</p>
+            <div class="med-purchase">
+              <span class="price">₹150 / 60 tablets</span>
+              <input type="number" min="1" value="1" aria-label="Quantity for Vitamin C Tablets" />
+              <button class="btn add-to-cart" data-med="Vitamin C Tablets">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="med-card">
+          <img src="images/antacid.jpg" alt="Antacids" />
+          <div class="med-info">
+            <h3>Antacids</h3>
+            <p>Relieves indigestion and heartburn.</p>
+            <div class="med-purchase">
+              <span class="price">₹50 / pack</span>
+              <input type="number" min="1" value="1" aria-label="Quantity for Antacids" />
+              <button class="btn add-to-cart" data-med="Antacids">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="med-card">
+          <img src="images/ibuprofen.jpg" alt="Ibuprofen" />
+          <div class="med-info">
+            <h3>Ibuprofen</h3>
+            <p>Anti-inflammatory pain relief.</p>
+            <div class="med-purchase">
+              <span class="price">₹80 / 20 tablets</span>
+              <input type="number" min="1" value="1" aria-label="Quantity for Ibuprofen" />
+              <button class="btn add-to-cart" data-med="Ibuprofen">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="prescription-upload">
+      <h2>Prescription Medicines</h2>
+      <p>To buy prescription medicines, please upload a valid prescription below.</p>
+
+      <form class="upload-form" action="#" method="POST" enctype="multipart/form-data" onsubmit="handlePrescriptionUpload(event)">
+        <label for="prescription-upload" class="upload-label">
+          <div class="upload-dropzone" tabindex="0">
+            <p>Drag & drop your prescription here, or click to select file</p>
+            <small>Accepted formats: JPG, PNG, PDF</small>
+          </div>
+          <input type="file" id="prescription-upload" name="prescription" accept="image/*,.pdf" required hidden />
+        </label>
+        <button type="submit" class="btn upload-btn">Upload Prescription</button>
+      </form>
+
+      <p style="margin-top: 18px; color: #00796b; font-weight: 600;">
+        Once you upload your prescription, our agent will call you to confirm the medicine details and ensure everything is correct.
+      </p>
+    </section>
+
+    <section class="call-us">
+  <h2>Need Help Ordering?</h2>
+  <p>
+    💬 <strong>Chat with us on WhatsApp</strong> to quickly order your medicines, ask questions, or upload your prescription.
+  </p>
+  <a
+    class="btn"
+    href="https://api.whatsapp.com/send?phone=917051899758&text=Hello!+I’d+like+to+order+medicines+from+MyPharmAlly.+Can+you+assist+me%3F"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Chat on WhatsApp
+  </a>
+</section>
+
+
+
+
+  </main>
+
+  <footer>
+    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script>
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem("loggedIn") === "true";
+      document.getElementById("login-link").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("signup-link").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("logout-link").style.display = loggedIn ? "inline-block" : "none";
+    }
+
+    document.getElementById("logout-btn").addEventListener("click", e => {
+      e.preventDefault();
+      localStorage.removeItem("loggedIn");
+      showToast("Logged out successfully.");
+      updateNavbar();
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    });
+
+    updateNavbar();
+
+    const dropzone = document.querySelector('.upload-dropzone');
+    const fileInput = document.getElementById('prescription-upload');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+      }
+    });
+
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const card = e.target.closest('.med-card');
+        const medName = btn.getAttribute('data-med');
+        const qtyInput = card.querySelector('input[type="number"]');
+        const quantity = qtyInput.value;
+        showToast(`Added ${quantity} x ${medName} to your cart!`);
+      });
+    });
+
+    function handlePrescriptionUpload(event) {
+      event.preventDefault();
+      if (fileInput.files.length === 0) {
+        showToast("Please select a file to upload.");
+        return;
+      }
+      showToast("Prescription uploaded successfully!");
+      fileInput.value = "";
+    }
+  </script>
+</body>
+</html>

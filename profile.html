@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Profile | MyPharmAlly</title>
+  <meta name="description" content="Manage your profile and view your account details on MyPharmAlly." />
+  <meta name="keywords" content="profile, account, MyPharmAlly, user details" />
+  <meta name="author" content="MyPharmAlly" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="My Profile | MyPharmAlly" />
+  <meta property="og:description" content="Manage your profile and account details on MyPharmAlly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mypharmally.com/profile.html" />
+  <meta property="og:image" content="https://mypharmally.com/images/og-profile.jpg" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Toast container */
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #26a69a;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      padding: 14px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: visibility 0s, opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .profile-info {
+      max-width: 400px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .profile-info h2 {
+      margin-bottom: 1rem;
+      color: #00897b;
+    }
+
+    .profile-info p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    .logout-btn {
+      display: block;
+      margin-top: 1.5rem;
+      background-color: #00897b;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #00796b;
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Primary navigation">
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+
+      <!-- Shown when logged out -->
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+
+      <!-- Shown when logged in -->
+      <li id="nav-profile" style="display:none;"><a href="profile.html" aria-current="page">My Profile</a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" role="main">
+    <section class="profile-info" aria-label="User Profile Information">
+      <h2>Your Profile</h2>
+      <p><strong>Name:</strong> <span id="user-name"></span></p>
+      <p><strong>Email:</strong> <span id="user-email"></span></p>
+      <button class="logout-btn" onclick="logoutUser(event)">Log Out</button>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
+
+  <!-- Toast container -->
+  <div id="toast"></div>
+
+  <script>
+    // Toast helper
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
+
+    // Update navbar links visibility based on login state
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
+      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+    }
+
+    // Logout function
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem('loggedIn');
+      updateNavbar();
+      showToast('Logged out successfully!');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1200);
+    }
+
+    // Display user info or redirect if not logged in
+    function displayUserInfo() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      if (!loggedIn) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('user-name').textContent = user.name || 'N/A';
+      document.getElementById('user-email').textContent = user.email || 'N/A';
+    }
+
+    // Initialize page
+    updateNavbar();
+    displayUserInfo();
+  </script>
+
+</body>
+</html>

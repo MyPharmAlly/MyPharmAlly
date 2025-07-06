@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | MyPharmAlly</title>
+  <meta name="description" content="Learn more about MyPharmAlly, our mission, and how we help you get medicines easily." />
+  <meta name="keywords" content="about MyPharmAlly, pharmacy, mission, vision" />
+  <meta name="author" content="MyPharmAlly" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About Us | MyPharmAlly" />
+  <meta property="og:description" content="MyPharmAlly’s mission is to provide trusted pharmacy services with fast delivery and certified medicines." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mypharmally.com/about.html" />
+  <meta property="og:image" content="https://mypharmally.com/images/og-about.jpg" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Toast container */
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #26a69a;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      padding: 14px;
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: visibility 0s, opacity 0.5s ease-in-out;
+      opacity: 0;
+    }
+
+    #toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Primary navigation">
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html" aria-current="page">About Us</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" role="main">
+    <h1>About MyPharmAlly</h1>
+
+    <section aria-labelledby="our-mission">
+      <h2 id="our-mission">Our Mission</h2>
+      <p>At MyPharmAlly, our mission is to provide a trusted, fast, and easy way to get certified medicines delivered to your doorstep 24/7.</p>
+    </section>
+
+    <section aria-labelledby="our-values">
+      <h2 id="our-values">Our Values</h2>
+      <ul>
+        <li>Customer-first approach</li>
+        <li>Certified quality medicines</li>
+        <li>Transparency and trust</li>
+        <li>Fast and reliable delivery</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="our-team">
+      <h2 id="our-team">Our Team</h2>
+      <p>Our team is composed of experienced pharmacists and healthcare professionals dedicated to your wellness.</p>
+    </section>
+
+    <section aria-labelledby="our-story">
+  <h2 id="our-story">Our Story</h2>
+  <p><strong>MyPharmAlly</strong> is a heartfelt initiative by <strong>Noor Fatima Healthcare Group</strong>, aimed at easing the lives of people — especially the elderly — who often walk miles just to get their daily medicines. With the grace of the Almighty, we are committed to solving everyday healthcare and medicine challenges with dignity and compassion.</p>
+
+  <p>The idea was brought to life in <strong>2025</strong> by <strong>Dr. Jibran War</strong>, Founder of MyPharmAlly and CEO of Noor Fatima Healthcare Group, along with <strong>Kamran Nazeer</strong>, Co-founder and a dedicated force behind the platform’s development and execution.</p>
+
+  <p>However, the true foundation of this journey lies in the vision of <strong>Dr. Qaisar War</strong>, the original founder of Noor Fatima Healthcare Group — whose lifelong dedication to public health continues to inspire everything we do today.</p>
+
+  <p>This beautiful platform emerges from the serene valley of <strong>Kashmir</strong>, built with love, honesty, and the intent to serve. At MyPharmAlly, we don’t just deliver medicines — we deliver care, relief, and hope to those who need it most.</p>
+</section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script>
+    // Toast helper
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
+
+    // Update navbar links visibility based on login state
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
+      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+    }
+
+    // Logout function
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem('loggedIn');
+      updateNavbar();
+      showToast('Logged out successfully!');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1200);
+    }
+
+    // Initialize navbar state on page load
+    updateNavbar();
+  </script>
+
+</body>
+</html>

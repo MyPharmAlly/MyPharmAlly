@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart | MyPharmAlly</title>
+  <meta name="description" content="Review your selected medicines and proceed to checkout on MyPharmAlly." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav aria-label="Primary navigation">
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html">Sign Up</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="cart.html" aria-current="page">Cart</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" role="main">
+    <h1>Your Shopping Cart</h1>
+
+    <table id="cartTable" aria-describedby="cartSummary" style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background-color: #00897b; color: white;">
+          <th scope="col" style="padding: 10px; text-align: left;">Medicine</th>
+          <th scope="col" style="padding: 10px; text-align: center;">Quantity</th>
+          <th scope="col" style="padding: 10px; text-align: center;">Price (₹)</th>
+          <th scope="col" style="padding: 10px; text-align: center;">Total (₹)</th>
+          <th scope="col" style="padding: 10px; text-align: center;">Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cartItems">
+        <!-- Cart items injected by JS -->
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right; font-weight: bold; padding: 10px;">Grand Total:</td>
+          <td id="grandTotal" style="padding: 10px; font-weight: bold; text-align: center;">₹0</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <p id="emptyMsg" style="text-align:center; font-style: italic; display:none;">Your cart is empty.</p>
+
+    <button id="checkoutBtn" class="btn" disabled style="margin-top: 20px;">Proceed to Checkout</button>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartItemsContainer = document.getElementById('cartItems');
+      const grandTotalEl = document.getElementById('grandTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const emptyMsg = document.getElementById('emptyMsg');
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+
+      function updateGrandTotal() {
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        grandTotalEl.textContent = `₹${total.toFixed(2)}`;
+        checkoutBtn.disabled = cart.length === 0;
+        emptyMsg.style.display = cart.length === 0 ? 'block' : 'none';
+      }
+
+      function renderCart() {
+        cartItemsContainer.innerHTML = '';
+        if (cart.length === 0) {
+          updateGrandTotal();
+          return;
+        }
+        cart.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style="padding: 10px;">${item.name}</td>
+            <td style="padding: 10px; text-align: center;">
+              <button aria-label="Decrease quantity of ${item.name}" class="qty-btn" data-action="decrease" data-index="${index}">-</button>
+              <span aria-live="polite" aria-atomic="true" style="margin: 0 8px;">${item.quantity}</span>
+              <button aria-label="Increase quantity of ${item.name}" class="qty-btn" data-action="increase" data-index="${index}">+</button>
+            </td>
+            <td style="padding: 10px; text-align: center;">₹${item.price.toFixed(2)}</td>
+            <td style="padding: 10px; text-align: center;">₹${(item.price * item.quantity).toFixed(2)}</td>
+            <td style="padding: 10px; text-align: center;">
+              <button aria-label="Remove ${item.name} from cart" class="remove-btn" data-index="${index}">×</button>
+            </td>
+          `;
+          cartItemsContainer.appendChild(row);
+        });
+        updateGrandTotal();
+      }
+
+      cartItemsContainer.addEventListener('click', e => {
+        if (e.target.classList.contains('qty-btn')) {
+          const index = +e.target.dataset.index;
+          if (e.target.dataset.action === 'increase') {
+            cart[index].quantity++;
+          } else if (e.target.dataset.action === 'decrease' && cart[index].quantity > 1) {
+            cart[index].quantity--;
+          }
+          saveCart();
+          renderCart();
+        }
+
+        if (e.target.classList.contains('remove-btn')) {
+          const index = +e.target.dataset.index;
+          cart.splice(index, 1);
+          saveCart();
+          renderCart();
+        }
+      });
+
+      checkoutBtn.addEventListener('click', () => {
+        window.location.href = 'checkout.html';
+      });
+
+      renderCart();
+    });
+  </script>
+</body>
+</html>
