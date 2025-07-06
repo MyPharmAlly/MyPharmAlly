@@ -117,8 +117,28 @@
   <!-- Toast container -->
   <div id="toast"></div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
+
   <script>
-    // Toast helper
+    // Firebase config (same as your other pages)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+      authDomain: "mypharmally-b87c5.firebaseapp.com",
+      projectId: "mypharmally-b87c5",
+      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      messagingSenderId: "302027821610",
+      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
+      measurementId: "G-LNED3HFPCF"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const analytics = firebase.analytics();
+
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -137,45 +157,41 @@
 
     // Update navbar links visibility based on login state
     function updateNavbar() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      const user = auth.currentUser;
+      const loggedIn = user !== null;
       document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
       document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
       document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
       document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+
+      if (loggedIn) {
+        document.getElementById('nav-profile').innerHTML = `<a href="profile.html">${user.displayName || "My Profile"}</a>`;
+      }
     }
 
     // Logout function
     function logoutUser(event) {
       event.preventDefault();
-      localStorage.removeItem('loggedIn');
-      updateNavbar();
-      showToast('Logged out successfully!');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1200);
+      auth.signOut().then(() => {
+        showToast('Logged out successfully!');
+        updateNavbar();
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1200);
+      });
     }
 
     // Display user info or redirect if not logged in
-    function displayUserInfo() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      if (!loggedIn) {
-        window.location.href = 'login.html';
-        return;
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        updateNavbar();
+        document.getElementById('user-name').textContent = user.displayName || "N/A";
+        document.getElementById('user-email').textContent = user.email || "N/A";
+      } else {
+        // User not logged in, redirect to login
+        window.location.href = "login.html";
       }
-
-      const user = JSON.parse(localStorage.getItem('user'));
-      if (!user) {
-        window.location.href = 'login.html';
-        return;
-      }
-
-      document.getElementById('user-name').textContent = user.name || 'N/A';
-      document.getElementById('user-email').textContent = user.email || 'N/A';
-    }
-
-    // Initialize page
-    updateNavbar();
-    displayUserInfo();
+    });
   </script>
 
 </body>
