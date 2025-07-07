@@ -4,17 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up | MyPharmAlly</title>
-  <meta name="description" content="Create your MyPharmAlly account to order medicines and manage your profile." />
-  <meta name="keywords" content="signup, create account, MyPharmAlly, pharmacy" />
-  <meta name="author" content="MyPharmAlly" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Sign Up | MyPharmAlly" />
-  <meta property="og:description" content="Create your account on MyPharmAlly to enjoy seamless pharmacy services." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mypharmally.com/signup.html" />
-  <meta property="og:image" content="https://mypharmally.com/images/og-signup.jpg" />
-
   <link rel="stylesheet" href="style.css" />
   <style>
     #toast {
@@ -44,7 +33,6 @@
 <body>
 
   <nav aria-label="Primary navigation">
-    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
     <ul class="navbar" id="navbar-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
@@ -60,57 +48,61 @@
   <main class="container" role="main">
     <h1>Create Your Account</h1>
 
-    <form id="signupForm" novalidate aria-describedby="signupHelp">
+    <form id="signupForm" novalidate>
       <div class="form-group">
         <label for="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required autocomplete="name" />
+        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required />
       </div>
+
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
       </div>
+
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Create a password (min 6 characters)" required autocomplete="new-password" minlength="6" />
+        <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6" />
       </div>
+
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password" minlength="6" />
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required minlength="6" />
       </div>
+
       <button type="submit" class="btn">Sign Up</button>
-      <p id="signupHelp" class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
+      <p class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
     </form>
   </main>
 
-  <footer role="contentinfo">
+  <footer>
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
   <div id="toast"></div>
 
-  <!-- ✅ Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
 
-  <!-- ✅ Firebase Config and Init -->
+  <!-- Firebase Init -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
       projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      storageBucket: "mypharmally-b87c5.appspot.com",
       messagingSenderId: "302027821610",
       appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
       measurementId: "G-LNED3HFPCF"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
     const auth = firebase.auth();
-    const analytics = firebase.analytics();
   </script>
 
-  <!-- ✅ Main Signup Logic -->
+  <!-- Signup Script -->
   <script>
     function showToast(message) {
       const toast = document.getElementById('toast');
@@ -120,20 +112,20 @@
     }
 
     function updateNavbar() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
-      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+      const loggedIn = localStorage.getItem("loggedIn") === "true";
+      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
+      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
     }
 
-    function logoutUser(event) {
-      event.preventDefault();
+    function logoutUser(e) {
+      e.preventDefault();
       auth.signOut().then(() => {
         localStorage.removeItem("loggedIn");
         updateNavbar();
-        showToast("Logged out successfully.");
-        setTimeout(() => window.location.href = "index.html", 1200);
+        showToast("Logged out.");
+        setTimeout(() => window.location.href = "index.html", 1000);
       });
     }
 
@@ -149,9 +141,8 @@
       }
     });
 
-    document.getElementById("signupForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
       const name = document.getElementById("fullname").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
@@ -162,36 +153,22 @@
         return;
       }
 
-      if (password.length < 6) {
-        showToast("Password must be at least 6 characters.");
-        return;
-      }
-
       if (password !== confirm) {
         showToast("Passwords do not match.");
         return;
       }
 
       auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
+        .then(userCredential => {
           return userCredential.user.updateProfile({ displayName: name });
         })
         .then(() => {
-          showToast("Signup successful! Redirecting to login...");
+          showToast("Signup successful! Redirecting...");
           setTimeout(() => window.location.href = "login.html", 1500);
         })
-        .catch((error) => {
+        .catch(error => {
           showToast(error.message);
         });
-    });
-
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
     });
 
     updateNavbar();
