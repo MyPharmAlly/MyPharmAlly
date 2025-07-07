@@ -5,17 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login | MyPharmAlly</title>
   <meta name="description" content="Login to your MyPharmAlly account to manage your orders and profile." />
-  <meta name="keywords" content="login, MyPharmAlly, pharmacy account" />
-  <meta name="author" content="MyPharmAlly" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Login | MyPharmAlly" />
-  <meta property="og:description" content="Login to your account on MyPharmAlly to order medicines and track deliveries." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mypharmally.com/login.html" />
-  <meta property="og:image" content="https://mypharmally.com/images/og-login.jpg" />
-
   <link rel="stylesheet" href="style.css" />
+
   <style>
     #toast {
       visibility: hidden;
@@ -44,7 +35,6 @@
 <body>
 
   <nav aria-label="Primary navigation">
-    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
     <ul class="navbar" id="navbar-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
@@ -84,30 +74,28 @@
 
   <div id="toast"></div>
 
-  <!-- ✅ Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
 
-  <!-- ✅ Firebase Config and Init -->
   <script>
-    const firebaseConfig = {
+    // Firebase config
+    var firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
       projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      storageBucket: "mypharmally-b87c5.appspot.com",
       messagingSenderId: "302027821610",
       appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
       measurementId: "G-LNED3HFPCF"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
     const auth = firebase.auth();
-    const analytics = firebase.analytics();
-  </script>
 
-  <!-- ✅ Main Logic -->
-  <script>
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -116,20 +104,20 @@
     }
 
     function updateNavbar() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
-      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+      const loggedIn = localStorage.getItem("loggedIn") === "true";
+      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
+      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
     }
 
-    function logoutUser(event) {
-      event.preventDefault();
+    function logoutUser(e) {
+      e.preventDefault();
       auth.signOut().then(() => {
-        localStorage.removeItem('loggedIn');
+        localStorage.removeItem("loggedIn");
         updateNavbar();
-        showToast('Logged out successfully!');
-        setTimeout(() => window.location.href = 'index.html', 1000);
+        showToast("Logged out.");
+        setTimeout(() => window.location.href = "index.html", 1000);
       });
     }
 
@@ -147,7 +135,6 @@
 
     document.getElementById("loginForm").addEventListener("submit", function(event) {
       event.preventDefault();
-
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
 
@@ -185,17 +172,7 @@
         });
     }
 
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-
     updateNavbar();
   </script>
-
 </body>
 </html>
