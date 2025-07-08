@@ -76,7 +76,7 @@
       <input type="tel" id="phone" required placeholder="+91XXXXXXXXXX" />
     </div>
     <div id="recaptcha-container"></div>
-    <button type="button" class="btn" id="sendOtpBtn">Send OTP</button>
+    <button type="button" id="sendOtpBtn" class="btn">Send OTP</button>
   </form>
 
   <form id="otpForm" style="display:none; margin-top: 20px;">
@@ -84,7 +84,7 @@
       <label for="otp">Enter OTP</label>
       <input type="text" id="otp" required placeholder="6-digit OTP" />
     </div>
-    <button type="button" class="btn" id="verifyOtpBtn">Verify & Complete Sign Up</button>
+    <button type="button" id="verifyOtpBtn" class="btn">Verify & Complete Sign Up</button>
   </form>
 
   <p class="form-text">Already have an account? <a href="login.html">Login here</a></p>
@@ -165,90 +165,76 @@
       });
   });
 
-  // Phone signup - reCAPTCHA initialization
-  window.onload = function () {
+  // Phone signup - visible reCAPTCHA initialization
+  window.onload = function() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      size: 'invisible',
-      callback: () => {
-        // reCAPTCHA solved, allow sendOTP
-        console.log("reCAPTCHA solved");
+      'size': 'normal', // visible widget
+      'callback': function(response) {
+        console.log('reCAPTCHA solved');
       },
-      'expired-callback': () => {
-        showToast("reCAPTCHA expired, please try again.");
+      'expired-callback': function() {
+        showToast('reCAPTCHA expired, please solve it again');
       }
     });
-    recaptchaVerifier.render().then(widgetId => {
+    recaptchaVerifier.render().then(function(widgetId) {
       window.recaptchaWidgetId = widgetId;
     });
   };
 
-  // Send OTP button handler
-  document.getElementById("sendOtpBtn").addEventListener("click", sendOTP);
-  // Verify OTP button handler
-  document.getElementById("verifyOtpBtn").addEventListener("click", verifyOTP);
-
-  function sendOTP() {
-    const phoneInput = document.getElementById("phone");
-    const phone = phoneInput.value.trim();
-
+  // Send OTP button event
+  document.getElementById("sendOtpBtn").addEventListener("click", function() {
+    const phone = document.getElementById("phone").value.trim();
     if (!phone) {
       showToast("Enter phone number");
       return;
     }
     if (!phone.startsWith("+")) {
-      showToast("Include country code (e.g., +91...)");
+      showToast("Include country code (e.g. +91...)");
       return;
     }
 
-    // Disable send button to prevent spamming
-    document.getElementById("sendOtpBtn").disabled = true;
+    // Disable send OTP button temporarily
+    this.disabled = true;
 
-    const appVerifier = window.recaptchaVerifier;
-    auth.signInWithPhoneNumber(phone, appVerifier)
-      .then(result => {
+    auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+      .then(function(result) {
         confirmationResult = result;
-        document.getElementById("otpForm").style.display = "block";
         showToast("OTP sent!");
+        document.getElementById("otpForm").style.display = "block";
       })
-      .catch(error => {
-        console.error("OTP send error:", error);
+      .catch(function(error) {
+        console.error("Error sending OTP:", error);
         showToast("Failed to send OTP: " + error.message);
-        // Re-enable button on failure
+        // Re-enable button on error
         document.getElementById("sendOtpBtn").disabled = false;
-        // Reset reCAPTCHA in case of error
+        // Reset reCAPTCHA
         if (window.recaptchaVerifier) {
-          window.recaptchaVerifier.clear();
-          window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            size: 'invisible',
-            callback: () => { console.log("reCAPTCHA solved"); }
-          });
-          window.recaptchaVerifier.render();
+          window.recaptchaVerifier.reset(window.recaptchaWidgetId);
         }
       });
-  }
+  });
 
-  function verifyOTP() {
-    const codeInput = document.getElementById("otp");
-    const code = codeInput.value.trim();
-
+  // Verify OTP button event
+  document.getElementById("verifyOtpBtn").addEventListener("click", function() {
+    const code = document.getElementById("otp").value.trim();
     if (!code) {
       showToast("Enter the OTP");
       return;
     }
 
     confirmationResult.confirm(code)
-      .then(() => {
+      .then(function() {
         localStorage.setItem("loggedIn", "true");
-        showToast("Phone signup success!");
+        showToast("Phone signup successful!");
         setTimeout(() => location.href = "profile.html", 1200);
       })
-      .catch(error => {
-        console.error("OTP verify error:", error);
-        showToast("Invalid OTP, please try again.");
+      .catch(function(error) {
+        console.error("OTP verification failed:", error);
+        showToast("Invalid OTP. Please try again.");
       });
-  }
+  });
 
-  auth.onAuthStateChanged(user => {
+  auth.onAuthStateChanged(function(user) {
     if (user) {
       localStorage.setItem("loggedIn", "true");
       updateNavbar();
