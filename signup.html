@@ -76,7 +76,7 @@
       <input type="tel" id="phone" required placeholder="+91XXXXXXXXXX" />
     </div>
     <div id="recaptcha-container"></div>
-    <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+    <button type="button" class="btn" id="sendOtpBtn">Send OTP</button>
   </form>
 
   <form id="otpForm" style="display:none; margin-top: 20px;">
@@ -84,7 +84,7 @@
       <label for="otp">Enter OTP</label>
       <input type="text" id="otp" required placeholder="6-digit OTP" />
     </div>
-    <button type="button" class="btn" onclick="verifyOTP()">Verify & Complete Sign Up</button>
+    <button type="button" class="btn" id="verifyOtpBtn">Verify & Complete Sign Up</button>
   </form>
 
   <p class="form-text">Already have an account? <a href="login.html">Login here</a></p>
@@ -125,7 +125,7 @@
     setTimeout(() => toast.classList.remove("show"), 3000);
   }
 
-  // Navbar update & logout (same as login page)
+  // Navbar update & logout
   function updateNavbar() {
     const loggedIn = localStorage.getItem("loggedIn") === "true";
     document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
@@ -165,17 +165,43 @@
       });
   });
 
-  // Phone signup - initialize reCAPTCHA
+  // Phone signup - reCAPTCHA initialization
   window.onload = function () {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       size: 'invisible',
-      callback: () => { /* reCAPTCHA solved */ }
+      callback: () => {
+        // reCAPTCHA solved, allow sendOTP
+        console.log("reCAPTCHA solved");
+      },
+      'expired-callback': () => {
+        showToast("reCAPTCHA expired, please try again.");
+      }
+    });
+    recaptchaVerifier.render().then(widgetId => {
+      window.recaptchaWidgetId = widgetId;
     });
   };
 
+  // Send OTP button handler
+  document.getElementById("sendOtpBtn").addEventListener("click", sendOTP);
+  // Verify OTP button handler
+  document.getElementById("verifyOtpBtn").addEventListener("click", verifyOTP);
+
   function sendOTP() {
-    const phone = document.getElementById("phone").value.trim();
-    if (!phone.startsWith("+")) return showToast("Include country code (e.g., +91...)");
+    const phoneInput = document.getElementById("phone");
+    const phone = phoneInput.value.trim();
+
+    if (!phone) {
+      showToast("Enter phone number");
+      return;
+    }
+    if (!phone.startsWith("+")) {
+      showToast("Include country code (e.g., +91...)");
+      return;
+    }
+
+    // Disable send button to prevent spamming
+    document.getElementById("sendOtpBtn").disabled = true;
 
     const appVerifier = window.recaptchaVerifier;
     auth.signInWithPhoneNumber(phone, appVerifier)
@@ -187,12 +213,28 @@
       .catch(error => {
         console.error("OTP send error:", error);
         showToast("Failed to send OTP: " + error.message);
+        // Re-enable button on failure
+        document.getElementById("sendOtpBtn").disabled = false;
+        // Reset reCAPTCHA in case of error
+        if (window.recaptchaVerifier) {
+          window.recaptchaVerifier.clear();
+          window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            size: 'invisible',
+            callback: () => { console.log("reCAPTCHA solved"); }
+          });
+          window.recaptchaVerifier.render();
+        }
       });
   }
 
   function verifyOTP() {
-    const code = document.getElementById("otp").value.trim();
-    if (!code) return showToast("Enter the OTP");
+    const codeInput = document.getElementById("otp");
+    const code = codeInput.value.trim();
+
+    if (!code) {
+      showToast("Enter the OTP");
+      return;
+    }
 
     confirmationResult.confirm(code)
       .then(() => {
@@ -200,7 +242,10 @@
         showToast("Phone signup success!");
         setTimeout(() => location.href = "profile.html", 1200);
       })
-      .catch(() => showToast("Invalid OTP"));
+      .catch(error => {
+        console.error("OTP verify error:", error);
+        showToast("Invalid OTP, please try again.");
+      });
   }
 
   auth.onAuthStateChanged(user => {
