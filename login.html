@@ -173,7 +173,7 @@
 
     // Phone login
     window.onload = function () {
-      new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
     };
 
     function sendOTP() {
@@ -187,7 +187,10 @@
           document.getElementById("otpForm").style.display = "block";
           showToast("OTP sent!");
         })
-        .catch(() => showToast("Failed to send OTP"));
+        .catch((error) => {
+          console.error("OTP send error", error);
+          showToast("Failed to send OTP: " + error.message);
+        });
     }
 
     function verifyOTP() {
