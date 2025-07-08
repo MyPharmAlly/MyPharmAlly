@@ -9,7 +9,6 @@
     #toast {
       visibility: hidden;
       min-width: 250px;
-      margin-left: -125px;
       background-color: #26a69a;
       color: white;
       text-align: center;
@@ -21,72 +20,76 @@
       bottom: 30px;
       font-weight: bold;
       font-size: 1rem;
-      transition: visibility 0s, opacity 0.5s ease-in-out;
       opacity: 0;
+      transition: visibility 0s, opacity 0.5s ease-in-out;
+      transform: translateX(-50%);
     }
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
+    #toast.show { visibility: visible; opacity: 1; }
+
+    #otp-section, #details-section { display: none; margin-top: 30px; }
+    .form-group { margin-bottom: 18px; }
   </style>
 </head>
 <body>
-
-  <nav aria-label="Primary navigation">
-    <ul class="navbar" id="navbar-menu">
+  <nav>
+    <ul class="navbar">
       <li><a href="index.html">Home</a></li>
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
-      <li id="nav-login"><a href="login.html">Login</a></li>
-      <li id="nav-signup"><a href="signup.html" aria-current="page">Sign Up</a></li>
-      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
-      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html" aria-current="page">Sign Up</a></li>
     </ul>
   </nav>
 
-  <main class="container" role="main">
+  <main class="container">
     <h1>Create Your Account</h1>
 
-    <form id="signupForm" novalidate>
+    <!-- Phone Number Step -->
+    <form id="phone-form">
+      <div class="form-group">
+        <label for="phone">Phone Number (+91XXXXXXXXXX)</label>
+        <input type="tel" id="phone" placeholder="+91XXXXXXXXXX" required />
+      </div>
+      <div id="recaptcha-container"></div>
+      <button type="submit" class="btn">Send OTP</button>
+    </form>
+
+    <!-- OTP Verification Step -->
+    <form id="otp-section">
+      <div class="form-group">
+        <label for="otp">Enter OTP</label>
+        <input type="text" id="otp" placeholder="Enter OTP" required />
+      </div>
+      <button type="submit" class="btn">Verify OTP</button>
+    </form>
+
+    <!-- User Details Step -->
+    <form id="details-section">
       <div class="form-group">
         <label for="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required />
+        <input type="text" id="fullname" required />
       </div>
-
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" />
       </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6" />
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required minlength="6" />
-      </div>
-
-      <button type="submit" class="btn">Sign Up</button>
-      <p class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
+      <button type="submit" class="btn">Complete Sign Up</button>
     </form>
   </main>
 
-  <footer>
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
-  </footer>
-
+  <footer><p>© 2025 MyPharmAlly. All rights reserved.</p></footer>
   <div id="toast"></div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 
-  <!-- Firebase Init -->
+  <!-- ✅ Firebase Config -->
   <script>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
@@ -97,82 +100,83 @@
       measurementId: "G-LNED3HFPCF"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    const auth = firebase.auth();
-  </script>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  <!-- Signup Script -->
-  <script>
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    let confirmationResult;
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
-    function updateNavbar() {
-      const loggedIn = localStorage.getItem("loggedIn") === "true";
-      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
-      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-    }
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible',
+      'callback': (response) => {
+        // reCAPTCHA solved
+      }
+    }, auth);
 
-    function logoutUser(e) {
+    // Step 1: Send OTP
+    document.getElementById("phone-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      auth.signOut().then(() => {
-        localStorage.removeItem("loggedIn");
-        updateNavbar();
-        showToast("Logged out.");
-        setTimeout(() => window.location.href = "index.html", 1000);
-      });
-    }
+      const phone = document.getElementById("phone").value.trim();
 
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        localStorage.setItem("loggedIn", "true");
-        updateNavbar();
-        const name = user.displayName || "My Profile";
-        document.getElementById("nav-profile").innerHTML = `<a href="profile.html">${name}</a>`;
-      } else {
-        localStorage.removeItem("loggedIn");
-        updateNavbar();
+      if (!phone.startsWith('+')) {
+        showToast("Phone number must start with country code (e.g., +91)");
+        return;
+      }
+
+      try {
+        confirmationResult = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
+        showToast("OTP sent successfully!");
+        document.getElementById("otp-section").style.display = "block";
+      } catch (error) {
+        showToast("Failed to send OTP.");
+        console.error(error);
       }
     });
 
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+    // Step 2: Verify OTP
+    document.getElementById("otp-section").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("fullname").value.trim();
+      const otp = document.getElementById("otp").value.trim();
+      try {
+        const result = await confirmationResult.confirm(otp);
+        window.currentUser = result.user;
+        showToast("Phone verified!");
+        document.getElementById("details-section").style.display = "block";
+      } catch (error) {
+        showToast("Invalid OTP.");
+      }
+    });
+
+    // Step 3: Collect name, email → Save to Firestore
+    document.getElementById("details-section").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById("fullname").value.trim();
       const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const confirm = document.getElementById("confirmPassword").value;
 
-      if (!name || !email || !password || !confirm) {
-        showToast("Please fill in all fields.");
-        return;
-      }
-
-      if (password !== confirm) {
-        showToast("Passwords do not match.");
-        return;
-      }
-
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(userCredential => {
-          return userCredential.user.updateProfile({ displayName: name });
-        })
-        .then(() => {
-          showToast("Signup successful! Redirecting...");
-          setTimeout(() => window.location.href = "login.html", 1500);
-        })
-        .catch(error => {
-          showToast(error.message);
+      try {
+        const uid = window.currentUser.uid;
+        await setDoc(doc(db, "users", uid), {
+          name: fullName,
+          phone: window.currentUser.phoneNumber,
+          email: email || ""
         });
+
+        showToast("Sign up complete! Redirecting...");
+        setTimeout(() => {
+          window.location.href = "profile.html";
+        }, 1500);
+      } catch (error) {
+        showToast("Error saving user info.");
+        console.error(error);
+      }
     });
-
-    updateNavbar();
   </script>
-
 </body>
 </html>
