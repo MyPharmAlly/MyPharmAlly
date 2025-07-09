@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home | MyPharmAlly</title>
-  <meta name="description" content="Welcome to MyPharmAlly. />
+  <meta name="description" content="Welcome to MyPharmAlly. Your trusted online pharmacy." />
   <meta name="keywords" content="medicines, buy online, health, MyPharmAlly" />
   <meta name="author" content="MyPharmAlly" />
 
@@ -29,8 +29,15 @@
       <li id="nav-login"><a href="login.html">Login</a></li>
       <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
 
-      <!-- Shown when logged in -->
-      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+      <!-- Profile Icon when logged in -->
+      <li id="nav-profile" style="display:none;">
+        <a href="profile.html" title="My Profile">
+          <div class="profile-icon">
+            <img src="images/profile-icon.png" alt="Profile Icon" />
+          </div>
+        </a>
+      </li>
+
       <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
 
       <li><a href="contact.html">Contact Us</a></li>
@@ -39,19 +46,18 @@
   </nav>
 
   <header class="hero" role="banner">
-  <h1>Welcome to MyPharmAlly</h1>
-  <p>Your health, our priority.</p>
-  <a href="buy-medicines.html" class="btn">Buy Medicines</a>
-</header>
-
+    <h1>Welcome to MyPharmAlly</h1>
+    <p>Your health, our priority.</p>
+    <a href="buy-medicines.html" class="btn">Buy Medicines</a>
+  </header>
 
   <div class="marquee" aria-live="polite">
-    <marquee behavior="scroll" direction="left" scrollamount="6" role="marquee" aria-label="Latest offers and news">
+    <marquee behavior="scroll" direction="left" scrollamount="6">
       💊 Flat 10% off on first order! | 🛒 Upload prescription with ease! | 🚚 Free delivery above ₹499!
     </marquee>
   </div>
 
-  <section class="features" id="features" aria-labelledby="features-title">
+  <section class="features" aria-labelledby="features-title">
     <h2 id="features-title">Why Choose Us?</h2>
     <div class="feature-grid">
       <div class="feature-item" tabindex="0">✔️ 24/7 Service</div>
@@ -60,12 +66,12 @@
     </div>
   </section>
 
-  <section class="testimonials" id="testimonials" aria-labelledby="testimonials-title">
+  <section class="testimonials" aria-labelledby="testimonials-title">
     <h2 id="testimonials-title">What Our Customers Say</h2>
     <div class="testimonial-grid">
-      <blockquote class="testimonial" tabindex="0">"Quick delivery and good packaging!" — Ayesha</blockquote>
-      <blockquote class="testimonial" tabindex="0">"Easy to upload prescriptions. Hassle-free." — Hazik</blockquote>
-      <blockquote class="testimonial" tabindex="0">"My go-to pharmacy app now." — Dr. Qaisar</blockquote>
+      <blockquote class="testimonial">"Quick delivery and good packaging!" — Ayesha</blockquote>
+      <blockquote class="testimonial">"Easy to upload prescriptions. Hassle-free." — Hazik</blockquote>
+      <blockquote class="testimonial">"My go-to pharmacy app now." — Dr. Qaisar</blockquote>
     </div>
   </section>
 
@@ -73,11 +79,9 @@
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
-  <!-- Toast container -->
   <div id="toast"></div>
 
   <script>
-    // Toast function
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -85,7 +89,6 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Toggle mobile menu
     const menuToggle = document.getElementById('menu-toggle');
     const navbarMenu = document.getElementById('navbar-menu');
     menuToggle.addEventListener('click', () => {
@@ -94,7 +97,6 @@
       navbarMenu.classList.toggle('show');
     });
 
-    // Update navbar links visibility based on login state
     function updateNavbar() {
       const loggedIn = localStorage.getItem('loggedIn') === 'true';
       document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
@@ -103,18 +105,14 @@
       document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
     }
 
-    // Logout function
     function logoutUser(event) {
       event.preventDefault();
       localStorage.removeItem('loggedIn');
       updateNavbar();
       showToast('Logged out successfully!');
-      setTimeout(() => {
-        window.location.href = 'index.html'; // Redirect home after logout
-      }, 1200);
+      setTimeout(() => window.location.href = 'index.html', 1200);
     }
 
-    // Initialize navbar state on page load
     updateNavbar();
   </script>
 
