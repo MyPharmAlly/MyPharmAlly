@@ -10,17 +10,29 @@
 <body>
 
   <nav aria-label="Primary navigation">
-    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-    <ul class="navbar" id="navbar-menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="buy-medicines.html">Buy Medicines</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="signup.html">Sign Up</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="cart.html" aria-current="page">Cart</a></li>
-    </ul>
-  </nav>
+  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+  <ul class="navbar" id="navbar-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+
+    <!-- Visible only when logged out -->
+    <li id="nav-login"><a href="login.html">Login</a></li>
+    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+
+    <!-- Visible only when logged in -->
+    <li class="profile-li" id="nav-profile" style="display:none;">
+      <a href="profile.html">
+        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
+      </a>
+    </li>
+    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+
+    <!-- Always visible -->
+    <li><a href="contact.html">Contact Us</a></li>
+    <li><a href="about.html">About Us</a></li>
+  </ul>
+</nav>
+
 
   <main class="container" role="main">
     <h1>Your Shopping Cart</h1>
@@ -130,5 +142,36 @@
       renderCart();
     });
   </script>
+<script>
+  function updateNavbar() {
+    const loggedIn = localStorage.getItem("loggedIn") === "true";
+    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
+    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
+  }
+
+  function logoutUser(event) {
+    event.preventDefault();
+    localStorage.removeItem("loggedIn");
+    updateNavbar();
+    setTimeout(() => window.location.href = "index.html", 1000);
+  }
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const navbarMenu = document.getElementById('navbar-menu');
+  if (menuToggle && navbarMenu) {
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
+  }
+
+  // Run on page load
+  updateNavbar();
+</script>
+
 </body>
 </html>

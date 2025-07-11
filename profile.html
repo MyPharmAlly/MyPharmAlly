@@ -7,71 +7,87 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .profile-container {
-      max-width: 500px;
+      max-width: 420px;
       margin: 40px auto;
-      background-color: #ffffff;
-      padding: 30px 24px;
+      background: #ffffff;
+      padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
       text-align: center;
     }
 
-    .profile-photo {
+    .profile-picture {
       width: 100px;
       height: 100px;
-      object-fit: cover;
       border-radius: 50%;
+      object-fit: cover;
       border: 3px solid #26a69a;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
     }
 
-    .profile-container h2 {
+    .profile-info h2 {
       color: #004d40;
       margin-bottom: 10px;
     }
 
-    .profile-container p {
-      font-size: 1.05rem;
-      margin: 8px 0;
-      color: #333;
+    .profile-info p {
+      color: #444;
+      font-size: 1rem;
+      margin: 6px 0;
     }
 
-    .btn-logout {
+    .upload-input {
+      display: none;
+    }
+
+    .logout-btn {
       margin-top: 20px;
-      background-color: #00897b;
-      color: white;
-      padding: 10px 24px;
-      border: none;
+      padding: 12px 24px;
       border-radius: 30px;
-      font-weight: bold;
+      background: #00897b;
+      color: white;
+      font-weight: 600;
+      border: none;
       cursor: pointer;
     }
 
-    .btn-logout:hover {
-      background-color: #00796b;
+    .logout-btn:hover {
+      background: #00796b;
     }
   </style>
 </head>
 <body>
 
-  <nav>
+  <!-- Navbar -->
+  <nav aria-label="Primary navigation">
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
     <ul class="navbar" id="navbar-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
       <li id="nav-login"><a href="login.html">Login</a></li>
       <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-      <li id="nav-profile"><a href="profile.html" aria-current="page">My Profile</a></li>
-      <li id="nav-logout"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+      <li id="nav-profile" style="display:none;"><a href="profile.html" aria-current="page"><img src="images/profile-icon.png" alt="Profile" style="width:24px; vertical-align:middle; border-radius:50%;" /></a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html">About Us</a></li>
     </ul>
   </nav>
 
   <main class="container">
     <div class="profile-container">
-      <img src="images/default-profile.png" alt="Profile Photo" class="profile-photo" id="userPhoto" />
-      <h2 id="userName">Loading...</h2>
-      <p><strong>Email:</strong> <span id="userEmail">loading...</span></p>
-      <p><strong>Phone:</strong> <span id="userPhone">loading...</span></p>
-      <button class="btn-logout" onclick="logoutUser(event)">Log Out</button>
+      <label for="upload-photo">
+        <img id="profilePic" src="images/profile-icon.png" alt="Profile Picture" class="profile-picture" title="Click to upload" />
+      </label>
+      <input type="file" id="upload-photo" class="upload-input" accept="image/*" />
+
+      <div class="profile-info">
+        <h2 id="displayName">Loading...</h2>
+        <p id="userEmail" style="display:none;"><strong>Email:</strong> <span id="emailText"></span></p>
+        <p id="userPhone" style="display:none;"><strong>Phone:</strong> <span id="phoneText"></span></p>
+      </div>
+
+      <button class="logout-btn" onclick="logoutUser(event)">Log Out</button>
     </div>
   </main>
 
@@ -79,16 +95,17 @@
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
 
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
       projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      storageBucket: "mypharmally-b87c5.appspot.com",
       messagingSenderId: "302027821610",
       appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
       measurementId: "G-LNED3HFPCF"
@@ -96,31 +113,69 @@
 
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const analytics = firebase.analytics();
 
-    function logoutUser(event) {
-      event.preventDefault();
+    // Auth check
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("displayName").textContent = user.displayName || "MyPharmAlly User";
+
+      if (user.email) {
+        document.getElementById("userEmail").style.display = "block";
+        document.getElementById("emailText").textContent = user.email;
+      }
+
+      if (user.phoneNumber) {
+        document.getElementById("userPhone").style.display = "block";
+        document.getElementById("phoneText").textContent = user.phoneNumber;
+      }
+
+      localStorage.setItem("loggedIn", "true");
+      updateNavbar();
+    });
+
+    // Upload profile image preview
+    document.getElementById("upload-photo").addEventListener("change", function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById("profilePic").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Logout
+    function logoutUser(e) {
+      e.preventDefault();
       auth.signOut().then(() => {
         localStorage.removeItem("loggedIn");
         window.location.href = "login.html";
       });
     }
 
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-
-      document.getElementById("userName").textContent = user.displayName || "MyPharmAlly User";
-      document.getElementById("userEmail").textContent = user.email || "Not available";
-      document.getElementById("userPhone").textContent = user.phoneNumber || "Not linked";
-
-      // Optional: Add user photo if available in Firebase profile
-      const photoURL = user.photoURL;
-      if (photoURL) {
-        document.getElementById("userPhoto").src = photoURL;
-      }
+    // Navbar toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
     });
+
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
+      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+    }
   </script>
+
 </body>
 </html>
