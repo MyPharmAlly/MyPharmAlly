@@ -4,119 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact Us | MyPharmAlly</title>
-  <meta name="description" content="Get in touch with MyPharmAlly for support, queries, or feedback." />
-  <meta name="keywords" content="contact, support, feedback, MyPharmAlly" />
-  <meta name="author" content="MyPharmAlly" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Contact Us | MyPharmAlly" />
-  <meta property="og:description" content="Reach out to MyPharmAlly customer support for assistance." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mypharmally.com/contact.html" />
-  <meta property="og:image" content="https://mypharmally.com/images/og-contact.jpg" />
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <nav aria-label="Primary navigation">
-  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-  <ul class="navbar" id="navbar-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+    </ul>
+  </nav>
 
-    <!-- Visible only when logged out -->
-    <li id="nav-login"><a href="login.html">Login</a></li>
-    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-
-    <!-- Visible only when logged in -->
-    <li class="profile-li" id="nav-profile" style="display:none;">
-      <a href="profile.html">
-        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-      </a>
-    </li>
-    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-
-    <!-- Always visible -->
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-  </ul>
-</nav>
-
-
-  <main class="container" role="main">
+  <main class="container">
     <h1>Contact Us</h1>
+    <p>If you have questions, suggestions, or need help, feel free to reach out!</p>
 
-    <form id="contactForm" novalidate aria-describedby="contactHelp">
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" aria-required="true" required placeholder="Your full name" />
-      </div>
+    <form id="contactForm">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required />
 
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" aria-required="true" required placeholder="you@example.com" />
-      </div>
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
 
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" name="message" aria-required="true" required rows="5" placeholder="Write your message here..."></textarea>
-      </div>
+      <label for="message">Your Message</label>
+      <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
 
       <button type="submit" class="btn">Send Message</button>
-      <p id="contactHelp" class="form-text">We aim to respond within 24 hours.</p>
     </form>
   </main>
 
-  <footer role="contentinfo">
+  <footer>
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
   <script>
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-      contactForm.addEventListener('submit', function(e) {
-        const name = contactForm.name.value.trim();
-        const email = contactForm.email.value.trim();
-        const message = contactForm.message.value.trim();
-        if (!name || !email || !message) {
-          e.preventDefault();
-          alert("Please fill in all fields before submitting.");
-        }
-      });
+    // Navbar logic
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem('loggedIn') === 'true';
+      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
+      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
+      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
     }
-  </script>
-<script>
-  function updateNavbar() {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-  }
 
-  function logoutUser(event) {
-    event.preventDefault();
-    localStorage.removeItem("loggedIn");
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem("loggedIn");
+      updateNavbar();
+      alert("You have been logged out.");
+      window.location.href = "index.html";
+    }
+
     updateNavbar();
-    setTimeout(() => window.location.href = "index.html", 1000);
-  }
 
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbarMenu = document.getElementById('navbar-menu');
-  if (menuToggle && navbarMenu) {
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
+    // Contact form handler
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Thank you for contacting us! We’ll respond soon.");
+      this.reset();
     });
-  }
-
-  // Run on page load
-  updateNavbar();
-</script>
+  </script>
 
 </body>
 </html>

@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home | MyPharmAlly</title>
-  <meta name="description" content="Welcome to MyPharmAlly. Your trusted online pharmacy." />
+  <meta name="description" content="Welcome to MyPharmAlly." />
   <meta name="keywords" content="medicines, buy online, health, MyPharmAlly" />
   <meta name="author" content="MyPharmAlly" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Home | MyPharmAlly" />
   <meta property="og:description" content="Trusted pharmacy companion for medicine orders and health advice." />
   <meta property="og:type" content="website" />
@@ -20,29 +19,16 @@
 <body>
 
   <nav aria-label="Primary navigation">
-  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-  <ul class="navbar" id="navbar-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
-
-    <!-- Visible only when logged out -->
-    <li id="nav-login"><a href="login.html">Login</a></li>
-    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-
-    <!-- Visible only when logged in -->
-    <li class="profile-li" id="nav-profile" style="display:none;">
-      <a href="profile.html">
-        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-      </a>
-    </li>
-    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-
-    <!-- Always visible -->
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-  </ul>
-</nav>
-
+    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+    </ul>
+  </nav>
 
   <header class="hero" role="banner">
     <h1>Welcome to MyPharmAlly</h1>
@@ -56,8 +42,8 @@
     </marquee>
   </div>
 
-  <section class="features" aria-labelledby="features-title">
-    <h2 id="features-title">Why Choose Us?</h2>
+  <section class="features" id="features">
+    <h2>Why Choose Us?</h2>
     <div class="feature-grid">
       <div class="feature-item" tabindex="0">✔️ 24/7 Service</div>
       <div class="feature-item" tabindex="0">✔️ Certified Medicines</div>
@@ -65,8 +51,8 @@
     </div>
   </section>
 
-  <section class="testimonials" aria-labelledby="testimonials-title">
-    <h2 id="testimonials-title">What Our Customers Say</h2>
+  <section class="testimonials" id="testimonials">
+    <h2>What Our Customers Say</h2>
     <div class="testimonial-grid">
       <blockquote class="testimonial">"Quick delivery and good packaging!" — Ayesha</blockquote>
       <blockquote class="testimonial">"Easy to upload prescriptions. Hassle-free." — Hazik</blockquote>
@@ -74,7 +60,37 @@
     </div>
   </section>
 
-  <footer role="contentinfo">
+  <!-- 🔻 Contact Us Section -->
+  <section class="footer-columns">
+    <div class="footer-column">
+      <h3>About MyPharmAlly</h3>
+      <ul>
+        <li><a href="our-story.html">Our Story</a></li>
+        <li><a href="our-aim.html">Our Aim</a></li>
+        <li><a href="careers.html">We're Hiring</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+  <h3>Contact Us</h3>
+  <ul>
+    <li><a href="mailto:support@mypharmally.com">support@mypharmally.com</a></li>
+    <li><a href="tel:+919876543210">+91 9876543210</a></li>
+    <li><a href="contact.html">Write us a message</a></li>
+  </ul>
+</div>
+
+
+    <div class="footer-column">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-of-service.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
     <p>© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
@@ -91,7 +107,7 @@
     const menuToggle = document.getElementById('menu-toggle');
     const navbarMenu = document.getElementById('navbar-menu');
     menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
       menuToggle.setAttribute('aria-expanded', !expanded);
       navbarMenu.classList.toggle('show');
     });
@@ -109,42 +125,13 @@
       localStorage.removeItem('loggedIn');
       updateNavbar();
       showToast('Logged out successfully!');
-      setTimeout(() => window.location.href = 'index.html', 1200);
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1200);
     }
 
     updateNavbar();
   </script>
-<script>
-  function updateNavbar() {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-  }
-
-  function logoutUser(event) {
-    event.preventDefault();
-    localStorage.removeItem("loggedIn");
-    updateNavbar();
-    setTimeout(() => window.location.href = "index.html", 1000);
-  }
-
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbarMenu = document.getElementById('navbar-menu');
-  if (menuToggle && navbarMenu) {
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-  }
-
-  // Run on page load
-  updateNavbar();
-</script>
-
 
 </body>
 </html>
