@@ -28,243 +28,209 @@
       visibility: visible;
       opacity: 1;
     }
+    .medicine-search {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto 30px auto;
+    }
+    .medicine-search input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 2px solid #00796b;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .suggestions-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: white;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 200px;
+      overflow-y: auto;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .suggestions-list li {
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    .suggestions-list li:hover {
+      background-color: #f0fdf5;
+    }
   </style>
 </head>
 <body>
   <header>
     <nav aria-label="Primary navigation">
-  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-  <ul class="navbar" id="navbar-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
-
-    <!-- Visible only when logged out -->
-    <li id="nav-login"><a href="login.html">Login</a></li>
-    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-
-    <!-- Visible only when logged in -->
-    <li class="profile-li" id="nav-profile" style="display:none;">
-      <a href="profile.html">
-        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-      </a>
-    </li>
-    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-
-    <!-- Always visible -->
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-  </ul>
-</nav>
-
+      <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+      <ul class="navbar" id="navbar-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="buy-medicines.html" aria-current="page">Buy Medicines</a></li>
+        <li id="nav-login"><a href="login.html">Login</a></li>
+        <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+        <li class="profile-li" id="nav-profile" style="display:none;">
+          <a href="profile.html">
+            <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
+          </a>
+        </li>
+        <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main class="container">
     <h1>Buy Medicines</h1>
 
+    <div class="medicine-search">
+      <input type="text" id="searchInput" placeholder="Search for a medicine..." autocomplete="off" />
+      <ul id="suggestions" class="suggestions-list"></ul>
+    </div>
+
     <section class="Buy OTC Medicines">
       <h2>Buy OTC Medicines</h2>
       <p>Browse and add your required medicines to the cart directly.</p>
-      <div class="meds-grid">
-        <article class="med-card">
-          <img src="images/paracetamol.jpg" alt="Paracetamol" />
-          <div class="med-info">
-            <h3>Paracetamol</h3>
-            <p>Effective pain reliever and fever reducer.</p>
-            <div class="med-purchase">
-              <span class="price">₹30 / 10 tablets</span>
-              <input type="number" min="1" value="1" aria-label="Quantity for Paracetamol" />
-              <button class="btn add-to-cart" data-med="Paracetamol">Add to Cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="med-card">
-          <img src="images/vitamin-c.jpg" alt="Vitamin C Tablets" />
-          <div class="med-info">
-            <h3>Vitamin C Tablets</h3>
-            <p>Boosts immunity and overall health.</p>
-            <div class="med-purchase">
-              <span class="price">₹150 / 60 tablets</span>
-              <input type="number" min="1" value="1" aria-label="Quantity for Vitamin C Tablets" />
-              <button class="btn add-to-cart" data-med="Vitamin C Tablets">Add to Cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="med-card">
-          <img src="images/antacid.jpg" alt="Antacids" />
-          <div class="med-info">
-            <h3>Antacids</h3>
-            <p>Relieves indigestion and heartburn.</p>
-            <div class="med-purchase">
-              <span class="price">₹50 / pack</span>
-              <input type="number" min="1" value="1" aria-label="Quantity for Antacids" />
-              <button class="btn add-to-cart" data-med="Antacids">Add to Cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="med-card">
-          <img src="images/ibuprofen.jpg" alt="Ibuprofen" />
-          <div class="med-info">
-            <h3>Ibuprofen</h3>
-            <p>Anti-inflammatory pain relief.</p>
-            <div class="med-purchase">
-              <span class="price">₹80 / 20 tablets</span>
-              <input type="number" min="1" value="1" aria-label="Quantity for Ibuprofen" />
-              <button class="btn add-to-cart" data-med="Ibuprofen">Add to Cart</button>
-            </div>
-          </div>
-        </article>
-      </div>
+      <div class="meds-grid" id="medsGrid"></div>
     </section>
-
-    <section class="prescription-upload">
-      <h2>Prescription Medicines</h2>
-      <p>To buy prescription medicines, please upload a valid prescription below.</p>
-
-      <form class="upload-form" action="#" method="POST" enctype="multipart/form-data" onsubmit="handlePrescriptionUpload(event)">
-        <label for="prescription-upload" class="upload-label">
-          <div class="upload-dropzone" tabindex="0">
-            <p>Drag & drop your prescription here, or click to select file</p>
-            <small>Accepted formats: JPG, PNG, PDF</small>
-          </div>
-          <input type="file" id="prescription-upload" name="prescription" accept="image/*,.pdf" required hidden />
-        </label>
-        <button type="submit" class="btn upload-btn">Upload Prescription</button>
-      </form>
-
-      <p style="margin-top: 18px; color: #00796b; font-weight: 600;">
-        Once you upload your prescription, our agent will call you to confirm the medicine details and ensure everything is correct.
-      </p>
-    </section>
-
-    <section class="call-us">
-  <h2>Need Help Ordering?</h2>
-  <p>
-    💬 <strong>Chat with us on WhatsApp</strong> to quickly order your medicines, ask questions, or upload your prescription.
-  </p>
-  <a
-    class="btn"
-    href="https://api.whatsapp.com/send?phone=917051899758&text=Hello!+I’d+like+to+order+medicines+from+MyPharmAlly.+Can+you+assist+me%3F"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Chat on WhatsApp
-  </a>
-</section>
-
-
-
-
   </main>
 
-  <footer>
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  <footer class="footer-expanded">
+    <div class="footer-sections">
+      <div class="footer-block">
+        <h4>About MyPharmAlly</h4>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="our-aim.html">Our Aim</a></li>
+          <li><a href="careers.html">We're Hiring</a></li>
+        </ul>
+      </div>
+      <div class="footer-block">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="mailto:support@mypharmally.com">📧 support@mypharmally.com</a></li>
+          <li><a href="tel:+919876543210">📞 +91 9876543210</a></li>
+          <li><a href="contact.html">✍️ Write us a message</a></li>
+        </ul>
+      </div>
+      <div class="footer-block">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top: 30px;">© 2025 MyPharmAlly. All rights reserved.</p>
   </footer>
 
   <div id="toast"></div>
 
   <script>
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    const allOTCmedicines = [
+      "Paracetamol", "Ibuprofen", "Vitamin C Tablets", "Antacids", "Cough Syrup", "Cetirizine", "Loratadine", "Disprin", "ORS Sachets",
+      "Calcium Tablets", "Multivitamin Capsules", "Aspirin", "Eye Drops", "Nasal Spray", "Bandages", "Pain Relief Gel", "Antiseptic Cream",
+      "Burnol", "Dettol Liquid", "Iodex", "Electral Powder", "Digestive Enzymes", "Cold Balm", "Glucon-D", "Zincovit Tablets",
+      "Sinarest", "Dolo 650", "Crocin", "Benadryl", "ENO", "Pantoprazole", "Omeprazole", "Aciloc", "Domperidone", "Digene",
+      "ORS Powder", "Revital", "Liv52", "Gelusil", "Otrivin", "Vicks Inhaler", "Moov Spray", "Volini Gel", "Himalaya Cystone",
+      "Soframycin", "Boroline", "Savlon Antiseptic", "Kwikool Spray", "Himalaya Septilin", "Zandu Balm", "Himani Fast Relief",
+      "Listerine", "Dabur Honitus", "Protinex", "Becosules", "Zandu Pancharishta", "Himalaya Liv 52", "Omez", "Dabur Chyawanprash",
+      "Dabur Glucose D", "Himalaya Ashwagandha", "Himalaya Triphala", "Pudin Hara", "Vicks Vaporub", "Amrutanjan Balm",
+      "Muscle Relaxant Spray", "Candid Powder", "Clotrimazole Cream", "Neosporin", "ORS-Electral", "Kuff Q Tablets", "Calpol",
+      "Sunscreen Lotion", "Pain Oil", "Ear Drops", "Anti-fungal Powder", "Boron Drops", "Iron Supplements", "Zinc Supplements",
+      "Vitamin D3", "Throat Lozenges", "Tonic Syrup", "Hair Oil (Ayurvedic)", "Face Wash (Medicinal)", "Medicated Soap",
+      "Laxative Syrup", "Gripe Water", "Antacid Chewables", "Gas Relief Tablets", "Itch Relief Cream", "Eye Wash", "Nasal Drops",
+      "Wound Dressing Kit", "Cotton Roll", "Surgical Tape", "Disposable Mask", "Gloves (Latex-Free)", "Thermometer", "Hot Water Bag",
+      "Cold Pack", "Pulse Oximeter"
+    ];
 
-    function updateNavbar() {
-      const loggedIn = localStorage.getItem("loggedIn") === "true";
-      document.getElementById("login-link").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("signup-link").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("logout-link").style.display = loggedIn ? "inline-block" : "none";
-    }
+    const medsGrid = document.getElementById("medsGrid");
 
-    document.getElementById("logout-btn").addEventListener("click", e => {
-      e.preventDefault();
-      localStorage.removeItem("loggedIn");
-      showToast("Logged out successfully.");
-      updateNavbar();
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1500);
-    });
-
-    updateNavbar();
-
-    const dropzone = document.querySelector('.upload-dropzone');
-    const fileInput = document.getElementById('prescription-upload');
-
-    dropzone.addEventListener('click', () => fileInput.click());
-
-    dropzone.addEventListener('dragover', e => {
-      e.preventDefault();
-      dropzone.classList.add('dragover');
-    });
-
-    dropzone.addEventListener('dragleave', e => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-    });
-
-    dropzone.addEventListener('drop', e => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-      if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-      }
-    });
-
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', e => {
-        const card = e.target.closest('.med-card');
-        const medName = btn.getAttribute('data-med');
-        const qtyInput = card.querySelector('input[type="number"]');
-        const quantity = qtyInput.value;
-        showToast(`Added ${quantity} x ${medName} to your cart!`);
+    function generateMedicineCards() {
+      allOTCmedicines.forEach((name, i) => {
+        const card = document.createElement("article");
+        card.className = "med-card";
+        card.innerHTML = `
+          <img src="images/medicine-${(i % 6) + 1}.jpg" alt="${name}" onerror="this.src='images/default-medicine.jpg'" />
+          <div class="med-info">
+            <h3>${name}</h3>
+            <p>Popular OTC medicine for common symptoms.</p>
+            <div class="med-purchase">
+              <span class="price">₹${30 + (i % 9) * 10} / pack</span>
+              <input type="number" min="1" value="1" />
+              <button class="btn add-to-cart" data-med="${name}">Add to Cart</button>
+            </div>
+          </div>
+        `;
+        medsGrid.appendChild(card);
       });
-    });
-
-    function handlePrescriptionUpload(event) {
-      event.preventDefault();
-      if (fileInput.files.length === 0) {
-        showToast("Please select a file to upload.");
-        return;
-      }
-      showToast("Prescription uploaded successfully!");
-      fileInput.value = "";
     }
-  </script>
-<script>
-  function updateNavbar() {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-  }
 
-  function logoutUser(event) {
-    event.preventDefault();
-    localStorage.removeItem("loggedIn");
-    updateNavbar();
-    setTimeout(() => window.location.href = "index.html", 1000);
-  }
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
 
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbarMenu = document.getElementById('navbar-menu');
-  if (menuToggle && navbarMenu) {
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
+    function filterMedicines(query) {
+      const cards = document.querySelectorAll(".med-card");
+      let found = false;
+      cards.forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        if (name.includes(query.toLowerCase())) {
+          card.style.display = "block";
+          found = true;
+        } else {
+          card.style.display = "none";
+        }
+      });
+      if (!found && query.trim() !== "") {
+        showToast("This medicine isn't in our visible list, but may be available. Please contact us.");
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("add-to-cart")) {
+        const card = e.target.closest(".med-card");
+        const medName = e.target.getAttribute("data-med");
+        const qty = card.querySelector("input[type='number']").value;
+        showToast(`Added ${qty} x ${medName} to your cart!`);
+      }
     });
-  }
 
-  // Run on page load
-  updateNavbar();
-</script>
+    const searchInput = document.getElementById("searchInput");
+    const suggestions = document.getElementById("suggestions");
 
+    searchInput.addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      suggestions.innerHTML = "";
+      if (query) {
+        const filtered = allOTCmedicines.filter(name =>
+          name.toLowerCase().includes(query)
+        );
+        filtered.forEach(name => {
+          const li = document.createElement("li");
+          li.textContent = name;
+          li.addEventListener("click", () => {
+            searchInput.value = name;
+            suggestions.innerHTML = "";
+            filterMedicines(name);
+          });
+          suggestions.appendChild(li);
+        });
+      }
+      filterMedicines(query);
+    });
+
+    generateMedicineCards();
+  </script>
 </body>
 </html>
