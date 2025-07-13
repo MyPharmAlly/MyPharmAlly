@@ -636,4 +636,82 @@ body > header nav + * {
 .suggestions-list li:hover {
   background-color: #f0fdf5;
 }
+/* ===== Footer Structure (About / Legal / Contact Sections) ===== */
+.site-footer {
+  background-color: #004d40;
+  color: white;
+  padding: 40px 20px 0;
+  font-size: 0.95rem;
+}
+
+.site-footer .footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 30px;
+}
+
+.site-footer h4 {
+  margin-bottom: 16px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer ul li {
+  margin-bottom: 10px;
+}
+
+.site-footer ul li a {
+  color: #b2dfdb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.site-footer ul li a:hover,
+.site-footer ul li a:focus {
+  color: white;
+}
+
+.site-footer .footer-bottom {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.85rem;
+  background-color: #003d33;
+  margin-top: 20px;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Profile Icon in Navbar */
+.profile-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffffb0;
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.profile-icon:hover,
+.profile-icon:focus {
+  transform: scale(1.05);
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .site-footer .footer-columns {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
 

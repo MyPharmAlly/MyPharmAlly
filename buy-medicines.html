@@ -100,6 +100,38 @@
       <p>Browse and add your required medicines to the cart directly.</p>
       <div class="meds-grid" id="medsGrid"></div>
     </section>
+
+    <section class="prescription-upload">
+      <h2>Prescription Medicines</h2>
+      <p>To buy prescription medicines, please upload a valid prescription below.</p>
+
+      <form class="upload-form" onsubmit="handlePrescriptionUpload(event)">
+        <label for="prescription-upload" class="upload-label">
+          <div class="upload-dropzone" tabindex="0">
+            <p>Drag & drop your prescription here, or click to select file</p>
+            <small>Accepted formats: JPG, PNG, PDF</small>
+          </div>
+          <input type="file" id="prescription-upload" name="prescription" accept="image/*,.pdf" required hidden />
+        </label>
+        <button type="submit" class="btn upload-btn">Upload Prescription</button>
+      </form>
+
+      <p style="margin-top: 18px; color: #00796b; font-weight: 600;">
+        Once you upload your prescription, our agent will call you to confirm the medicine details and ensure everything is correct.
+      </p>
+    </section>
+
+    <section class="call-us">
+      <h2>Need Help Ordering?</h2>
+      <p>
+        💬 <strong>Chat with us on WhatsApp</strong> to quickly order your medicines, ask questions, or upload your prescription.
+      </p>
+      <a class="btn"
+         href="https://api.whatsapp.com/send?phone=917051899758&text=Hello!+I’d+like+to+order+medicines+from+MyPharmAlly.+Can+you+assist+me%3F"
+         target="_blank" rel="noopener noreferrer">
+         Chat on WhatsApp
+      </a>
+    </section>
   </main>
 
   <footer class="footer-expanded">
@@ -135,20 +167,9 @@
 
   <script>
     const allOTCmedicines = [
-      "Paracetamol", "Ibuprofen", "Vitamin C Tablets", "Antacids", "Cough Syrup", "Cetirizine", "Loratadine", "Disprin", "ORS Sachets",
-      "Calcium Tablets", "Multivitamin Capsules", "Aspirin", "Eye Drops", "Nasal Spray", "Bandages", "Pain Relief Gel", "Antiseptic Cream",
-      "Burnol", "Dettol Liquid", "Iodex", "Electral Powder", "Digestive Enzymes", "Cold Balm", "Glucon-D", "Zincovit Tablets",
-      "Sinarest", "Dolo 650", "Crocin", "Benadryl", "ENO", "Pantoprazole", "Omeprazole", "Aciloc", "Domperidone", "Digene",
-      "ORS Powder", "Revital", "Liv52", "Gelusil", "Otrivin", "Vicks Inhaler", "Moov Spray", "Volini Gel", "Himalaya Cystone",
-      "Soframycin", "Boroline", "Savlon Antiseptic", "Kwikool Spray", "Himalaya Septilin", "Zandu Balm", "Himani Fast Relief",
-      "Listerine", "Dabur Honitus", "Protinex", "Becosules", "Zandu Pancharishta", "Himalaya Liv 52", "Omez", "Dabur Chyawanprash",
-      "Dabur Glucose D", "Himalaya Ashwagandha", "Himalaya Triphala", "Pudin Hara", "Vicks Vaporub", "Amrutanjan Balm",
-      "Muscle Relaxant Spray", "Candid Powder", "Clotrimazole Cream", "Neosporin", "ORS-Electral", "Kuff Q Tablets", "Calpol",
-      "Sunscreen Lotion", "Pain Oil", "Ear Drops", "Anti-fungal Powder", "Boron Drops", "Iron Supplements", "Zinc Supplements",
-      "Vitamin D3", "Throat Lozenges", "Tonic Syrup", "Hair Oil (Ayurvedic)", "Face Wash (Medicinal)", "Medicated Soap",
-      "Laxative Syrup", "Gripe Water", "Antacid Chewables", "Gas Relief Tablets", "Itch Relief Cream", "Eye Wash", "Nasal Drops",
-      "Wound Dressing Kit", "Cotton Roll", "Surgical Tape", "Disposable Mask", "Gloves (Latex-Free)", "Thermometer", "Hot Water Bag",
-      "Cold Pack", "Pulse Oximeter"
+      "Paracetamol", "Ibuprofen", "Vitamin C Tablets", "Antacids", "Cough Syrup", "Cetirizine",
+      "Disprin", "ORS Sachets", "Calcium Tablets", "Multivitamin Capsules", "Aspirin", "Eye Drops"
+      // You can add more medicines here...
     ];
 
     const medsGrid = document.getElementById("medsGrid");
@@ -163,21 +184,13 @@
             <h3>${name}</h3>
             <p>Popular OTC medicine for common symptoms.</p>
             <div class="med-purchase">
-              <span class="price">₹${30 + (i % 9) * 10} / pack</span>
+              <span class="price">₹${30 + (i % 5) * 10} / pack</span>
               <input type="number" min="1" value="1" />
               <button class="btn add-to-cart" data-med="${name}">Add to Cart</button>
             </div>
-          </div>
-        `;
+          </div>`;
         medsGrid.appendChild(card);
       });
-    }
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
     function filterMedicines(query) {
@@ -195,6 +208,17 @@
       if (!found && query.trim() !== "") {
         showToast("This medicine isn't in our visible list, but may be available. Please contact us.");
       }
+    }
+
+    function handlePrescriptionUpload(event) {
+      event.preventDefault();
+      const fileInput = document.getElementById("prescription-upload");
+      if (fileInput.files.length === 0) {
+        showToast("Please select a file to upload.");
+        return;
+      }
+      showToast("Prescription uploaded successfully!");
+      fileInput.value = "";
     }
 
     document.addEventListener("click", function (e) {
@@ -230,6 +254,27 @@
       filterMedicines(query);
     });
 
+    function updateNavbar() {
+      const loggedIn = localStorage.getItem("loggedIn") === "true";
+      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
+      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
+    }
+
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem("loggedIn");
+      updateNavbar();
+      setTimeout(() => window.location.href = "index.html", 1000);
+    }
+
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      const navbar = document.getElementById('navbar-menu');
+      navbar.classList.toggle('show');
+    });
+
+    updateNavbar();
     generateMedicineCards();
   </script>
 </body>
