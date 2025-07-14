@@ -4,163 +4,110 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up | MyPharmAlly</title>
-  <meta name="description" content="Create your MyPharmAlly account to order medicines and manage your profile." />
-  <meta name="keywords" content="signup, create account, MyPharmAlly, pharmacy" />
-  <meta name="author" content="MyPharmAlly" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    #toast {
-      visibility: hidden;
-      min-width: 250px;
-      margin-left: -125px;
-      background-color: #26a69a;
-      color: white;
-      text-align: center;
-      border-radius: 8px;
-      padding: 14px;
-      position: fixed;
-      z-index: 9999;
-      left: 50%;
-      bottom: 30px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: visibility 0s, opacity 0.5s ease-in-out;
-      opacity: 0;
-    }
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
 </head>
 <body>
 
   <nav aria-label="Primary navigation">
-  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-  <ul class="navbar" id="navbar-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+    <button id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html" aria-current="page">Sign Up</a></li>
+      <li class="profile-li" id="nav-profile" style="display:none;">
+        <a href="profile.html">
+          <img src="images/profile-icon.png" alt="Profile" class="profile-icon" />
+        </a>
+      </li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+    </ul>
+  </nav>
 
-    <!-- Visible only when logged out -->
-    <li id="nav-login"><a href="login.html">Login</a></li>
-    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+  <main class="container">
+    <h1>Create Your MyPharmAlly Account</h1>
 
-    <!-- Visible only when logged in -->
-    <li class="profile-li" id="nav-profile" style="display:none;">
-      <a href="profile.html">
-        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-      </a>
-    </li>
-    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+    <form id="signupForm" novalidate>
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" required autocomplete="name" />
 
-    <!-- Always visible -->
-   
-  </ul>
-</nav>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" required autocomplete="email" />
 
+      <label for="password">Password</label>
+      <input type="password" id="password" required minlength="6" autocomplete="new-password" />
 
-  <main class="container" role="main">
-    <h1>Create Your Account</h1>
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" required minlength="6" autocomplete="new-password" />
 
-    <form id="signupForm" novalidate aria-describedby="signupHelp">
-      <div class="form-group">
-        <label for="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Your full name" required autocomplete="name" />
-      </div>
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Create a password (min 6 characters)" required autocomplete="new-password" minlength="6" />
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password" minlength="6" />
-      </div>
       <button type="submit" class="btn">Sign Up</button>
-      <p id="signupHelp" class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
+      <p class="form-text">Already have an account? <a href="login.html">Login here</a>.</p>
     </form>
   </main>
 
-  <footer class="site-footer">
-  <div class="footer-columns container">
-    <div>
-      <h4>About MyPharmAlly</h4>
-      <ul>
-        <li><a href="our-story.html">Our Story</a></li>
-        <li><a href="our-aim.html">Our Aim</a></li>
-        <li><a href="careers.html">We’re Hiring</a></li>
-      </ul>
+  <footer class="footer-expanded">
+    <div class="footer-sections">
+      <div class="footer-block">
+        <h4>About MyPharmAlly</h4>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="our-aim.html">Our Aim</a></li>
+          <li><a href="careers.html">We're Hiring</a></li>
+        </ul>
+      </div>
+      <div class="footer-block">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="mailto:support@mypharmally.com">📧 support@mypharmally.com</a></li>
+          <li><a href="tel:+919876543210">📞 +91 9876543210</a></li>
+          <li><a href="contact.html">✍️ Write us a message</a></li>
+        </ul>
+      </div>
+      <div class="footer-block">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
     </div>
-
-
-    <div>
-      <h4>Contact Us</h4>
-      <ul>
-        <li><a href="mailto:team@mypharmally.com">team@mypharmally.com</a></li>
-        <li><a href="https://wa.me/917051899758" target="_blank">WhatsApp Chat</a></li>
-        <li><a href="contact.html">Write us a message</a></li>
-      </ul>
-    </div>
-  </div>
-    
-    <div>
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-        <li><a href="terms-of-service.html">Terms of Service</a></li>
-      </ul>
-    </div>
-
-  <div class="footer-bottom">
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
-  </div>
-</footer>
-
+    <p style="text-align:center; margin-top: 30px;">© 2025 MyPharmAlly. All rights reserved.</p>
+  </footer>
 
   <div id="toast"></div>
 
-  <!-- ✅ Firebase SDKs -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 
-  <!-- ✅ Firebase Config and Init -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
       projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      storageBucket: "mypharmally-b87c5.appspot.com",
       messagingSenderId: "302027821610",
-      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
-      measurementId: "G-LNED3HFPCF"
+      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
     };
 
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-    const analytics = firebase.analytics();
-  </script>
 
-  <!-- ✅ Main Signup Logic -->
-  <script>
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
     function updateNavbar() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
-      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
+      const loggedIn = localStorage.getItem("loggedIn") === "true";
+      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+      document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
+      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
     }
 
     function logoutUser(event) {
@@ -168,107 +115,40 @@
       auth.signOut().then(() => {
         localStorage.removeItem("loggedIn");
         updateNavbar();
-        showToast("Logged out successfully.");
-        setTimeout(() => window.location.href = "index.html", 1200);
+        window.location.href = "index.html";
       });
     }
 
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        localStorage.setItem("loggedIn", "true");
-        updateNavbar();
-        const name = user.displayName || "My Profile";
-        document.getElementById("nav-profile").innerHTML = `<a href="profile.html">${name}</a>`;
-      } else {
-        localStorage.removeItem("loggedIn");
-        updateNavbar();
-      }
-    });
+    updateNavbar();
 
-    document.getElementById("signupForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
       const name = document.getElementById("fullname").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
       const confirm = document.getElementById("confirmPassword").value;
 
-      if (!name || !email || !password || !confirm) {
-        showToast("Please fill in all fields.");
-        return;
-      }
-
-      if (password.length < 6) {
-        showToast("Password must be at least 6 characters.");
-        return;
-      }
-
-      if (password !== confirm) {
-        showToast("Passwords do not match.");
-        return;
-      }
+      if (!name || !email || !password || !confirm) return showToast("Please fill all fields.");
+      if (password !== confirm) return showToast("Passwords do not match.");
 
       auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          return userCredential.user.updateProfile({ displayName: name }).then(() => {
-            const userId = userCredential.user.uid;
-            return db.collection("users").doc(userId).set({
-              fullName: name,
-              email: email,
-              createdAt: new Date()
+        .then(userCred => {
+          return userCred.user.updateProfile({ displayName: name }).then(() => {
+            return db.collection("users").doc(userCred.user.uid).set({
+              name,
+              email,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
           });
         })
         .then(() => {
-          showToast("Signup successful! Redirecting to login...");
-          setTimeout(() => window.location.href = "login.html", 1500);
+          showToast("Signup successful!");
+          localStorage.setItem("loggedIn", "true");
+          setTimeout(() => window.location.href = "profile.html", 1500);
         })
-        .catch((error) => {
-          showToast(error.message);
-        });
+        .catch(error => showToast("Error: " + error.message));
     });
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-
-    updateNavbar();
   </script>
-<script>
-  function updateNavbar() {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-  }
-
-  function logoutUser(event) {
-    event.preventDefault();
-    localStorage.removeItem("loggedIn");
-    updateNavbar();
-    setTimeout(() => window.location.href = "index.html", 1000);
-  }
-
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbarMenu = document.getElementById('navbar-menu');
-  if (menuToggle && navbarMenu) {
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-  }
-
-  // Run on page load
-  updateNavbar();
-</script>
-
-
 </body>
 </html>

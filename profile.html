@@ -7,32 +7,32 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     .profile-box {
-      background: #fff;
-      max-width: 600px;
+      background: white;
+      max-width: 500px;
       margin: 40px auto;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
       text-align: center;
     }
-    .profile-box img {
-      width: 120px;
-      height: 120px;
+
+    .profile-photo {
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid #26a69a;
+      border: 3px solid #00897b;
       margin-bottom: 20px;
     }
-    .profile-box input[type="file"] {
-      display: block;
-      margin: 12px auto;
-    }
+
     .profile-box h2 {
+      margin-bottom: 10px;
       color: #004d40;
     }
+
     .profile-box p {
-      font-size: 1.1rem;
-      margin: 10px 0;
+      font-size: 1rem;
+      margin: 8px 0;
       color: #333;
     }
   </style>
@@ -45,30 +45,31 @@
       <li><a href="buy-medicines.html">Buy Medicines</a></li>
       <li id="nav-login"><a href="login.html">Login</a></li>
       <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-      <li id="nav-profile"><a href="profile.html" aria-current="page">My Profile</a></li>
-      <li id="nav-logout"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+      <li class="profile-li" id="nav-profile" style="display:none;">
+        <a href="profile.html">
+          <img src="images/profile-icon.png" alt="Profile" class="profile-icon" />
+        </a>
+      </li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Logout</a></li>
     </ul>
   </nav>
 
   <main class="container">
     <div class="profile-box">
-      <img id="profileImage" src="images/profile-icon.png" alt="Profile Image" />
-      <input type="file" id="uploadInput" accept="image/*" />
-      <h2><span id="userName">Loading...</span></h2>
+      <img id="profileImage" src="images/profile-icon.png" alt="Profile Photo" class="profile-photo" />
+      <h2 id="userName">User Name</h2>
       <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
-      <p id="phoneRow" style="display:none;"><strong>Phone:</strong> <span id="userPhone"></span></p>
+      <p><strong>Phone:</strong> <span id="userPhone">Not Linked</span></p>
+      <button class="btn" onclick="logoutUser(event)">Log Out</button>
     </div>
   </main>
 
-  <footer>
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
+  <footer class="footer-expanded">
+    <!-- same footer block -->
   </footer>
 
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
@@ -81,13 +82,9 @@
 
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const storage = firebase.storage();
 
-    const profileImage = document.getElementById("profileImage");
-    const uploadInput = document.getElementById("uploadInput");
-
-    function logoutUser(event) {
-      event.preventDefault();
+    function logoutUser(e) {
+      e.preventDefault();
       auth.signOut().then(() => {
         localStorage.removeItem("loggedIn");
         window.location.href = "login.html";
@@ -99,37 +96,13 @@
         window.location.href = "login.html";
         return;
       }
-
       document.getElementById("userName").textContent = user.displayName || "MyPharmAlly User";
       document.getElementById("userEmail").textContent = user.email || "Not available";
-
-      if (user.phoneNumber) {
-        document.getElementById("userPhone").textContent = user.phoneNumber;
-        document.getElementById("phoneRow").style.display = "block";
-      }
-
+      document.getElementById("userPhone").textContent = user.phoneNumber || "Not linked";
       if (user.photoURL) {
-        profileImage.src = user.photoURL;
+        document.getElementById("profileImage").src = user.photoURL;
       }
-
-      uploadInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const storageRef = storage.ref(`profile_photos/${user.uid}`);
-        storageRef.put(file).then(snapshot => snapshot.ref.getDownloadURL())
-        .then(url => {
-          return user.updateProfile({ photoURL: url }).then(() => {
-            profileImage.src = url;
-            alert("Profile photo updated!");
-          });
-        }).catch(err => {
-          alert("Upload failed. Try again.");
-          console.error(err);
-        });
-      });
     });
   </script>
-
 </body>
 </html>
