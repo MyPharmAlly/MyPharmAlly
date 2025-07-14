@@ -5,169 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login | MyPharmAlly</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    #toast {
-      visibility: hidden;
-      min-width: 250px;
-      background-color: #26a69a;
-      color: white;
-      text-align: center;
-      border-radius: 8px;
-      padding: 14px;
-      position: fixed;
-      z-index: 9999;
-      left: 50%;
-      bottom: 30px;
-      font-weight: bold;
-      font-size: 1rem;
-      transform: translateX(-50%);
-      transition: opacity 0.5s ease-in-out;
-      opacity: 0;
-    }
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <nav aria-label="Primary navigation">
-      <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-      <ul class="navbar" id="navbar-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="buy-medicines.html">Buy Medicines</a></li>
-        <li id="nav-login"><a href="login.html" aria-current="page">Login</a></li>
-        <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-        <li class="profile-li" id="nav-profile" style="display:none;">
-          <a href="profile.html">
-            <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-          </a>
-        </li>
-        <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main class="container">
-    <h1>Login to MyPharmAlly</h1>
-    <form id="loginForm" novalidate>
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" required placeholder="you@example.com" />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" required placeholder="Your password" />
-      </div>
-      <button type="submit" class="btn">Login</button>
-      <p class="form-text">Don't have an account? <a href="signup.html">Sign up here</a>.</p>
-      <p class="form-text">Forgot your password? <a href="#" onclick="sendResetEmail()">Reset it</a>.</p>
-    </form>
-  </main>
+<nav>
+  <ul class="navbar" id="navbar-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+    <li id="nav-login"><a href="login.html" aria-current="page">Login</a></li>
+    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+    <li class="profile-li" id="nav-profile" style="display:none;">
+      <a href="profile.html">
+        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
+      </a>
+    </li>
+    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+  </ul>
+</nav>
 
-  <footer class="footer-expanded">
-    <!-- Footer blocks here (you've already handled globally) -->
-  </footer>
+<main class="container">
+  <h1>Login to MyPharmAlly</h1>
 
-  <div id="toast"></div>
+  <form id="loginForm" novalidate>
+    <label for="email">Email</label>
+    <input type="email" id="email" required />
 
-  <!-- ✅ Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <label for="password">Password</label>
+    <input type="password" id="password" required />
 
-  <!-- ✅ Firebase Init -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
-      authDomain: "mypharmally-b87c5.firebaseapp.com",
-      projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.appspot.com",
-      messagingSenderId: "302027821610",
-      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
-      measurementId: "G-LNED3HFPCF"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
+    <button type="submit" class="btn">Login</button>
+  </form>
+</main>
 
-  <!-- ✅ Main Logic -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const loginForm = document.getElementById("loginForm");
-      const toast = document.getElementById("toast");
+<footer>
+  <p>© 2025 MyPharmAlly. All rights reserved.</p>
+</footer>
 
-      function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 3000);
-      }
+<!-- Toast -->
+<div id="toast" class="toast">...</div>
 
-      loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
 
-        if (!email || !password) {
-          showToast("Please enter email and password.");
-          return;
-        }
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+    authDomain: "mypharmally-b87c5.firebaseapp.com",
+    projectId: "mypharmally-b87c5",
+    storageBucket: "mypharmally-b87c5.appspot.com",
+    messagingSenderId: "302027821610",
+    appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
+  };
 
-        auth.signInWithEmailAndPassword(email, password)
-          .then(() => {
-            localStorage.setItem("loggedIn", "true");
-            showToast("Login successful!");
-            setTimeout(() => window.location.href = "profile.html", 1000);
-          })
-          .catch(() => {
-            showToast("Login failed. Check your credentials.");
-          });
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  const toast = document.getElementById("toast");
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      showToast("Please fill in all fields.");
+      return;
+    }
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        showToast("Login successful!");
+        localStorage.setItem("loggedIn", "true");
+        setTimeout(() => window.location.href = "profile.html", 1200);
+      })
+      .catch((error) => {
+        showToast("Invalid email or password.");
       });
+  });
 
-      function sendResetEmail() {
-        const email = document.getElementById("email").value.trim();
-        if (!email) {
-          showToast("Enter your email above first.");
-          return;
-        }
-        auth.sendPasswordResetEmail(email)
-          .then(() => showToast("Reset email sent."))
-          .catch(() => showToast("Failed to send reset email."));
-      }
-
-      window.sendResetEmail = sendResetEmail;
-
-      function updateNavbar() {
-        const loggedIn = localStorage.getItem("loggedIn") === "true";
-        document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-        document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-        document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-        document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-      }
-
-      function logoutUser(e) {
-        e.preventDefault();
-        auth.signOut().then(() => {
-          localStorage.removeItem("loggedIn");
-          updateNavbar();
-          showToast("Logged out.");
-          setTimeout(() => window.location.href = "index.html", 1000);
-        });
-      }
-
-      window.logoutUser = logoutUser;
-
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          localStorage.setItem("loggedIn", "true");
-        } else {
-          localStorage.removeItem("loggedIn");
-        }
-        updateNavbar();
-      });
-
+  function logoutUser(e) {
+    e.preventDefault();
+    auth.signOut().then(() => {
+      localStorage.removeItem("loggedIn");
       updateNavbar();
+      window.location.href = "index.html";
     });
-  </script>
+  }
+
+  function updateNavbar() {
+    const loggedIn = localStorage.getItem("loggedIn") === "true";
+    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
+    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
+    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
+    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
+  }
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      localStorage.setItem("loggedIn", "true");
+    } else {
+      localStorage.removeItem("loggedIn");
+    }
+    updateNavbar();
+  });
+
+  updateNavbar();
+</script>
+
+<style>
+  #toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #26a69a;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 14px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px;
+    font-weight: bold;
+    font-size: 1rem;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease-in-out;
+  }
+
+  #toast.show {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+
 </body>
 </html>
