@@ -5,63 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Profile | MyPharmAlly</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .profile-box {
+      background: white;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .profile-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #00897b;
+      margin-bottom: 20px;
+    }
+
+    .profile-box h2 {
+      margin-bottom: 10px;
+      color: #004d40;
+    }
+
+    .profile-box p {
+      font-size: 1rem;
+      margin: 8px 0;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <ul class="navbar">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
-    <li><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-  </ul>
-</nav>
+  <nav>
+    <ul class="navbar" id="navbar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="buy-medicines.html">Buy Medicines</a></li>
+      <li id="nav-login"><a href="login.html">Login</a></li>
+      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+      <li class="profile-li" id="nav-profile" style="display:none;">
+        <a href="profile.html">
+          <img src="images/profile-icon.png" alt="Profile" class="profile-icon" />
+        </a>
+      </li>
+      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Logout</a></li>
+    </ul>
+  </nav>
 
-<main class="container">
-  <h1>Your Profile</h1>
-  <div class="profile-box">
-    <img src="images/profile-icon.png" alt="Profile Picture" class="profile-icon" />
-    <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
-    <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
-  </div>
-</main>
+  <main class="container">
+    <div class="profile-box">
+      <img id="profileImage" src="images/profile-icon.png" alt="Profile Photo" class="profile-photo" />
+      <h2 id="userName">User Name</h2>
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="userPhone">Not Linked</span></p>
+      <button class="btn" onclick="logoutUser(event)">Log Out</button>
+    </div>
+  </main>
 
-<footer>
-  <p>© 2025 MyPharmAlly. All rights reserved.</p>
-</footer>
+  <footer class="footer-expanded">
+    <!-- same footer block -->
+  </footer>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+      authDomain: "mypharmally-b87c5.firebaseapp.com",
+      projectId: "mypharmally-b87c5",
+      storageBucket: "mypharmally-b87c5.appspot.com",
+      messagingSenderId: "302027821610",
+      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
+    };
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
-    authDomain: "mypharmally-b87c5.firebaseapp.com",
-    projectId: "mypharmally-b87c5",
-    storageBucket: "mypharmally-b87c5.appspot.com",
-    messagingSenderId: "302027821610",
-    appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
-  };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-  const app = firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      document.getElementById("userName").textContent = user.displayName || "N/A";
-      document.getElementById("userEmail").textContent = user.email || "N/A";
-    } else {
-      window.location.href = "login.html";
+    function logoutUser(e) {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        localStorage.removeItem("loggedIn");
+        window.location.href = "login.html";
+      });
     }
-  });
 
-  function logoutUser(e) {
-    e.preventDefault();
-    auth.signOut().then(() => {
-      localStorage.removeItem("loggedIn");
-      window.location.href = "login.html";
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+      document.getElementById("userName").textContent = user.displayName || "MyPharmAlly User";
+      document.getElementById("userEmail").textContent = user.email || "Not available";
+      document.getElementById("userPhone").textContent = user.phoneNumber || "Not linked";
+      if (user.photoURL) {
+        document.getElementById("profileImage").src = user.photoURL;
+      }
     });
-  }
-</script>
-
+  </script>
 </body>
 </html>

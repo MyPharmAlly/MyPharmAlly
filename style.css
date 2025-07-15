@@ -714,4 +714,259 @@ body > header nav + * {
     gap: 30px;
   }
 }
+/* === Enhanced Marquee Replacement === */
+.marquee-inner {
+  display: flex;
+  gap: 50px;
+  animation: scroll-left 18s linear infinite;
+  white-space: nowrap;
+  font-weight: 700;
+  color: #00695c;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-inner span {
+  padding: 0 20px;
+}
+
+/* === WhatsApp Floating Button === */
+.whatsapp-float {
+  position: fixed;
+  width: 56px;
+  height: 56px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.whatsapp-float:hover,
+.whatsapp-float:focus {
+  background-color: #1ebe5d;
+  transform: scale(1.05);
+  outline: none;
+}
+/* === Modern Smooth Marquee === */
+.marquee {
+  overflow: hidden;
+  position: relative;
+  background-color: #e0f7fa;
+  padding: 10px 0;
+  font-weight: 700;
+  color: #00695c;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.marquee-inner {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: scroll-marquee 18s linear infinite;
+}
+
+.marquee-inner span {
+  display: inline-block;
+  padding: 0 40px;
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+/* ===== Medicine Details Modal Styles ===== */
+#medicine-modal-backdrop {
+  display: none; /* initially hidden */
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+}
+
+#medicine-modal {
+  display: none; /* initially hidden */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9fff9;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 20px 25px;
+  z-index: 10001;
+  outline: none; /* remove focus outline */
+}
+
+#medicine-modal h2 {
+  margin-top: 0;
+  color: #004d40;
+}
+
+#medicine-modal img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#medicine-modal p {
+  color: #00695c;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+#medicine-modal button#medicine-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00796b;
+  cursor: pointer;
+  float: right;
+  line-height: 1;
+}
+
+#medicine-modal button#medicine-modal-add {
+  flex-shrink: 0;
+  padding: 10px 15px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#medicine-modal button#medicine-modal-add:hover,
+#medicine-modal button#medicine-modal-add:focus {
+  background-color: #004d40;
+  outline: none;
+}
+/* Buy OTC Medicines Section */
+.buy-otc-medicines {
+  background-color: #e0f2f1;  /* subtle teal background */
+  border-radius: 12px;
+  padding: 30px 25px;
+  margin: 30px auto;
+  max-width: 900px;
+  box-shadow: 0 8px 20px rgba(0, 121, 107, 0.15);
+  color: #004d40;
+}
+
+.buy-otc-medicines h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #00796b;
+}
+
+.buy-otc-medicines p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #004d40;
+}
+
+/* Grid of medicines inside buy-otc-medicines */
+.meds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+
+.medicine-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.medicine-card:hover,
+.medicine-card:focus {
+  box-shadow: 0 8px 25px rgba(0, 121, 107, 0.4);
+  outline: none;
+}
+
+.medicine-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  border-radius: 10px;
+}
+
+.medicine-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #00796b;
+}
+
+.medicine-card p {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #004d40;
+}
+
+.medicine-card button.add-to-cart {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.medicine-card button.add-to-cart:hover,
+.medicine-card button.add-to-cart:focus {
+  background-color: #004d40;
+  outline: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .buy-otc-medicines {
+    padding: 20px 15px;
+    margin: 20px 10px;
+  }
+  .medicine-card img {
+    width: 80px;
+    height: 80px;
+  }
+}
 
