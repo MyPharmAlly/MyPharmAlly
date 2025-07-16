@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- 🌐 Navbar -->
   <nav aria-label="Primary navigation">
     <button id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
     <ul class="navbar" id="navbar-menu">
@@ -24,6 +25,7 @@
     </ul>
   </nav>
 
+  <!-- 🧾 Main Content -->
   <main class="container">
     <h1>Create Your MyPharmAlly Account</h1>
 
@@ -45,6 +47,7 @@
     </form>
   </main>
 
+  <!-- ✅ Footer -->
   <footer class="footer-expanded">
     <div class="footer-sections">
       <div class="footer-block">
@@ -59,7 +62,7 @@
         <h4>Contact Us</h4>
         <ul>
           <li><a href="mailto:support@mypharmally.com">📧 support@mypharmally.com</a></li>
-          <li><a href="tel:+919876543210">📞 +91 9876543210</a></li>
+          <li><a href="tel:+917051899758">📞 +91 70518 99758</a></li>
           <li><a href="contact.html">✍️ Write us a message</a></li>
         </ul>
       </div>
@@ -76,12 +79,13 @@
 
   <div id="toast"></div>
 
-  <!-- Firebase SDK -->
+  <!-- 🔥 Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
 
   <script>
+    // ✅ Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
       authDomain: "mypharmally-b87c5.firebaseapp.com",
@@ -121,6 +125,7 @@
 
     updateNavbar();
 
+    // ✅ Handle Signup
     document.getElementById("signupForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -149,6 +154,16 @@
         })
         .catch(error => showToast("Error: " + error.message));
     });
+
+    // ✅ Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarMenu = document.getElementById('navbar-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navbarMenu.classList.toggle('show');
+    });
   </script>
+
 </body>
 </html>
