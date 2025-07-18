@@ -4,145 +4,213 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Home | MyPharmAlly</title>
-  <meta name="description" content="Welcome to MyPharmAlly." />
-  <meta name="keywords" content="medicines, buy online, health, MyPharmAlly" />
-  <meta name="author" content="MyPharmAlly" />
-
-  <meta property="og:title" content="Home | MyPharmAlly" />
-  <meta property="og:description" content="Trusted pharmacy companion for medicine orders and health advice." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mypharmally.com/index.html" />
-  <meta property="og:image" content="https://mypharmally.com/images/og-home.jpg" />
-
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
-  <!-- 🔝 Navbar -->
-  <nav aria-label="Primary navigation">
-    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-    <ul class="navbar" id="navbar-menu">
-      <li><a href="index.html" aria-current="page">Home</a></li>
-      <li><a href="buy-medicines.html">Buy Medicines</a></li>
-      <li id="nav-login"><a href="login.html">Login</a></li>
-      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
-      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-    </ul>
-  </nav>
+<!-- 🔝 Navbar -->
+<nav aria-label="Primary navigation">
+  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+  <ul class="navbar" id="navbar-menu">
+    <li><a href="index.html" aria-current="page">Home</a></li>
+    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+    <li id="nav-auth"><a href="#" onclick="toggleAuthModal()">Login / Sign Up</a></li>
+    <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
+    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+  </ul>
+</nav>
 
-  <!-- 🏠 Hero -->
-  <header class="hero" role="banner">
-    <h1>Welcome to MyPharmAlly</h1>
-    <p>Your health, our priority.</p>
-    <a href="buy-medicines.html" class="btn">Buy Medicines</a>
-  </header>
+<!-- 🏠 Hero -->
+<header class="hero" role="banner">
+  <h1>Welcome to MyPharmAlly</h1>
+  <p>Your health, our priority.</p>
+  <a href="buy-medicines.html" class="btn">Buy Medicines</a>
+</header>
 
-  <!-- 📰 Marquee -->
-  <div class="marquee" aria-live="polite">
-    <div class="marquee-inner">
-      <span>💊 Flat 10% off on first order!</span>
-      <span>🛒 Upload prescription with ease!</span>
-      <span>🚚 Free delivery above ₹499!</span>
+<!-- Marquee -->
+<div class="marquee" aria-live="polite">
+  <div class="marquee-inner">
+    <span>💊 Flat 10% off on first order!</span>
+    <span>🛒 Upload prescription with ease!</span>
+    <span>🚚 Free delivery above ₹499!</span>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+  <h2>Why Choose Us?</h2>
+  <div class="feature-grid">
+    <div class="feature-item" tabindex="0">✔️ 24/7 Service</div>
+    <div class="feature-item" tabindex="0">✔️ Certified Medicines</div>
+    <div class="feature-item" tabindex="0">✔️ Fast Delivery</div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" id="testimonials">
+  <h2>What Our Customers Say</h2>
+  <div class="testimonial-grid">
+    <blockquote class="testimonial">"Quick delivery and good packaging!" — Ayesha</blockquote>
+    <blockquote class="testimonial">"Easy to upload prescriptions. Hassle-free." — Hazik</blockquote>
+    <blockquote class="testimonial">"My go-to pharmacy app now." — Dr. Qaisar</blockquote>
+  </div>
+</section>
+
+<!-- 🔒 Auth Modal -->
+<div class="modal" id="auth-modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeAuthModal()">&times;</span>
+    <div class="tab-buttons">
+      <button id="tab-login" onclick="showLogin()">Login</button>
+      <button id="tab-signup" onclick="showSignup()">Sign Up</button>
+    </div>
+    <form id="login-form" style="display: block;">
+      <h2>Login</h2>
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <form id="signup-form" style="display: none;">
+      <h2>Sign Up</h2>
+      <input type="text" id="signup-name" placeholder="Full Name" required />
+      <input type="email" id="signup-email" placeholder="Email" required />
+      <input type="password" id="signup-password" placeholder="Password" required />
+      <input type="password" id="signup-confirm" placeholder="Confirm Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+<!-- ✅ Unified Footer -->
+<footer class="footer-expanded">
+  <div class="footer-sections">
+    <div class="footer-block">
+      <h4>About MyPharmAlly</h4>
+      <ul>
+        <li><a href="our-story.html">Our Story</a></li>
+        <li><a href="our-aim.html">Our Aim</a></li>
+        <li><a href="careers.html">We're Hiring</a></li>
+      </ul>
+    </div>
+    <div class="footer-block">
+      <h4>Contact Us</h4>
+      <ul>
+        <li><a href="mailto:support@mypharmally.com">📧 support@mypharmally.com</a></li>
+        <li><a href="tel:+917051899758">📞 +91 70518 99758</a></li>
+        <li><a href="contact.html">✍️ Write us a message</a></li>
+      </ul>
+    </div>
+    <div class="footer-block">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms-of-service.html">Terms of Service</a></li>
+      </ul>
     </div>
   </div>
+  <p style="text-align:center; margin-top: 30px;">© 2025 MyPharmAlly. All rights reserved.</p>
+</footer>
 
-  <!-- 💡 Features -->
-  <section class="features" id="features">
-    <h2>Why Choose Us?</h2>
-    <div class="feature-grid">
-      <div class="feature-item" tabindex="0">✔️ 24/7 Service</div>
-      <div class="feature-item" tabindex="0">✔️ Certified Medicines</div>
-      <div class="feature-item" tabindex="0">✔️ Fast Delivery</div>
-    </div>
-  </section>
+<!-- Floating WhatsApp -->
+<a href="https://wa.me/917051899758" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
 
-  <!-- 💬 Testimonials -->
-  <section class="testimonials" id="testimonials">
-    <h2>What Our Customers Say</h2>
-    <div class="testimonial-grid">
-      <blockquote class="testimonial">"Quick delivery and good packaging!" — Ayesha</blockquote>
-      <blockquote class="testimonial">"Easy to upload prescriptions. Hassle-free." — Hazik</blockquote>
-      <blockquote class="testimonial">"My go-to pharmacy app now." — Dr. Qaisar</blockquote>
-    </div>
-  </section>
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite"></div>
 
-  <!-- ✅ Unified Footer -->
-  <footer class="footer-expanded">
-    <div class="footer-sections">
-      <div class="footer-block">
-        <h4>About MyPharmAlly</h4>
-        <ul>
-          <li><a href="our-story.html">Our Story</a></li>
-          <li><a href="our-aim.html">Our Aim</a></li>
-          <li><a href="careers.html">We're Hiring</a></li>
-        </ul>
-      </div>
-      <div class="footer-block">
-        <h4>Contact Us</h4>
-        <ul>
-          <li><a href="mailto:support@mypharmally.com">support@mypharmally.com</a></li>
-          <li><a href="tel:+917051899758">+91 70518 99758</a></li>
-          <li><a href="contact.html">Write us a message</a></li>
-        </ul>
-      </div>
-      <div class="footer-block">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="terms-of-service.html">Terms of Service</a></li>
-        </ul>
-      </div>
-    </div>
-    <p style="text-align:center; margin-top: 30px;">© 2025 MyPharmAlly. All rights reserved.</p>
-  </footer>
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
 
-  <!-- ✅ Toast Notification -->
-  <div id="toast" role="status" aria-live="polite"></div>
+<!-- Scripts -->
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+    authDomain: "mypharmally-b87c5.firebaseapp.com",
+    projectId: "mypharmally-b87c5",
+    appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-  <!-- 💬 Floating WhatsApp Button -->
-  <a href="https://wa.me/917051899758" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
+  function updateNavbar() {
+    const loggedIn = localStorage.getItem("loggedIn") === "true";
+    document.getElementById("nav-auth").style.display = loggedIn ? "none" : "inline-block";
+    document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
+    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
+  }
 
-  <!-- 📜 Script -->
-  <script>
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-
-    function updateNavbar() {
-      const loggedIn = localStorage.getItem('loggedIn') === 'true';
-      document.getElementById('nav-login').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-signup').style.display = loggedIn ? 'none' : 'inline-block';
-      document.getElementById('nav-profile').style.display = loggedIn ? 'inline-block' : 'none';
-      document.getElementById('nav-logout').style.display = loggedIn ? 'inline-block' : 'none';
-    }
-
-    function logoutUser(event) {
-      event.preventDefault();
-      localStorage.removeItem('loggedIn');
+  function logoutUser(event) {
+    event.preventDefault();
+    auth.signOut().then(() => {
+      localStorage.removeItem("loggedIn");
       updateNavbar();
-      showToast('Logged out successfully!');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1200);
-    }
+      showToast("Logged out");
+      setTimeout(() => location.reload(), 1000);
+    });
+  }
 
-    updateNavbar();
-  </script>
+  function toggleAuthModal() {
+    document.getElementById("auth-modal").style.display = "block";
+    showLogin();
+  }
+
+  function closeAuthModal() {
+    document.getElementById("auth-modal").style.display = "none";
+  }
+
+  function showLogin() {
+    document.getElementById("login-form").style.display = "block";
+    document.getElementById("signup-form").style.display = "none";
+  }
+
+  function showSignup() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("signup-form").style.display = "block";
+  }
+
+  // Form handlers
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const pass = document.getElementById("login-password").value;
+    auth.signInWithEmailAndPassword(email, pass).then(() => {
+      localStorage.setItem("loggedIn", "true");
+      closeAuthModal();
+      updateNavbar();
+      showToast("Logged in!");
+    }).catch(e => showToast(e.message));
+  });
+
+  document.getElementById("signup-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("signup-name").value;
+    const email = document.getElementById("signup-email").value;
+    const pass = document.getElementById("signup-password").value;
+    const confirm = document.getElementById("signup-confirm").value;
+    if (pass !== confirm) return showToast("Passwords do not match");
+    auth.createUserWithEmailAndPassword(email, pass).then(user => {
+      return user.user.updateProfile({ displayName: name });
+    }).then(() => {
+      localStorage.setItem("loggedIn", "true");
+      closeAuthModal();
+      updateNavbar();
+      showToast("Account created!");
+    }).catch(e => showToast(e.message));
+  });
+
+  function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+  }
+
+  updateNavbar();
+</script>
 
 </body>
 </html>
