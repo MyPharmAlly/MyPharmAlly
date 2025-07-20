@@ -5,725 +5,321 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Buy Medicines | MyPharmAlly</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Toast styles */
-    #toast {
-      visibility: hidden;
-      min-width: 250px;
-      margin-left: -125px;
-      background-color: #26a69a;
-      color: white;
-      text-align: center;
-      border-radius: 8px;
-      padding: 14px;
-      position: fixed;
-      z-index: 9999;
-      left: 50%;
-      bottom: 30px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: visibility 0s, opacity 0.5s ease-in-out;
-      opacity: 0;
-    }
-    #toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-    /* Medicine search */
-    .medicine-search {
-      position: relative;
-      max-width: 500px;
-      margin: 0 auto 30px auto;
-    }
-    .medicine-search input {
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 2px solid #00796b;
-      outline: none;
-      box-sizing: border-box;
-    }
-    .suggestions-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      background: white;
-      border: 1px solid #ccc;
-      border-top: none;
-      max-height: 200px;
-      overflow-y: auto;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border-radius: 0 0 8px 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .suggestions-list li {
-      padding: 10px 14px;
-      cursor: pointer;
-    }
-    .suggestions-list li:hover,
-    .suggestions-list li:focus {
-      background-color: #f0fdf5;
-      outline: 2px solid #00796b;
-      outline-offset: -2px;
-    }
-
-    /* Cart icon & modal */
-    #cart-icon {
-      position: relative;
-      cursor: pointer;
-      color: white;
-      font-weight: 700;
-      font-size: 1.3rem;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      border-radius: 8px;
-      background-color: #00796b;
-      user-select: none;
-      margin-left: 12px;
-      transition: background-color 0.3s ease;
-    }
-    #cart-icon:hover {
-      background-color: #004d40;
-    }
-    #cart-count {
-      background: #e53935;
-      color: white;
-      font-weight: 700;
-      font-size: 0.85rem;
-      border-radius: 50%;
-      padding: 3px 7px;
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      user-select: none;
-    }
-    /* Cart modal backdrop */
-    #cart-modal-backdrop {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 10000;
-    }
-    /* Cart modal */
-    #cart-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #f4fdf8;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      z-index: 10001;
-      padding: 20px 30px 30px;
-    }
-    #cart-modal h2 {
-      margin-top: 0;
-      color: #004d40;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    #cart-items {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 20px 0;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    #cart-items li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      padding: 12px 14px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      gap: 8px;
-    }
-    #cart-items li div {
-      flex: 1;
-    }
-    #cart-items .item-name {
-      font-weight: 600;
-      color: #00796b;
-    }
-    #cart-items input[type="number"] {
-      width: 60px;
-      padding: 6px 8px;
-      border-radius: 8px;
-      border: 1.5px solid #00796b;
-      font-size: 1rem;
-    }
-    #cart-items button.remove-btn {
-      background: #e53935;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      padding: 6px 10px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s ease;
-    }
-    #cart-items button.remove-btn:hover {
-      background: #b71c1c;
-    }
-    #cart-total {
-      font-weight: 700;
-      font-size: 1.2rem;
-      text-align: right;
-      color: #004d40;
-      margin-bottom: 20px;
-    }
-    #cart-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    #cart-buttons button {
-      flex: 1;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 12px 0;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    #checkout-btn {
-      background-color: #00897b;
-      color: white;
-    }
-    #checkout-btn:hover {
-      background-color: #00796b;
-    }
-    #clear-cart-btn {
-      background-color: #e53935;
-      color: white;
-    }
-    #clear-cart-btn:hover {
-      background-color: #b71c1c;
-    }
-
-    /* Prescription upload drag & drop styles */
-    .upload-dropzone {
-      border: 2px dashed #00796b;
-      border-radius: 10px;
-      padding: 30px;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.3s ease;
-    }
-    .upload-dropzone.dragover {
-      background-color: #e0f2f1;
-      border-color: #004d40;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      #cart-modal {
-        width: 95%;
-        padding: 15px 20px 20px;
-      }
-      #cart-items li {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      #cart-items input[type="number"] {
-        width: 100%;
-        margin-top: 8px;
-      }
-      #cart-buttons {
-        flex-direction: column;
-      }
-      #cart-buttons button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 </head>
 <body>
-  <header>
-    <nav aria-label="Primary navigation" style="display:flex; align-items:center; justify-content:center; gap:10px;">
-      <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-      <ul class="navbar" id="navbar-menu" style="flex-grow:1; justify-content:center;">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="buy-medicines.html" aria-current="page">Buy Medicines</a></li>
-        <li id="nav-login"><a href="login.html">Login</a></li>
-        <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-        <li class="profile-li" id="nav-profile" style="display:none;">
-          <a href="profile.html">
-            <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-          </a>
-        </li>
-        <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-      </ul>
 
-      <!-- Cart Icon -->
-      <div id="cart-icon" aria-label="View cart" role="button" tabindex="0" title="View Cart">
-        🛒 Cart
-        <span id="cart-count" aria-live="polite" aria-atomic="true">0</span>
-      </div>
-    </nav>
-  </header>
+<!-- 🔷 Navbar -->
+<header class="navbar">
+  <h1>MyPharmAlly</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="#">Orders</a>
+    <a href="#">Help</a>
+  </nav>
+</header>
 
-  <main class="container">
-    <h1>Buy Medicines</h1>
+<!-- 🔷 Hero Section -->
+<section class="hero-medicines" data-aos="fade-down">
+  <h2>Buy Medicines Easily Online</h2>
+  <p>Browse top-rated medicines or upload your doctor’s prescription.</p>
+  <button class="btn" onclick="openPrescriptionModal()">📤 Upload Prescription</button>
+</section>
 
-    <div class="medicine-search">
-      <input type="text" id="searchInput" placeholder="Search for a medicine..." autocomplete="off" />
-      <ul id="suggestions" class="suggestions-list" role="listbox" aria-label="Medicine suggestions"></ul>
-    </div>
-
-    <section class="buy-otc-medicines">
-      <h2>Buy OTC Medicines</h2>
-      <p>Browse and add your required medicines to the cart directly.</p>
-      <div class="meds-grid" id="medsGrid" aria-live="polite" aria-relevant="additions"></div>
-    </section>
-
-    <section class="prescription-upload">
-      <h2>Prescription Medicines</h2>
-      <p>To buy prescription medicines, please upload a valid prescription below.</p>
-
-      <form class="upload-form" onsubmit="handlePrescriptionUpload(event)">
-        <label for="prescription-upload" class="upload-label">
-          <div class="upload-dropzone" tabindex="0">
-            <p>Drag & drop your prescription here, or click to select file</p>
-            <small>Accepted formats: JPG, PNG, PDF</small>
-          </div>
-          <input type="file" id="prescription-upload" name="prescription" accept="image/*,.pdf" required hidden />
-        </label>
-        <button type="submit" class="btn upload-btn">Upload Prescription</button>
-      </form>
-
-      <p style="margin-top: 18px; color: #00796b; font-weight: 600;">
-        Once you upload your prescription, our agent will call you to confirm the medicine details and ensure everything is correct.
-      </p>
-    </section>
-
-    <section class="call-us">
-      <h2>Need Help Ordering?</h2>
-      <p>
-        💬 <strong>Chat with us on WhatsApp</strong> to quickly order your medicines, ask questions, or upload your prescription.
-      </p>
-      <a class="btn"
-         href="https://api.whatsapp.com/send?phone=917051899758&text=Hello!+I’d+like+to+order+medicines+from+MyPharmAlly.+Can+you+assist+me%3F"
-         target="_blank" rel="noopener noreferrer">
-         Chat on WhatsApp
-      </a>
-    </section>
-  </main>
-<!-- Medicine Details Modal Backdrop -->
-<div id="medicine-modal-backdrop" tabindex="-1" style="display:none; position: fixed; inset:0; background: rgba(0,0,0,0.5); z-index: 10000;"></div>
-
-<!-- Medicine Details Modal -->
-<section id="medicine-modal" role="dialog" aria-modal="true" aria-labelledby="medicine-modal-title" tabindex="0" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: #f9fff9; border-radius: 12px; width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 20px 25px; z-index: 10001;">
-  <button id="medicine-modal-close" aria-label="Close details" style="background:none; border:none; font-size:1.8rem; font-weight:bold; color:#00796b; cursor:pointer; float:right; line-height:1;">&times;</button>
-  <h2 id="medicine-modal-title" style="margin-top:0; color:#004d40;"></h2>
-  <img id="medicine-modal-img" src="" alt="" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;"/>
-  <p id="medicine-modal-desc" style="color:#00695c; font-size: 1rem; margin-bottom: 20px;"></p>
-  <div style="display:flex; justify-content: space-between; align-items:center; gap: 12px;">
-    <span id="medicine-modal-price" style="font-weight:700; font-size:1.2rem; color:#00796b;"></span>
-    <input type="number" id="medicine-modal-qty" min="1" value="1" aria-label="Select quantity" style="width: 60px; padding:6px 10px; border:1.5px solid #00796b; border-radius:8px; font-size:1rem;" />
-    <button id="medicine-modal-add" class="btn" style="flex-shrink:0; padding: 10px 15px; background-color:#00796b; color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer;">Add to Cart</button>
+<!-- 🔍 Search + Category Filters -->
+<section class="search-filter" data-aos="fade-up">
+  <input type="text" id="searchInput" placeholder="Search medicines..." aria-label="Search" oninput="filterMedicines()" />
+  <div class="category-buttons">
+    <button onclick="filterCategory('all')" class="active">All</button>
+    <button onclick="filterCategory('Fever')">Fever</button>
+    <button onclick="filterCategory('Cold')">Cold</button>
+    <button onclick="filterCategory('Pain')">Pain</button>
+    <button onclick="filterCategory('Diabetes')">Diabetes</button>
+    <button onclick="filterCategory('Skin')">Skin</button>
+    <button onclick="filterCategory('OTC')">OTC</button>
   </div>
 </section>
 
-  <!-- Cart Modal Backdrop -->
-  <div id="cart-modal-backdrop" tabindex="-1"></div>
+<!-- 🧾 Medicine Grid -->
+<section class="medicine-grid" id="medicineGrid" data-aos="fade-up">
+  <!-- Product cards rendered by JS -->
+</section>
 
-  <!-- Cart Modal -->
-  <section id="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cart-modal-title" tabindex="0">
-    <h2 id="cart-modal-title">Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <div id="cart-total">Total: ₹0</div>
-    <div id="cart-buttons">
-      <button id="checkout-btn" aria-label="Proceed to checkout">Checkout</button>
-      <button id="clear-cart-btn" aria-label="Clear all items from cart">Clear Cart</button>
-    </div>
-  </section>
+<!-- ❌ No Result Message -->
+<p id="noResults" style="text-align:center;font-weight:600;display:none;margin-top:30px;">😕 No results found.</p>
 
-  <div id="toast" role="alert" aria-live="assertive"></div>
-
-  <script>
-    // ==== Navbar login/logout state & logout ====
-    function updateNavbar() {
-      const loggedIn = localStorage.getItem("loggedIn") === "true";
-      document.getElementById("nav-login").style.display = loggedIn ? "none" : "list-item";
-      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "list-item";
-      document.getElementById("nav-profile").style.display = loggedIn ? "list-item" : "none";
-      document.getElementById("nav-logout").style.display = loggedIn ? "list-item" : "none";
-    }
-    function logoutUser(event) {
-      event.preventDefault();
-      localStorage.removeItem("loggedIn");
-      updateNavbar();
-      setTimeout(() => window.location.href = "index.html", 1000);
-    }
-    updateNavbar();
-
-    // ==== Toast notifications ====
-    function showToast(msg) {
-      const toast = document.getElementById("toast");
-      toast.textContent = msg;
-      toast.classList.add("show");
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 3000);
-    }
-
-    // ==== Medicine data ====
-    const medicines = [
-      { id: 1, name: "Paracetamol", description: "Used for pain relief and fever.", price: 30 },
-      { id: 2, name: "Ibuprofen", description: "Anti-inflammatory painkiller.", price: 45 },
-      { id: 3, name: "Cetirizine", description: "Antihistamine for allergies.", price: 25 },
-      { id: 4, name: "Amoxicillin", description: "Antibiotic for bacterial infections.", price: 60 },
-      { id: 5, name: "Aspirin", description: "Pain relief and blood thinner.", price: 35 },
-      { id: 6, name: "Loratadine", description: "Relieves allergy symptoms.", price: 28 },
-      { id: 7, name: "Omeprazole", description: "Reduces stomach acid.", price: 40 },
-      { id: 8, name: "Metformin", description: "For type 2 diabetes management.", price: 55 },
-      { id: 9, name: "Azithromycin", description: "Antibiotic for infections.", price: 75 },
-      { id: 10, name: "Salbutamol", description: "Bronchodilator for asthma.", price: 50 }
-    ];
-
-    // ==== Render OTC medicines grid ====
-    const medsGrid = document.getElementById("medsGrid");
-    function renderMedicines(meds) {
-      medsGrid.innerHTML = "";
-      meds.forEach((med, i) => {
-        const card = document.createElement("article");
-        card.className = "medicine-card";
-        card.setAttribute("tabindex", "0");
-        card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `View details for ${med.name}`);
-        card.innerHTML = `
-          <img src="images/medicine-${(med.id % 6) + 1}.jpg" alt="${med.name}" onerror="this.src='images/default-medicine.jpg'" />
-          <h3>${med.name}</h3>
-          <p>₹${med.price}</p>
-          <button class="btn add-to-cart" data-id="${med.id}" aria-label="Add ${med.name} to cart">Add to Cart</button>
-        `;
-        card.addEventListener("click", () => openMedicineModal(med));
-        card.addEventListener("keypress", e => { if (e.key === "Enter" || e.key === " ") openMedicineModal(med); });
-        medsGrid.appendChild(card);
-      });
-    }
-    renderMedicines(medicines);
-
-    // ==== Search suggestions ====
-    const searchInput = document.getElementById("searchInput");
-    const suggestionsList = document.getElementById("suggestions");
-    let selectedSuggestionIndex = -1;
-
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.trim().toLowerCase();
-      suggestionsList.innerHTML = "";
-      selectedSuggestionIndex = -1;
-      if (!query) return;
-
-      const filtered = medicines.filter(med => med.name.toLowerCase().startsWith(query)).slice(0, 6);
-      filtered.forEach((med, idx) => {
-        const li = document.createElement("li");
-        li.textContent = med.name;
-        li.setAttribute("role", "option");
-        li.setAttribute("tabindex", "-1");
-        li.addEventListener("click", () => {
-          searchInput.value = med.name;
-          suggestionsList.innerHTML = "";
-          openMedicineModal(med);
-        });
-        li.addEventListener("keydown", e => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            searchInput.value = med.name;
-            suggestionsList.innerHTML = "";
-            openMedicineModal(med);
-          } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            const next = li.nextElementSibling || suggestionsList.firstElementChild;
-            next.focus();
-          } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            const prev = li.previousElementSibling || suggestionsList.lastElementChild;
-            prev.focus();
-          }
-        });
-        suggestionsList.appendChild(li);
-      });
-    });
-
-    searchInput.addEventListener("keydown", e => {
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        if (suggestionsList.firstChild) {
-          suggestionsList.firstChild.focus();
-        }
-      } else if (e.key === "Escape") {
-        suggestionsList.innerHTML = "";
-      }
-    });
-
-    // ==== Medicine Modal ====
-    const medicineModal = document.getElementById("medicine-modal");
-    const medicineModalBackdrop = document.getElementById("medicine-modal-backdrop");
-    const modalTitle = document.getElementById("medicine-modal-title");
-    const modalImg = document.getElementById("medicine-modal-img");
-    const modalDesc = document.getElementById("medicine-modal-desc");
-    const modalPrice = document.getElementById("medicine-modal-price");
-    const modalQty = document.getElementById("medicine-modal-qty");
-    const modalAddBtn = document.getElementById("medicine-modal-add");
-    const modalCloseBtn = document.getElementById("medicine-modal-close");
-
-    let currentMedicine = null;
-
-    function openMedicineModal(med) {
-      currentMedicine = med;
-      modalTitle.textContent = med.name;
-      modalImg.src = `images/medicine-${(med.id % 6) + 1}.jpg`;
-      modalImg.alt = med.name;
-      modalDesc.textContent = med.description;
-      modalPrice.textContent = `₹${med.price}`;
-      modalQty.value = 1;
-      medicineModal.style.display = "block";
-      medicineModalBackdrop.style.display = "block";
-      medicineModal.focus();
-    }
-    function closeMedicineModal() {
-      medicineModal.style.display = "none";
-      medicineModalBackdrop.style.display = "none";
-      currentMedicine = null;
-    }
-    modalCloseBtn.addEventListener("click", closeMedicineModal);
-    medicineModalBackdrop.addEventListener("click", closeMedicineModal);
-    medicineModal.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        closeMedicineModal();
-      }
-    });
-
-    modalAddBtn.addEventListener("click", () => {
-      const qty = parseInt(modalQty.value);
-      if (isNaN(qty) || qty < 1) {
-        showToast("Please enter a valid quantity");
-        modalQty.value = 1;
-        return;
-      }
-      addToCart(currentMedicine, qty);
-      closeMedicineModal();
-    });
-
-    // ==== Cart handling ====
-    const cartIcon = document.getElementById("cart-icon");
-    const cartCount = document.getElementById("cart-count");
-    const cartModal = document.getElementById("cart-modal");
-    const cartModalBackdrop = document.getElementById("cart-modal-backdrop");
-    const cartItemsList = document.getElementById("cart-items");
-    const cartTotalEl = document.getElementById("cart-total");
-    const checkoutBtn = document.getElementById("checkout-btn");
-    const clearCartBtn = document.getElementById("clear-cart-btn");
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    function updateCartCount() {
-      cartCount.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
-    }
-
-    function saveCart() {
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCartCount();
-    }
-
-    function addToCart(med, qty) {
-      const index = cart.findIndex(item => item.id === med.id);
-      if (index !== -1) {
-        cart[index].qty += qty;
-      } else {
-        cart.push({ id: med.id, name: med.name, price: med.price, qty });
-      }
-      saveCart();
-      showToast(`${med.name} added to cart (${qty})`);
-    }
-
-    function renderCart() {
-      cartItemsList.innerHTML = "";
-      if (cart.length === 0) {
-        cartItemsList.innerHTML = "<li>Your cart is empty.</li>";
-        cartTotalEl.textContent = "Total: ₹0";
-        return;
-      }
-      let total = 0;
-      cart.forEach(item => {
-        total += item.price * item.qty;
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <div class="item-name">${item.name}</div>
-          <input type="number" min="1" value="${item.qty}" aria-label="Quantity for ${item.name}" />
-          <div>₹${item.price * item.qty}</div>
-          <button class="remove-btn" aria-label="Remove ${item.name} from cart">&times;</button>
-        `;
-        const qtyInput = li.querySelector("input");
-        qtyInput.addEventListener("change", e => {
-          let val = parseInt(e.target.value);
-          if (isNaN(val) || val < 1) {
-            val = 1;
-            e.target.value = "1";
-          }
-          item.qty = val;
-          saveCart();
-          renderCart();
-        });
-        li.querySelector(".remove-btn").addEventListener("click", () => {
-          cart = cart.filter(c => c.id !== item.id);
-          saveCart();
-          renderCart();
-        });
-        cartItemsList.appendChild(li);
-      });
-      cartTotalEl.textContent = `Total: ₹${total}`;
-    }
-
-    function openCartModal() {
-      renderCart();
-      cartModal.style.display = "block";
-      cartModalBackdrop.style.display = "block";
-      cartModal.focus();
-    }
-    function closeCartModal() {
-      cartModal.style.display = "none";
-      cartModalBackdrop.style.display = "none";
-    }
-
-    cartIcon.addEventListener("click", openCartModal);
-    cartIcon.addEventListener("keypress", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        openCartModal();
-      }
-    });
-    cartModalBackdrop.addEventListener("click", closeCartModal);
-    cartModal.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        closeCartModal();
-      }
-    });
-    checkoutBtn.addEventListener("click", () => {
-      if (cart.length === 0) {
-        showToast("Your cart is empty.");
-        return;
-      }
-      alert("Thank you for your order! We will contact you soon.");
-      cart = [];
-      saveCart();
-      closeCartModal();
-    });
-    clearCartBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to clear your cart?")) {
-        cart = [];
-        saveCart();
-        renderCart();
-      }
-    });
-
-    // ==== Drag & drop prescription upload area ====
-    const dropzone = document.querySelector(".upload-dropzone");
-    const fileInput = document.getElementById("prescription-upload");
-
-    dropzone.addEventListener("click", () => fileInput.click());
-
-    dropzone.addEventListener("dragover", e => {
-      e.preventDefault();
-      dropzone.classList.add("dragover");
-    });
-
-    dropzone.addEventListener("dragleave", e => {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-    });
-
-    dropzone.addEventListener("drop", e => {
-      e.preventDefault();
-      dropzone.classList.remove("dragover");
-      if (e.dataTransfer.files.length > 0) {
-        fileInput.files = e.dataTransfer.files;
-      }
-    });
-
-    // ==== Handle prescription upload form ====
-    function handlePrescriptionUpload(event) {
-      event.preventDefault();
-      if (!fileInput.files.length) {
-        showToast("Please select a prescription file to upload.");
-        return;
-      }
-      // In real app: upload file to server or Firebase Storage
-      showToast("Prescription uploaded successfully. Our agent will contact you soon!");
-      fileInput.value = "";
-    }
-
-    // ==== Menu toggle (mobile) ====
-    const menuToggle = document.getElementById("menu-toggle");
-    const navbarMenu = document.getElementById("navbar-menu");
-
-    menuToggle.addEventListener("click", () => {
-      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-      menuToggle.setAttribute("aria-expanded", String(!expanded));
-      navbarMenu.style.display = navbarMenu.style.display === "flex" ? "none" : "flex";
-    });
-
-    // On page load, ensure nav menu is hidden on small screens
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 600) {
-        navbarMenu.style.display = "flex";
-        menuToggle.setAttribute("aria-expanded", "false");
-      } else {
-        navbarMenu.style.display = "none";
-        menuToggle.setAttribute("aria-expanded", "false");
-      }
-    });
-    // Trigger resize on load
-    window.dispatchEvent(new Event('resize'));
-  </script>
-<footer class="footer-expanded">
-  <div class="footer-sections">
-    <div class="footer-block">
-      <h4>About MyPharmAlly</h4>
-      <ul>
-        <li><a href="our-story.html">Our Story</a></li>
-        <li><a href="our-aim.html">Our Aim</a></li>
-        <li><a href="careers.html">We're Hiring</a></li>
-      </ul>
-    </div>
-    <div class="footer-block">
-      <h4>Contact Us</h4>
-      <ul>
-        <li><a href="mailto:support@mypharmally.com">📧 support@mypharmally.com</a></li>
-        <li><a href="tel:+917051899758">📞 +91 70518 99758</a></li>
-        <li><a href="contact.html">✍️ Write us a message</a></li>
-      </ul>
-    </div>
-    <div class="footer-block">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-        <li><a href="terms-of-service.html">Terms of Service</a></li>
-      </ul>
-    </div>
+<!-- 📦 Product Detail Modal -->
+<div class="modal" id="productDetailModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeProductModal()">&times;</span>
+    <h2 id="modalTitle">Medicine Name</h2>
+    <img id="modalImage" src="" alt="" />
+    <p id="modalDesc">Description</p>
+    <p><strong>Price:</strong> ₹<span id="modalPrice">0</span></p>
+    <p><strong>Category:</strong> <span id="modalCategory">Category</span></p>
+    <button class="btn" onclick="closeProductModal()">Close</button>
   </div>
-  <p style="text-align:center; margin-top: 30px;">© 2025 MyPharmAlly. All rights reserved.</p>
+</div>
+
+<!-- 📤 Upload Prescription Modal -->
+<div class="modal" id="prescription-modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closePrescriptionModal()">&times;</span>
+    <h2>Upload Your Prescription</h2>
+    <form id="prescriptionForm">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <input type="file" id="prescriptionFile" accept="image/*,application/pdf" required />
+      <div id="previewBox" style="margin:10px 0;"></div>
+      <button type="submit" class="btn">Upload</button>
+    </form>
+  </div>
+</div>
+
+<!-- 🔘 Floating Buttons -->
+<button onclick="openPrescriptionModal()" aria-label="Upload Prescription"
+  style="position:fixed;bottom:90px;right:20px;background:#1976d2;color:white;border:none;border-radius:50%;width:52px;height:52px;font-size:20px;z-index:999;">
+  📤
+</button>
+
+<button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+  style="position:fixed;bottom:20px;right:20px;background:#009688;border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:22px;z-index:999;">
+  ↑
+</button>
+
+<a href="https://wa.me/917051899758?text=Hello%2C%20I%20need%20help%20buying%20medicines%20on%20MyPharmAlly."
+   target="_blank" title="Chat on WhatsApp"
+   style="position:fixed;bottom:160px;right:20px;width:54px;height:54px;border-radius:50%;background:#25d366;color:white;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- 🔚 Footer -->
+<footer class="site-footer">
+  <p>&copy; 2025 MyPharmAlly. All rights reserved.</p>
 </footer>
+
+<!-- 🔌 Scripts -->
+<script src="script.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true });
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+</script>
+<script>
+  const medicines = [
+    {
+      id: "calpol500",
+      name: "Calpol 500",
+      price: 22,
+      image: "images/calpol500.jpg",
+      category: "Fever",
+      tag: "OTC",
+      delivery: "1-2 days",
+      description: "Mild pain reliever and fever reducer for adults."
+    },
+    {
+      id: "pantop40",
+      name: "Pantop 40",
+      price: 36,
+      image: "images/pantop40.jpg",
+      category: "Stomach",
+      tag: "Prescription",
+      delivery: "1-3 days",
+      description: "Reduces acidity and heartburn symptoms effectively."
+    }
+    // Add more medicines...
+  ];
+
+  const grid = document.getElementById("medicineGrid");
+  medicines.forEach(med => {
+    const card = document.createElement("div");
+    card.className = "medicine-card";
+    card.setAttribute("data-category", med.category.toLowerCase());
+
+    card.innerHTML = `
+      <img src="${med.image}" alt="${med.name}" loading="lazy" />
+      <h3>${med.name}</h3>
+      <p class="price">₹${med.price}</p>
+      <span class="tag">${med.tag}</span>
+      <p class="delivery-label">🚚 ${med.delivery}</p>
+      <div class="quantity-control">
+        <label>Qty:</label>
+        <input type="number" min="1" value="1" id="qty-${med.id}" />
+      </div>
+      <button class="btn" onclick="addToCart('${med.id}')">Add to Cart</button>
+      <button class="btn secondary" onclick="openProductModal('${med.id}')">View Details</button>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  function addToCart(id) {
+    const qtyInput = document.getElementById(`qty-${id}`);
+    const qty = parseInt(qtyInput.value);
+    if (!qty || qty <= 0) {
+      alert("Please enter a valid quantity.");
+      return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
+    cart[id] = (cart[id] || 0) + qty;
+    localStorage.setItem("mypharm_cart", JSON.stringify(cart));
+    alert("✅ Added to cart!");
+  }
+
+  function openProductModal(id) {
+    const med = medicines.find(m => m.id === id);
+    if (!med) return;
+
+    document.getElementById("modalTitle").innerText = med.name;
+    document.getElementById("modalImage").src = med.image;
+    document.getElementById("modalPrice").innerText = med.price;
+    document.getElementById("modalCategory").innerText = med.category;
+    document.getElementById("modalDesc").innerText = med.description;
+    document.getElementById("productDetailModal").classList.add("show");
+  }
+
+  function closeProductModal() {
+    document.getElementById("productDetailModal").classList.remove("show");
+  }
+
+  function filterMedicines() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const cards = document.querySelectorAll(".medicine-card");
+    let visible = 0;
+
+    cards.forEach(card => {
+      const name = card.querySelector("h3").textContent.toLowerCase();
+      if (name.includes(search)) {
+        card.style.display = "block";
+        visible++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    document.getElementById("noResults").style.display = visible === 0 ? "block" : "none";
+  }
+
+  function filterCategory(cat) {
+    const buttons = document.querySelectorAll(".category-buttons button");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+
+    const cards = document.querySelectorAll(".medicine-card");
+    cards.forEach(card => {
+      if (cat === "all" || card.dataset.category === cat.toLowerCase()) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    document.getElementById("noResults").style.display = "none";
+  }
+</script>
+<!-- 🔹 Hero Section -->
+<section class="hero-medicines" data-aos="fade-down">
+  <h2>Order Genuine Medicines Online</h2>
+  <p>From the valleys of Kashmir — for the people we love.</p>
+  <button class="btn" onclick="openPrescriptionModal()">📤 Upload Prescription</button>
+</section>
+
+<!-- 🔍 Search & Categories -->
+<section class="search-filter" data-aos="fade-up">
+  <input type="text" id="searchInput" placeholder="Search medicines..." aria-label="Search Medicines" oninput="filterMedicines()" />
+  <div class="category-buttons">
+    <button onclick="filterCategory('all')" class="active">All</button>
+    <button onclick="filterCategory('OTC')">OTC</button>
+    <button onclick="filterCategory('Fever')">Fever</button>
+    <button onclick="filterCategory('Pain')">Pain</button>
+    <button onclick="filterCategory('Skin')">Skin</button>
+    <button onclick="filterCategory('Supplements')">Supplements</button>
+    <button onclick="filterCategory('Diabetes')">Diabetes</button>
+  </div>
+</section>
+<!-- 🔹 Medicine Cards Grid -->
+<section class="medicine-grid" id="medicineGrid" data-aos="fade-up">
+  <!-- Medicine Card Example -->
+  <div class="medicine-card" data-category="OTC">
+    <img src="images/paracetamol.jpg" alt="Paracetamol Strip">
+    <h3>Paracetamol 500mg</h3>
+    <div class="price">₹25</div>
+    <div class="tag">Fever</div>
+    <div class="delivery-label">Delivery in 2-3 days</div>
+    <div class="quantity-control">
+      <label for="qty1">Qty:</label>
+      <input type="number" id="qty1" value="1" min="1" />
+    </div>
+    <button class="btn" onclick="addToCart('Paracetamol', 25, 'qty1')">Add to Cart</button>
+    <button class="btn secondary" onclick="openMedicineModal('Paracetamol 500mg', 'Used to reduce fever and relieve pain.', 'images/paracetamol.jpg')">View Details</button>
+  </div>
+
+  <!-- You can duplicate more cards like this with different data-category and details -->
+</section>
+<!-- 🔹 Prescription Upload Modal -->
+<div class="modal" id="prescription-modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closePrescriptionModal()">&times;</span>
+    <h3>Upload Your Prescription</h3>
+    <input type="text" placeholder="Full Name" required />
+    <input type="email" placeholder="Email Address" required />
+    <input type="file" accept="image/*,.pdf" />
+    <button class="btn" onclick="submitPrescription()">Submit</button>
+  </div>
+</div>
+<script>
+  function openPrescriptionModal() {
+    document.getElementById("prescription-modal").classList.add("show");
+  }
+  function closePrescriptionModal() {
+    document.getElementById("prescription-modal").classList.remove("show");
+  }
+  function submitPrescription() {
+    alert("📤 Prescription uploaded successfully!");
+    closePrescriptionModal();
+  }
+</script>
+<!-- 🔹 Medicine Detail Modal -->
+<div class="modal" id="medicine-detail-modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeMedicineModal()">&times;</span>
+    <img id="medicineImg" src="" alt="Medicine Image" style="max-width: 100%; margin-bottom: 15px;">
+    <h3 id="medicineTitle">Medicine Name</h3>
+    <p id="medicineDesc">Medicine description will appear here.</p>
+  </div>
+</div>
+<script>
+  function openMedicineModal(title, description, imgSrc) {
+    document.getElementById("medicineTitle").textContent = title;
+    document.getElementById("medicineDesc").textContent = description;
+    document.getElementById("medicineImg").src = imgSrc;
+    document.getElementById("medicine-detail-modal").classList.add("show");
+  }
+
+  function closeMedicineModal() {
+    document.getElementById("medicine-detail-modal").classList.remove("show");
+  }
+</script>
+<!-- 🔹 WhatsApp Support Button -->
+<a href="https://wa.me/917051899758?text=Hello!%20I%20need%20help%20buying%20medicines%20on%20MyPharmAlly."
+   class="fab-button whatsapp" title="Chat with us on WhatsApp" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- 🔹 View Cart Button -->
+<a href="cart.html" class="fab-button cart-icon" title="View Cart">
+  🛒 <span id="cartCount">0</span>
+</a>
+<script>
+  // Update Cart Count
+  const cartData = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
+  const itemCount = Object.values(cartData).reduce((a, b) => a + b, 0);
+  document.getElementById("cartCount").innerText = itemCount;
+</script>
 
 </body>
 </html>
