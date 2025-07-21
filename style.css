@@ -1564,4 +1564,32 @@ button {
   font-size: 16px;
   margin-bottom: 20px;
 }
+.floating-cart {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #009688;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.floating-cart .cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 13px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
 

@@ -554,5 +554,15 @@
   let totalCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
   document.getElementById("cartCount").textContent = totalCount;
 </script>
+<script>
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
+    const total = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+    document.querySelectorAll("#cartCount").forEach(el => el.innerText = total);
+  }
+
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+
 <body>
 </html>
