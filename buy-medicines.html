@@ -6,319 +6,287 @@
   <title>Buy Medicines | MyPharmAlly</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
 </head>
 <body>
 
-<!-- 🔷 Navbar -->
-<header class="navbar">
-  <h1>MyPharmAlly</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="#">Orders</a>
-    <a href="#">Help</a>
-  </nav>
-</header>
+  <!-- 🔹 Navbar -->
+  <header class="navbar">
+    <h1>MyPharmAlly</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="buy-medicines.html" class="active">Buy Medicines</a>
+      <a href="#">Help</a>
+    </nav>
+  </header>
 
-<!-- 🔷 Hero Section -->
-<section class="hero-medicines" data-aos="fade-down">
-  <h2>Buy Medicines Easily Online</h2>
-  <p>Browse top-rated medicines or upload your doctor’s prescription.</p>
-  <button class="btn" onclick="openPrescriptionModal()">📤 Upload Prescription</button>
-</section>
+  <!-- 🔹 Hero Section -->
+  <section class="hero-medicines">
+    <h2>Browse & Order Medicines Easily</h2>
+    <p>Search, select, and order your essential medicines within seconds.</p>
+    <a href="#medicineList" class="btn">Start Browsing</a>
+  </section>
 
-<!-- 🔍 Search + Category Filters -->
-<section class="search-filter" data-aos="fade-up">
-  <input type="text" id="searchInput" placeholder="Search medicines..." aria-label="Search" oninput="filterMedicines()" />
-  <div class="category-buttons">
-    <button onclick="filterCategory('all')" class="active">All</button>
-    <button onclick="filterCategory('Fever')">Fever</button>
-    <button onclick="filterCategory('Cold')">Cold</button>
-    <button onclick="filterCategory('Pain')">Pain</button>
-    <button onclick="filterCategory('Diabetes')">Diabetes</button>
-    <button onclick="filterCategory('Skin')">Skin</button>
-    <button onclick="filterCategory('OTC')">OTC</button>
+  <!-- 🔍 Search and Filter -->
+  <section class="search-filter">
+    <input type="search" id="searchInput" placeholder="Search medicines by name, brand, or category..." aria-label="Search" />
+    <div class="category-buttons">
+      <button data-category="All" class="active">All</button>
+      <button data-category="OTC">OTC</button>
+      <button data-category="Diabetes">Diabetes</button>
+      <button data-category="Allergy">Allergy</button>
+      <button data-category="Baby">Baby</button>
+      <button data-category="Supplements">Supplements</button>
+    </div>
+  </section>
+
+  <!-- 🧾 Medicine Grid -->
+  <section id="medicineList" class="medicine-grid">
+    <!-- Cards injected by JavaScript -->
+  </section>
+
+  <!-- 🛒 Floating Cart -->
+  <a href="cart.html" class="floating-cart" id="floatingCart">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count" id="cartCount">0</span>
+  </a>
+
+  <!-- 📦 Toast Message -->
+  <div id="toast" class="toast">Added to cart!</div>
+
+  <!-- 🧾 Modal (for future prescription/details) -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>Medicine Details</h3>
+      <p>This space can be used for descriptions, usage instructions, or prescription upload in future.</p>
+    </div>
   </div>
-</section>
 
-<!-- 🧾 Medicine Grid -->
-<section class="medicine-grid" id="medicineGrid" data-aos="fade-up">
-  <!-- Product cards rendered by JS -->
-</section>
-
-<!-- ❌ No Result Message -->
-<p id="noResults" style="text-align:center;font-weight:600;display:none;margin-top:30px;">😕 No results found.</p>
-
-<!-- 📦 Product Detail Modal -->
-<div class="modal" id="productDetailModal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeProductModal()">&times;</span>
-    <h2 id="modalTitle">Medicine Name</h2>
-    <img id="modalImage" src="" alt="" />
-    <p id="modalDesc">Description</p>
-    <p><strong>Price:</strong> ₹<span id="modalPrice">0</span></p>
-    <p><strong>Category:</strong> <span id="modalCategory">Category</span></p>
-    <button class="btn" onclick="closeProductModal()">Close</button>
+  <!-- 📤 Upload Prescription Modal (FormSubmit) -->
+  <div class="modal" id="prescription-modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Upload Your Prescription</h2>
+      <form action="https://formsubmit.co/your@email.com" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <input type="file" name="file" accept="image/*,application/pdf" required />
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="box">
+        <input type="hidden" name="_autoresponse" value="Thanks for uploading your prescription! We’ll get back to you soon.">
+        <button type="submit" class="btn">Upload</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- 📤 Upload Prescription Modal -->
-<div class="modal" id="prescription-modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closePrescriptionModal()">&times;</span>
-    <h2>Upload Your Prescription</h2>
-    <form id="prescriptionForm">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <input type="file" id="prescriptionFile" accept="image/*,application/pdf" required />
-      <div id="previewBox" style="margin:10px 0;"></div>
-      <button type="submit" class="btn">Upload</button>
-    </form>
-  </div>
-</div>
-
-<!-- 🔘 Floating Buttons -->
-<button onclick="openPrescriptionModal()" aria-label="Upload Prescription"
-  style="position:fixed;bottom:90px;right:20px;background:#1976d2;color:white;border:none;border-radius:50%;width:52px;height:52px;font-size:20px;z-index:999;">
-  📤
-</button>
-
-<button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-  style="position:fixed;bottom:20px;right:20px;background:#009688;border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:22px;z-index:999;">
-  ↑
-</button>
-
-<a href="https://wa.me/917051899758?text=Hello%2C%20I%20need%20help%20buying%20medicines%20on%20MyPharmAlly."
-   target="_blank" title="Chat on WhatsApp"
-   style="position:fixed;bottom:160px;right:20px;width:54px;height:54px;border-radius:50%;background:#25d366;color:white;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-  <i class="fab fa-whatsapp"></i>
-</a>
-
-<!-- 🔚 Footer -->
-<footer class="site-footer">
-  <p>&copy; 2025 MyPharmAlly. All rights reserved.</p>
-</footer>
-
-<!-- 🔌 Scripts -->
-<script src="script.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script>
-  AOS.init({ duration: 800, once: true });
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-  }
-</script>
-<script>
-  const medicines = [
-    {
-      id: "calpol500",
-      name: "Calpol 500",
-      price: 22,
-      image: "images/calpol500.jpg",
-      category: "Fever",
-      tag: "OTC",
-      delivery: "1-2 days",
-      description: "Mild pain reliever and fever reducer for adults."
-    },
-    {
-      id: "pantop40",
-      name: "Pantop 40",
-      price: 36,
-      image: "images/pantop40.jpg",
-      category: "Stomach",
-      tag: "Prescription",
-      delivery: "1-3 days",
-      description: "Reduces acidity and heartburn symptoms effectively."
-    }
-    // Add more medicines...
-  ];
-
-  const grid = document.getElementById("medicineGrid");
-  medicines.forEach(med => {
-    const card = document.createElement("div");
-    card.className = "medicine-card";
-    card.setAttribute("data-category", med.category.toLowerCase());
-
-    card.innerHTML = `
-      <img src="${med.image}" alt="${med.name}" loading="lazy" />
-      <h3>${med.name}</h3>
-      <p class="price">₹${med.price}</p>
-      <span class="tag">${med.tag}</span>
-      <p class="delivery-label">🚚 ${med.delivery}</p>
-      <div class="quantity-control">
-        <label>Qty:</label>
-        <input type="number" min="1" value="1" id="qty-${med.id}" />
-      </div>
-      <button class="btn" onclick="addToCart('${med.id}')">Add to Cart</button>
-      <button class="btn secondary" onclick="openProductModal('${med.id}')">View Details</button>
-    `;
-
-    grid.appendChild(card);
-  });
-
-  function addToCart(id) {
-    const qtyInput = document.getElementById(`qty-${id}`);
-    const qty = parseInt(qtyInput.value);
-    if (!qty || qty <= 0) {
-      alert("Please enter a valid quantity.");
-      return;
-    }
+  <!-- 🔧 Scripts -->
+  <script>
+    const medicines = [
+      { id: 1, name: "Paracetamol", category: "OTC", price: 30, tag: "Popular", image: "https://via.placeholder.com/140x140?text=Paracetamol" },
+      { id: 2, name: "Metformin", category: "Diabetes", price: 55, tag: "Prescription", image: "https://via.placeholder.com/140x140?text=Metformin" },
+      { id: 3, name: "Cetrizine", category: "Allergy", price: 25, tag: "Relief", image: "https://via.placeholder.com/140x140?text=Cetrizine" },
+      { id: 4, name: "Vitamin D3", category: "Supplements", price: 90, tag: "Immunity", image: "https://via.placeholder.com/140x140?text=Vitamin+D3" },
+      { id: 5, name: "Baby Lotion", category: "Baby", price: 120, tag: "Gentle", image: "https://via.placeholder.com/140x140?text=Baby+Lotion" },
+    ];
 
     let cart = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
-    cart[id] = (cart[id] || 0) + qty;
-    localStorage.setItem("mypharm_cart", JSON.stringify(cart));
-    alert("✅ Added to cart!");
-  }
 
-  function openProductModal(id) {
-    const med = medicines.find(m => m.id === id);
-    if (!med) return;
+    function renderMedicines(filter = "All") {
+      const grid = document.getElementById("medicineList");
+      grid.innerHTML = "";
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
 
-    document.getElementById("modalTitle").innerText = med.name;
-    document.getElementById("modalImage").src = med.image;
-    document.getElementById("modalPrice").innerText = med.price;
-    document.getElementById("modalCategory").innerText = med.category;
-    document.getElementById("modalDesc").innerText = med.description;
-    document.getElementById("productDetailModal").classList.add("show");
-  }
+      const filtered = medicines.filter(med =>
+        (filter === "All" || med.category === filter) &&
+        med.name.toLowerCase().includes(searchValue)
+      );
 
-  function closeProductModal() {
-    document.getElementById("productDetailModal").classList.remove("show");
-  }
-
-  function filterMedicines() {
-    const search = document.getElementById("searchInput").value.toLowerCase();
-    const cards = document.querySelectorAll(".medicine-card");
-    let visible = 0;
-
-    cards.forEach(card => {
-      const name = card.querySelector("h3").textContent.toLowerCase();
-      if (name.includes(search)) {
-        card.style.display = "block";
-        visible++;
-      } else {
-        card.style.display = "none";
+      if (filtered.length === 0) {
+        grid.innerHTML = "<p>No medicines found. Try another search.</p>";
+        return;
       }
+
+      filtered.forEach(med => {
+        const card = document.createElement("div");
+        card.className = "medicine-card fade-in";
+        card.innerHTML = `
+          <img src="${med.image}" alt="${med.name}" />
+          <h3>${med.name}</h3>
+          <div class="tag">${med.tag}</div>
+          <div class="price">₹${med.price}</div>
+          <div class="delivery-label">Delivery: 1-3 days</div>
+          <div class="quantity-control">
+            <label for="qty-${med.id}">Qty:</label>
+            <input type="number" id="qty-${med.id}" min="1" value="1" />
+          </div>
+          <button class="btn" onclick="addToCart(${med.id})">Add to Cart</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function addToCart(id) {
+      const qtyInput = document.getElementById(`qty-${id}`);
+      const quantity = parseInt(qtyInput.value) || 1;
+      cart[id] = (cart[id] || 0) + quantity;
+      localStorage.setItem("mypharm_cart", JSON.stringify(cart));
+      updateCartCount();
+      showToast("Added to cart!");
+    }
+
+    function updateCartCount() {
+      const count = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+      document.getElementById("cartCount").textContent = count;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.remove("show");
+      document.getElementById("prescription-modal").classList.remove("show");
+    }
+
+    // Category filter
+    document.querySelectorAll(".category-buttons button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".category-buttons button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderMedicines(btn.dataset.category);
+      });
     });
 
-    document.getElementById("noResults").style.display = visible === 0 ? "block" : "none";
-  }
-
-  function filterCategory(cat) {
-    const buttons = document.querySelectorAll(".category-buttons button");
-    buttons.forEach(btn => btn.classList.remove("active"));
-    event.target.classList.add("active");
-
-    const cards = document.querySelectorAll(".medicine-card");
-    cards.forEach(card => {
-      if (cat === "all" || card.dataset.category === cat.toLowerCase()) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
+    // Search input
+    document.getElementById("searchInput").addEventListener("input", () => {
+      const activeCategory = document.querySelector(".category-buttons button.active").dataset.category;
+      renderMedicines(activeCategory);
     });
 
-    document.getElementById("noResults").style.display = "none";
-  }
-</script>
-<!-- 🔹 Hero Section -->
-<section class="hero-medicines" data-aos="fade-down">
-  <h2>Order Genuine Medicines Online</h2>
-  <p>From the valleys of Kashmir — for the people we love.</p>
-  <button class="btn" onclick="openPrescriptionModal()">📤 Upload Prescription</button>
-</section>
-
-<!-- 🔍 Search & Categories -->
-<section class="search-filter" data-aos="fade-up">
-  <input type="text" id="searchInput" placeholder="Search medicines..." aria-label="Search Medicines" oninput="filterMedicines()" />
-  <div class="category-buttons">
-    <button onclick="filterCategory('all')" class="active">All</button>
-    <button onclick="filterCategory('OTC')">OTC</button>
-    <button onclick="filterCategory('Fever')">Fever</button>
-    <button onclick="filterCategory('Pain')">Pain</button>
-    <button onclick="filterCategory('Skin')">Skin</button>
-    <button onclick="filterCategory('Supplements')">Supplements</button>
-    <button onclick="filterCategory('Diabetes')">Diabetes</button>
-  </div>
-</section>
-<!-- 🔹 Medicine Cards Grid -->
-<section class="medicine-grid" id="medicineGrid" data-aos="fade-up">
-  <!-- Medicine Card Example -->
-  <div class="medicine-card" data-category="OTC">
-    <img src="images/paracetamol.jpg" alt="Paracetamol Strip">
-    <h3>Paracetamol 500mg</h3>
-    <div class="price">₹25</div>
-    <div class="tag">Fever</div>
-    <div class="delivery-label">Delivery in 2-3 days</div>
-    <div class="quantity-control">
-      <label for="qty1">Qty:</label>
-      <input type="number" id="qty1" value="1" min="1" />
-    </div>
-    <button class="btn" onclick="addToCart('Paracetamol', 25, 'qty1')">Add to Cart</button>
-    <button class="btn secondary" onclick="openMedicineModal('Paracetamol 500mg', 'Used to reduce fever and relieve pain.', 'images/paracetamol.jpg')">View Details</button>
-  </div>
-
-  <!-- You can duplicate more cards like this with different data-category and details -->
-</section>
-<!-- 🔹 Prescription Upload Modal -->
-<div class="modal" id="prescription-modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closePrescriptionModal()">&times;</span>
+    // Initial render
+    renderMedicines();
+    updateCartCount();
+  </script>
+<!-- 📤 Enhanced Prescription Upload Section -->
+<section class="prescription-section" id="prescriptionSection">
+  <div class="container">
     <h3>Upload Your Prescription</h3>
-    <input type="text" placeholder="Full Name" required />
-    <input type="email" placeholder="Email Address" required />
-    <input type="file" accept="image/*,.pdf" />
-    <button class="btn" onclick="submitPrescription()">Submit</button>
+    <p>Our agent will call you shortly after you upload. We verify and confirm before delivery.</p>
+
+    <form id="prescriptionForm" action="https://formsubmit.co/warjibran@outlook.in" method="POST" enctype="multipart/form-data" onsubmit="showUploadProgress(event)">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <input type="file" name="file" id="fileInput" accept="image/*,application/pdf" required />
+      
+      <!-- Preview + Progress -->
+      <div id="previewBox" class="preview-box"></div>
+      <div id="progressBar" class="progress-bar"></div>
+
+      <!-- Hidden fields -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="box">
+      <input type="hidden" name="_autoresponse" value="Thanks! Your prescription has been received.">
+
+      <button type="submit" class="btn">Upload</button>
+    </form>
+
+    <p class="whatsapp-alt-text">
+      If you're facing any issues, you can also
+      <a href="https://wa.me/917051899758?text=Hi!%20I%20want%20to%20upload%20my%20prescription%20on%20MyPharmAlly." target="_blank" class="whatsapp-link">chat with us on WhatsApp</a>
+      and send your prescription directly.
+    </p>
   </div>
-</div>
+</section>
 <script>
-  function openPrescriptionModal() {
-    document.getElementById("prescription-modal").classList.add("show");
+function showUploadProgress(e) {
+  const bar = document.getElementById("progressBar");
+  bar.style.width = "0%";
+  setTimeout(() => bar.style.width = "100%", 100); // Simulate animation
+}
+
+document.getElementById("fileInput").addEventListener("change", function () {
+  const file = this.files[0];
+  const box = document.getElementById("previewBox");
+  box.innerHTML = "";
+
+  if (file) {
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        box.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      box.textContent = "📄 " + file.name;
+    }
   }
-  function closePrescriptionModal() {
-    document.getElementById("prescription-modal").classList.remove("show");
-  }
-  function submitPrescription() {
-    alert("📤 Prescription uploaded successfully!");
-    closePrescriptionModal();
-  }
+});
 </script>
-<!-- 🔹 Medicine Detail Modal -->
-<div class="modal" id="medicine-detail-modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeMedicineModal()">&times;</span>
-    <img id="medicineImg" src="" alt="Medicine Image" style="max-width: 100%; margin-bottom: 15px;">
-    <h3 id="medicineTitle">Medicine Name</h3>
-    <p id="medicineDesc">Medicine description will appear here.</p>
-  </div>
-</div>
+<!-- ✅ Toast Container -->
+<div id="toast" class="toast"></div>
+
 <script>
-  function openMedicineModal(title, description, imgSrc) {
-    document.getElementById("medicineTitle").textContent = title;
-    document.getElementById("medicineDesc").textContent = description;
-    document.getElementById("medicineImg").src = imgSrc;
-    document.getElementById("medicine-detail-modal").classList.add("show");
+  const form = document.getElementById("ajaxPrescriptionForm");
+  const toast = document.getElementById("toast");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const bar = document.getElementById("progressBar");
+    bar.style.width = "0%";
+    setTimeout(() => bar.style.width = "100%", 100);
+
+    const formData = new FormData(form);
+
+    try {
+      // 🔁 REPLACE with your actual server upload URL or service endpoint
+      const response = await fetch("https://formsubmit.co/ajax/your@email.com", {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        showToast("✅ Prescription uploaded successfully!");
+        form.reset();
+        document.getElementById("previewBox").innerHTML = "";
+        bar.style.width = "0%";
+      } else {
+        showToast("❌ Upload failed. Try again.", "error");
+      }
+    } catch (error) {
+      showToast("⚠️ Network error. Please try later.", "error");
+    }
+  });
+
+  function showToast(message, type = "success") {
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
   }
 
-  function closeMedicineModal() {
-    document.getElementById("medicine-detail-modal").classList.remove("show");
-  }
-</script>
-<!-- 🔹 WhatsApp Support Button -->
-<a href="https://wa.me/917051899758?text=Hello!%20I%20need%20help%20buying%20medicines%20on%20MyPharmAlly."
-   class="fab-button whatsapp" title="Chat with us on WhatsApp" target="_blank">
-  <i class="fab fa-whatsapp"></i>
-</a>
+  document.getElementById("fileInput").addEventListener("change", function () {
+    const file = this.files[0];
+    const box = document.getElementById("previewBox");
+    box.innerHTML = "";
 
-<!-- 🔹 View Cart Button -->
-<a href="cart.html" class="fab-button cart-icon" title="View Cart">
-  🛒 <span id="cartCount">0</span>
-</a>
-<script>
-  // Update Cart Count
-  const cartData = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
-  const itemCount = Object.values(cartData).reduce((a, b) => a + b, 0);
-  document.getElementById("cartCount").innerText = itemCount;
+    if (file) {
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          box.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        box.textContent = "📄 " + file.name;
+      }
+    }
+  });
 </script>
 
 </body>

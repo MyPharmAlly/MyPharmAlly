@@ -3,174 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shopping Cart | MyPharmAlly</title>
-  <meta name="description" content="Review your selected medicines and proceed to checkout on MyPharmAlly." />
+  <title>Your Cart | MyPharmAlly</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- 🔗 Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
+      authDomain: "mypharmally-b87c5.firebaseapp.com",
+      projectId: "mypharmally-b87c5",
+      storageBucket: "mypharmally-b87c5.firebasestorage.app",
+      messagingSenderId: "302027821610",
+      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953",
+      measurementId: "G-LNED3HFPCF"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
 </head>
 <body>
 
-  <nav aria-label="Primary navigation">
-  <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-  <ul class="navbar" id="navbar-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="buy-medicines.html">Buy Medicines</a></li>
+<!-- 🔹 Navbar -->
+<header class="navbar">
+  <h1>MyPharmAlly</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="buy-medicines.html">Buy Medicines</a>
+    <a href="#" class="active">Cart</a>
+  </nav>
+</header>
 
-    <!-- Visible only when logged out -->
-    <li id="nav-login"><a href="login.html">Login</a></li>
-    <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
+<!-- 🛒 Cart Section -->
+<section class="section-box" style="max-width: 900px;">
+  <h2 class="section-heading">Your Cart</h2>
+  <div id="cartContainer" class="fade-in"></div>
 
-    <!-- Visible only when logged in -->
-    <li class="profile-li" id="nav-profile" style="display:none;">
-      <a href="profile.html">
-        <img src="images/profile-icon.png" alt="My Profile" class="profile-icon" title="My Profile" />
-      </a>
-    </li>
-    <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
+  <div id="cartSummary" style="text-align:right; margin-top:20px;">
+    <h3>Total: ₹<span id="cartTotal">0</span></h3>
+    <button class="btn" onclick="checkout()">Place Order</button>
+  </div>
+</section>
 
-    <!-- Always visible -->
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-  </ul>
-</nav>
+<!-- ✅ Toast -->
+<div id="toast" class="toast">Item removed.</div>
 
+<!-- ✅ Floating Cart Icon -->
+<a href="cart.html" class="floating-cart">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="cart-count" id="cartCount">0</span>
+</a>
 
-  <main class="container" role="main">
-    <h1>Your Shopping Cart</h1>
-
-    <table id="cartTable" aria-describedby="cartSummary" style="width:100%; border-collapse: collapse;">
-      <thead>
-        <tr style="background-color: #00897b; color: white;">
-          <th scope="col" style="padding: 10px; text-align: left;">Medicine</th>
-          <th scope="col" style="padding: 10px; text-align: center;">Quantity</th>
-          <th scope="col" style="padding: 10px; text-align: center;">Price (₹)</th>
-          <th scope="col" style="padding: 10px; text-align: center;">Total (₹)</th>
-          <th scope="col" style="padding: 10px; text-align: center;">Remove</th>
-        </tr>
-      </thead>
-      <tbody id="cartItems">
-        <!-- Cart items injected by JS -->
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3" style="text-align: right; font-weight: bold; padding: 10px;">Grand Total:</td>
-          <td id="grandTotal" style="padding: 10px; font-weight: bold; text-align: center;">₹0</td>
-          <td></td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <p id="emptyMsg" style="text-align:center; font-style: italic; display:none;">Your cart is empty.</p>
-
-    <button id="checkoutBtn" class="btn" disabled style="margin-top: 20px;">Proceed to Checkout</button>
-  </main>
-
-  <footer role="contentinfo">
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cartItemsContainer = document.getElementById('cartItems');
-      const grandTotalEl = document.getElementById('grandTotal');
-      const checkoutBtn = document.getElementById('checkoutBtn');
-      const emptyMsg = document.getElementById('emptyMsg');
-
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-      function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }
-
-      function updateGrandTotal() {
-        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        grandTotalEl.textContent = `₹${total.toFixed(2)}`;
-        checkoutBtn.disabled = cart.length === 0;
-        emptyMsg.style.display = cart.length === 0 ? 'block' : 'none';
-      }
-
-      function renderCart() {
-        cartItemsContainer.innerHTML = '';
-        if (cart.length === 0) {
-          updateGrandTotal();
-          return;
-        }
-        cart.forEach((item, index) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td style="padding: 10px;">${item.name}</td>
-            <td style="padding: 10px; text-align: center;">
-              <button aria-label="Decrease quantity of ${item.name}" class="qty-btn" data-action="decrease" data-index="${index}">-</button>
-              <span aria-live="polite" aria-atomic="true" style="margin: 0 8px;">${item.quantity}</span>
-              <button aria-label="Increase quantity of ${item.name}" class="qty-btn" data-action="increase" data-index="${index}">+</button>
-            </td>
-            <td style="padding: 10px; text-align: center;">₹${item.price.toFixed(2)}</td>
-            <td style="padding: 10px; text-align: center;">₹${(item.price * item.quantity).toFixed(2)}</td>
-            <td style="padding: 10px; text-align: center;">
-              <button aria-label="Remove ${item.name} from cart" class="remove-btn" data-index="${index}">×</button>
-            </td>
-          `;
-          cartItemsContainer.appendChild(row);
-        });
-        updateGrandTotal();
-      }
-
-      cartItemsContainer.addEventListener('click', e => {
-        if (e.target.classList.contains('qty-btn')) {
-          const index = +e.target.dataset.index;
-          if (e.target.dataset.action === 'increase') {
-            cart[index].quantity++;
-          } else if (e.target.dataset.action === 'decrease' && cart[index].quantity > 1) {
-            cart[index].quantity--;
-          }
-          saveCart();
-          renderCart();
-        }
-
-        if (e.target.classList.contains('remove-btn')) {
-          const index = +e.target.dataset.index;
-          cart.splice(index, 1);
-          saveCart();
-          renderCart();
-        }
-      });
-
-      checkoutBtn.addEventListener('click', () => {
-        window.location.href = 'checkout.html';
-      });
-
-      renderCart();
-    });
-  </script>
+<!-- ✅ Cart Logic -->
 <script>
-  function updateNavbar() {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-    document.getElementById("nav-profile").style.display = loggedIn ? "flex" : "none";
-    document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
+const medicineData = {
+  1: { name: "Paracetamol", price: 30 },
+  2: { name: "Metformin", price: 55 },
+  3: { name: "Cetrizine", price: 25 },
+  4: { name: "Vitamin D3", price: 90 },
+  5: { name: "Baby Lotion", price: 120 }
+};
+
+let cart = JSON.parse(localStorage.getItem("mypharm_cart")) || {};
+
+function renderCart() {
+  const container = document.getElementById("cartContainer");
+  container.innerHTML = "";
+
+  if (Object.keys(cart).length === 0) {
+    container.innerHTML = "<p>Your cart is empty.</p>";
+    document.getElementById("cartSummary").style.display = "none";
+    return;
   }
 
-  function logoutUser(event) {
-    event.preventDefault();
-    localStorage.removeItem("loggedIn");
-    updateNavbar();
-    setTimeout(() => window.location.href = "index.html", 1000);
+  let total = 0;
+
+  Object.entries(cart).forEach(([id, qty]) => {
+    const item = medicineData[id];
+    const subtotal = item.price * qty;
+    total += subtotal;
+
+    const row = document.createElement("div");
+    row.className = "medicine-card";
+    row.style.marginBottom = "16px";
+    row.innerHTML = `
+      <h3>${item.name}</h3>
+      <p>Price: ₹${item.price} x ${qty} = ₹${subtotal}</p>
+      <div class="quantity-control">
+        <label>Qty:</label>
+        <input type="number" min="1" value="${qty}" onchange="updateQty(${id}, this.value)" />
+        <button class="btn secondary" onclick="removeItem(${id})" style="margin-left:10px;">Remove</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  document.getElementById("cartTotal").textContent = total;
+  document.getElementById("cartSummary").style.display = "block";
+}
+
+function updateQty(id, value) {
+  const qty = Math.max(1, parseInt(value));
+  cart[id] = qty;
+  localStorage.setItem("mypharm_cart", JSON.stringify(cart));
+  renderCart();
+  updateFloatingCount();
+}
+
+function removeItem(id) {
+  delete cart[id];
+  localStorage.setItem("mypharm_cart", JSON.stringify(cart));
+  renderCart();
+  updateFloatingCount();
+  showToast("Item removed.");
+}
+
+function updateFloatingCount() {
+  const totalCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+  const badge = document.getElementById("cartCount");
+  if (badge) badge.textContent = totalCount;
+}
+
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+// ✅ Firebase Checkout (Save to Firestore)
+async function checkout() {
+  const name = prompt("Enter your name:");
+  const email = prompt("Enter your email:");
+
+  if (!name || !email) {
+    alert("❌ Please provide both name and email.");
+    return;
   }
 
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('menu-toggle');
-  const navbarMenu = document.getElementById('navbar-menu');
-  if (menuToggle && navbarMenu) {
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
+  try {
+    await db.collection("orders").add({
+      name,
+      email,
+      cart,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
-  }
 
-  // Run on page load
-  updateNavbar();
+    alert("🎉 Order placed successfully!");
+    cart = {};
+    localStorage.setItem("mypharm_cart", JSON.stringify(cart));
+    renderCart();
+    updateFloatingCount();
+  } catch (err) {
+    console.error("Order failed:", err);
+    alert("❌ Something went wrong. Please try again.");
+  }
+}
+
+renderCart();
+updateFloatingCount();
 </script>
 
 </body>

@@ -1200,3 +1200,328 @@ button {
   font-size: 14px;
   margin-left: 4px;
 }
+/* Floating Cart Icon */
+.floating-cart {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  background: #009688;
+  color: white;
+  padding: 12px 16px;
+  font-size: 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+.floating-cart span {
+  background: white;
+  color: #009688;
+  font-weight: bold;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.sort-section {
+  text-align: center;
+  margin: 20px 0;
+}
+.sort-select {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background: #fff;
+  cursor: pointer;
+}
+/* ───────── Floating Action Buttons ───────── */
+.fab-button {
+  position: fixed;
+  right: 20px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background 0.3s;
+}
+.fab-button:hover {
+  transform: scale(1.1);
+}
+
+/* 🛒 Cart Icon */
+.cart-icon {
+  bottom: 150px;
+  background: #009688;
+}
+.cart-icon span {
+  background: white;
+  color: #009688;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+/* 🟢 WhatsApp Button */
+.whatsapp {
+  bottom: 90px;
+  background: #25d366;
+}
+
+/* ⬆️ Scroll to Top */
+.scroll-top {
+  bottom: 30px;
+  background: #1976d2;
+}
+/* ✅ Toast Notification Styles */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: #43a047;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 15px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast.error {
+  background: #e53935;
+}
+/* 🔐 Login/Signup Auth Popup Styling */
+.auth-popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.auth-popup-overlay.active {
+  display: flex;
+}
+
+.auth-popup {
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 360px;
+  position: relative;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.auth-popup h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #009688;
+}
+
+.auth-popup input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.auth-popup button {
+  background: #009688;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-popup button:hover {
+  background: #00796b;
+}
+
+.auth-toggle {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #333;
+}
+
+.auth-toggle a {
+  color: #009688;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+}
+.prescription-section {
+  background: #f0fdfa;
+  padding: 50px 20px;
+  text-align: center;
+  border-top: 2px solid #009688;
+}
+.prescription-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #004d40;
+}
+.prescription-section .subtext {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 30px;
+}
+.prescription-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.prescription-form input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+.prescription-form .btn {
+  background-color: #009688;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.prescription-form .btn:hover {
+  background-color: #00796b;
+}
+.whatsapp-support {
+  background: #e8f5e9;
+  padding: 30px 20px;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.whatsapp-support p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.whatsapp-link {
+  display: inline-block;
+  background-color: #25d366;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.whatsapp-link i {
+  margin-right: 8px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.whatsapp-link:hover {
+  background-color: #1da851;
+}
+.prescription-section {
+  background: #e0f7fa;
+  padding: 50px 20px;
+  text-align: center;
+}
+.prescription-section h3 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #00695c;
+}
+.prescription-section p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.prescription-section form input[type="text"],
+.prescription-section form input[type="email"],
+.prescription-section form input[type="file"] {
+  width: 90%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px auto;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.prescription-section .btn {
+  background: #009688;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.preview-box {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+.preview-box img {
+  max-width: 200px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+.progress-bar {
+  height: 6px;
+  width: 0%;
+  background: #009688;
+  transition: width 1.5s ease;
+  margin: 12px auto;
+  max-width: 300px;
+  border-radius: 10px;
+}
+.whatsapp-alt-text {
+  margin-top: 25px;
+  font-size: 15px;
+}
+.whatsapp-link {
+  color: #25d366;
+  font-weight: bold;
+  text-decoration: none;
+}
+.whatsapp-link:hover {
+  text-decoration: underline;
+}
+
