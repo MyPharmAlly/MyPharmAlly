@@ -1524,4 +1524,44 @@ button {
 .whatsapp-link:hover {
   text-decoration: underline;
 }
+.cart-section, .checkout-section, .thank-you {
+  padding: 40px 20px;
+  text-align: center;
+}
+.cart-item {
+  background: #f3f3f3;
+  padding: 15px;
+  margin: 10px auto;
+  border-radius: 8px;
+  max-width: 500px;
+}
+.cart-total {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+}
+.checkout-section input {
+  padding: 10px;
+  margin: 10px 0;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.checkout-section .btn {
+  background: #009688;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+.thank-you h2 {
+  font-size: 28px;
+  color: #009688;
+}
+.thank-you p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
 

@@ -7,69 +7,30 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav> ... (same navbar as other pages) ... </nav>
+  <header class="navbar">
+    <h1>Checkout</h1>
+  </header>
 
-  <main class="container">
-    <h1>Your Cart</h1>
-    <div id="cartItems"></div>
-    <button class="btn" id="placeOrderBtn">Place Order</button>
-  </main>
+  <section class="checkout-section">
+    <form action="https://formsubmit.co/YOUR_EMAIL" method="POST" onsubmit="handlePayment(event)">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <input type="text" name="address" placeholder="Delivery Address" required />
 
-  <footer><p>© 2025 MyPharmAlly. All rights reserved.</p></footer>
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="thank-you.html">
 
-  <!-- Firebase Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+      <button type="submit" class="btn">Pay Now (Demo)</button>
+    </form>
+  </section>
+
+  <!-- Razorpay Demo (not functional without real key) -->
   <script>
-    const firebaseConfig = { ... }; // ← Use your config here
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    auth.onAuthStateChanged(user => {
-      if (!user) return window.location.href = "login.html";
-      loadCart(user.uid);
-      document.getElementById("placeOrderBtn").addEventListener("click", () => placeOrder(user.uid));
-    });
-
-    async function loadCart(uid) {
-      const cartRef = db.collection("carts").doc(uid).collection("items");
-      const snapshot = await cartRef.get();
-      const cartDiv = document.getElementById("cartItems");
-      if (snapshot.empty) {
-        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
-        return;
-      }
-
-      snapshot.forEach(doc => {
-        const item = doc.data();
-        cartDiv.innerHTML += `<p>${item.name} x ${item.quantity}</p>`;
-      });
-    }
-
-    async function placeOrder(uid) {
-      const cartRef = db.collection("carts").doc(uid).collection("items");
-      const snapshot = await cartRef.get();
-
-      const items = [];
-      snapshot.forEach(doc => items.push(doc.data()));
-
-      if (!items.length) return alert("Cart is empty.");
-
-      await db.collection("orders").add({
-        uid,
-        items,
-        createdAt: new Date()
-      });
-
-      // Clear cart
-      const batch = db.batch();
-      snapshot.forEach(doc => batch.delete(doc.ref));
-      await batch.commit();
-
-      alert("Order placed successfully!");
-      window.location.href = "index.html";
+    function handlePayment(e) {
+      e.preventDefault();
+      alert("✅ Payment simulated. Redirecting...");
+      window.location.href = "thank-you.html";
     }
   </script>
 </body>
