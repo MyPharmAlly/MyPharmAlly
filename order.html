@@ -14,17 +14,20 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #f7fdfc;
       color: #333;
       line-height: 1.6;
     }
+
     header {
       background-color: #009688;
       color: white;
       padding: 1rem 0;
     }
+
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -33,66 +36,111 @@
       margin: auto;
       padding: 0 1rem;
     }
+
     .navbar .logo {
       font-size: 1.5rem;
       font-weight: 600;
     }
+
     .navbar nav ul {
       list-style: none;
       display: flex;
       gap: 1.5rem;
     }
+
     .navbar nav ul li a {
       color: white;
       font-weight: 500;
       text-decoration: none;
     }
+
     .hero {
       text-align: center;
       padding: 4rem 1rem;
       background: linear-gradient(to right, #009688aa, #009688cc);
       color: white;
     }
+
     .hero h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
+
     .section {
       max-width: 1000px;
       margin: auto;
       padding: 2rem 1rem;
     }
+
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1.5rem;
       margin-top: 2rem;
     }
+
     .feature-box {
       background: white;
       padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-    .steps {
-      margin-top: 3rem;
-    }
+
     .steps h2 {
       text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .order-steps-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 150, 136, 0.15);
+    }
+
+    .order-steps-box .step {
+      flex: 1 1 250px;
+      background: #f1fefc;
+      border-left: 5px solid #009688;
+      padding: 1.5rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .order-steps-box .step:hover {
+      background: #e0f7f5;
+      transform: translateY(-5px);
+    }
+
+    .step-icon {
+      font-size: 2.5rem;
+      color: #009688;
       margin-bottom: 1rem;
     }
-    .steps ol {
-      padding-left: 1.2rem;
+
+    .step h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #009688;
     }
-    .steps ol li {
-      margin-bottom: 0.8rem;
+
+    .step p {
+      font-size: 0.95rem;
+      color: #444;
     }
+
     .whatsapp-btn {
       display: block;
       text-align: center;
       margin: 3rem auto;
     }
+
     .whatsapp-btn a {
       display: inline-block;
       background-color: #25d366;
@@ -103,15 +151,20 @@
       border-radius: 5px;
       text-decoration: none;
     }
+
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2rem;
       }
-    }
-html {
-  overflow-y: scroll;
-}
 
+      .order-steps-box {
+        flex-direction: column;
+      }
+    }
+
+    html {
+      overflow-y: scroll;
+    }
   </style>
 </head>
 
@@ -150,13 +203,25 @@ html {
     </div>
   </section>
 
-  <section class="section steps">
+  <section class="section steps" data-aos="fade-up">
     <h2>How to Order</h2>
-    <ol>
-      <li>Click the WhatsApp button below</li>
-      <li>Send us your medicine list or image</li>
-      <li>Our team will confirm and deliver</li>
-    </ol>
+    <div class="order-steps-box">
+      <div class="step">
+        <div class="step-icon"><i class="fab fa-whatsapp"></i></div>
+        <h4>Step 1</h4>
+        <p>Click the WhatsApp button below to begin your order.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon"><i class="fas fa-file-medical"></i></div>
+        <h4>Step 2</h4>
+        <p>Send us your medicine list or a photo of your prescription.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon"><i class="fas fa-truck"></i></div>
+        <h4>Step 3</h4>
+        <p>We confirm the order and deliver your medicines quickly.</p>
+      </div>
+    </div>
   </section>
 
   <div class="whatsapp-btn">
