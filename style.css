@@ -4,19 +4,16 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: 'Poppins', sans-serif;
   background: #f9f9f9;
   color: #222;
   line-height: 1.6;
 }
-
 a {
   text-decoration: none;
   color: inherit;
 }
-
 ul {
   list-style: none;
 }
@@ -26,12 +23,11 @@ ul {
   background: #009688;
   color: white;
   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
-
 .navbar {
   max-width: 1200px;
   margin: auto;
@@ -40,23 +36,19 @@ ul {
   justify-content: space-between;
   align-items: center;
 }
-
 .navbar .logo {
   font-size: 1.5rem;
   font-weight: 600;
 }
-
 nav ul {
   display: flex;
   gap: 1.5rem;
 }
-
 nav a {
   color: white;
   font-weight: 500;
   transition: color 0.3s ease;
 }
-
 nav a:hover {
   color: #d0f5ef;
 }
@@ -67,21 +59,17 @@ nav a:hover {
   color: white;
   padding: 6rem 1rem;
   text-align: center;
-  position: relative;
 }
-
 .hero h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   animation: fadeInDown 1s ease-in-out;
 }
-
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   animation: fadeInUp 1s ease-in-out;
 }
-
 .cta-button {
   background: white;
   color: #009688;
@@ -91,7 +79,6 @@ nav a:hover {
   transition: all 0.3s ease;
   animation: fadeInUp 1.2s ease-in-out;
 }
-
 .cta-button:hover {
   background: #00796b;
   color: white;
@@ -103,13 +90,11 @@ nav a:hover {
   background: #fff;
   text-align: center;
 }
-
 .services h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
   color: #009688;
 }
-
 .service-grid {
   display: grid;
   gap: 2rem;
@@ -117,25 +102,21 @@ nav a:hover {
   max-width: 1100px;
   margin: auto;
 }
-
 .service-card {
   background: #f1fefc;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
 }
-
 .service-card:hover {
   transform: translateY(-5px);
 }
-
 .service-card i {
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: #00796b;
 }
-
 .service-card h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
@@ -143,52 +124,59 @@ nav a:hover {
 
 /* ───────── Testimonials Section ───────── */
 .testimonials {
-  background: #e0f2f1;
-  padding: 4rem 1rem;
+  background: #f0fdfa;
+  padding: 4rem 2rem;
   text-align: center;
+  overflow: hidden;
 }
-
 .testimonials h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 2rem;
-  color: #00796b;
+  color: #009688;
+  font-weight: 700;
 }
-
-.testimonial-carousel {
+.testimonial-slider {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+.testimonial-track {
   display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 2rem;
-  padding: 1rem;
-  max-width: 1200px;
-  margin: auto;
+  width: max-content;
+  animation: scrollTestimonials 40s linear infinite;
 }
-
-.testimonial-carousel::-webkit-scrollbar {
-  display: none;
+.testimonial-slider:hover .testimonial-track {
+  animation-play-state: paused;
 }
-
 .testimonial-card {
   flex: 0 0 300px;
-  background: white;
+  margin: 0 1rem;
   padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
 }
-
 .testimonial-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
 }
-
 .testimonial-card p {
   font-style: italic;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #444;
 }
-
 .testimonial-card h4 {
-  color: #009688;
+  margin-top: 1rem;
   font-weight: 600;
+  color: #009688;
+}
+@keyframes scrollTestimonials {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ───────── Footer ───────── */
@@ -198,7 +186,6 @@ nav a:hover {
   text-align: center;
   padding: 1.5rem 1rem;
 }
-
 .footer-content p {
   margin: 0;
   font-size: 0.95rem;
@@ -215,7 +202,6 @@ nav a:hover {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -232,139 +218,13 @@ nav a:hover {
   .hero h1 {
     font-size: 2rem;
   }
-
   .navbar ul {
     gap: 1rem;
   }
-
   .testimonial-card {
     flex: 0 0 85%;
   }
-
   .service-grid {
     grid-template-columns: 1fr;
   }
 }
-.testimonials {
-  background: #f0fdfa;
-  padding: 4rem 2rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.testimonials h2 {
-  font-size: 2.2rem;
-  margin-bottom: 2rem;
-  color: #009688;
-  font-weight: 700;
-}
-
-.testimonial-slider {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
-}
-
-.testimonial-track {
-  display: flex;
-  width: calc(300px * 10); /* 10 testimonials */
-  animation: scrollTestimonials 40s linear infinite;
-}
-
-.testimonial-slider:hover .testimonial-track {
-  animation-play-state: paused;
-}
-
-@keyframes scrollTestimonials {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.testimonial-card {
-  flex: 0 0 300px;
-  margin: 0 1rem;
-  padding: 1.5rem;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease;
-}
-
-.testimonial-card:hover {
-  transform: translateY(-5px);
-}
-
-.testimonial-card p {
-  font-style: italic;
-  font-size: 1rem;
-  color: #444;
-}
-
-.testimonial-card h4 {
-  margin-top: 1rem;
-  font-weight: 600;
-  color: #009688;
-}
-.upload-section {
-  padding: 60px 20px;
-  background-color: #e0f2f1;
-  text-align: center;
-  border-top: 3px solid #009688;
-}
-
-.upload-container {
-  max-width: 600px;
-  margin: 0 auto;
-  background: white;
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.upload-container h2 {
-  font-size: 28px;
-  margin-bottom: 10px;
-  color: #009688;
-}
-
-.upload-container p {
-  font-size: 16px;
-  margin-bottom: 20px;
-  color: #444;
-}
-
-#prescriptionFile {
-  padding: 10px;
-  width: 100%;
-  max-width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-#uploadForm button {
-  padding: 12px 25px;
-  background-color: #009688;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#uploadForm button:hover {
-  background-color: #00796b;
-}
-
-#uploadStatus {
-  margin-top: 15px;
-  font-size: 14px;
-  color: green;
-}
-

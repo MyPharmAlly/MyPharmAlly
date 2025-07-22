@@ -7,84 +7,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .testimonials {
-      background: #f0fdfa;
-      padding: 4rem 2rem;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .testimonials h2 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: #009688;
-    }
-
-    .testimonial-carousel-wrapper {
-      overflow: hidden;
-      position: relative;
-    }
-
-    .testimonial-carousel {
-      display: flex;
-      width: max-content;
-      animation: scroll 30s linear infinite;
-    }
-
-    .testimonial-carousel:hover {
-      animation-play-state: paused;
-    }
-
-    @keyframes scroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    .testimonial-card {
-      flex: 0 0 auto;
-      width: 300px;
-      margin-right: 1.5rem;
-      padding: 1rem;
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .hero {
-      background: linear-gradient(rgba(0, 150, 136, 0.8), rgba(0, 150, 136, 0.8)), url('hero-banner.jpg') center/cover no-repeat;
-      padding: 5rem 2rem;
-      text-align: center;
-      color: #fff;
-    }
-
-    .hero .cta-button {
-      background-color: #fff;
-      color: #009688;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 30px;
-      margin-top: 1rem;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    .hero .cta-button:hover {
-      background-color: #e0f2f1;
-    }
-  </style>
 </head>
 <body>
+
+  <!-- Header -->
   <header class="site-header">
     <div class="navbar">
       <div class="logo">Noor Fatima Healthcare Group</div>
@@ -99,6 +25,7 @@
     </div>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-text">
       <h1>Your Health, Our Priority</h1>
@@ -107,6 +34,7 @@
     </div>
   </section>
 
+  <!-- Services Section -->
   <section class="services">
     <h2>Our Services</h2>
     <div class="service-grid">
@@ -123,61 +51,66 @@
     </div>
   </section>
 
+  <!-- Testimonials Section -->
   <section class="testimonials">
-  <h2>What Our Customers Say</h2>
-  <div class="testimonial-slider">
-    <div class="testimonial-track">
-      <div class="testimonial-card">
-        <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
-        <h4>– Aisha Khan</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
-        <h4>– Danish Bhat</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“Highly professional and trustworthy team. Always helpful!”</p>
-        <h4>– Dr. Sana Mir</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“Saved my time and effort. Reliable delivery every time.”</p>
-        <h4>– Ruqaya</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“I recommend Noor Fatima to all my friends and family.”</p>
-        <h4>– Parveen Akhtar</h4>
-      </div>
+    <h2>What Our Customers Say</h2>
+    <div class="testimonial-slider">
+      <div class="testimonial-track">
+        <div class="testimonial-card">
+          <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
+          <h4>– Aisha Khan</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
+          <h4>– Danish Bhat</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“Highly professional and trustworthy team. Always helpful!”</p>
+          <h4>– Dr. Sana Mir</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“Saved my time and effort. Reliable delivery every time.”</p>
+          <h4>– Ruqaya</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“I recommend Noor Fatima to all my friends and family.”</p>
+          <h4>– Parveen Akhtar</h4>
+        </div>
 
-      <!-- Duplicate for seamless infinite loop -->
-      <div class="testimonial-card">
-        <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
-        <h4>– Aisha Khan</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
-        <h4>– Danish Bhat</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“Highly professional and trustworthy team. Always helpful!”</p>
-        <h4>– Dr. Sana Mir</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“Saved my time and effort. Reliable delivery every time.”</p>
-        <h4>– Ruqaya</h4>
-      </div>
-      <div class="testimonial-card">
-        <p>“I recommend Noor Fatima to all my friends and family.”</p>
-        <h4>– Parveen Akhtar</h4>
+        <!-- Duplicate cards for seamless infinite scroll -->
+        <div class="testimonial-card">
+          <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
+          <h4>– Aisha Khan</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
+          <h4>– Danish Bhat</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“Highly professional and trustworthy team. Always helpful!”</p>
+          <h4>– Dr. Sana Mir</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“Saved my time and effort. Reliable delivery every time.”</p>
+          <h4>– Ruqaya</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“I recommend Noor Fatima to all my friends and family.”</p>
+          <h4>– Parveen Akhtar</h4>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
       <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
