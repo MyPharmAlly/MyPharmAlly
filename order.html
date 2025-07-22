@@ -232,6 +232,19 @@
   <script>
     AOS.init();
   </script>
+<section class="upload-section">
+  <div class="upload-container">
+    <h2>Upload Your Prescription</h2>
+    <p>Send us your prescription and we’ll deliver your medicines within hours.</p>
+    
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="prescriptionFile" name="prescription" accept=".jpg,.jpeg,.png,.pdf" required />
+      <button type="submit">Upload Now</button>
+      <p id="uploadStatus"></p>
+    </form>
+  </div>
+</section>
+
 </body>
 
 </html>

@@ -310,3 +310,61 @@ nav a:hover {
   font-weight: 600;
   color: #009688;
 }
+.upload-section {
+  padding: 60px 20px;
+  background-color: #e0f2f1;
+  text-align: center;
+  border-top: 3px solid #009688;
+}
+
+.upload-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.upload-container h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #009688;
+}
+
+.upload-container p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+#prescriptionFile {
+  padding: 10px;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+#uploadForm button {
+  padding: 12px 25px;
+  background-color: #009688;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#uploadForm button:hover {
+  background-color: #00796b;
+}
+
+#uploadStatus {
+  margin-top: 15px;
+  font-size: 14px;
+  color: green;
+}
+
