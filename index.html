@@ -1,301 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Noor Fatima Healthcare Group</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f0fefb;
-      color: #333;
-    }
-
-    header {
-      background-color: #00796b;
-      padding: 20px 40px;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: white;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 30px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-    }
-
-    .hero {
-      background: linear-gradient(rgba(0, 150, 136, 0.8), rgba(0, 150, 136, 0.8)),
-        url('https://images.unsplash.com/photo-1588776814546-ec7ee8325c0e') center/cover no-repeat;
-      color: white;
-      text-align: center;
-      padding: 100px 20px;
-    }
-
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2rem;
-      margin: 60px 0 30px;
-      color: #00796b;
-      font-weight: 700;
-    }
-
-    .services {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      padding: 20px 40px;
-    }
-
-    .service-box {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      flex: 1 1 280px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .service-box:hover {
-      transform: translateY(-5px);
-    }
-
-    .service-box h3 {
-      color: #00796b;
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
     .testimonials {
-      background: #e0f2f1;
-      padding: 50px 20px;
+      background: #f0fdfa;
+      padding: 4rem 2rem;
+      text-align: center;
       overflow: hidden;
     }
 
-    .testimonial-container {
+    .testimonials h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #009688;
+    }
+
+    .testimonial-carousel-wrapper {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .testimonial-carousel {
       display: flex;
-      gap: 20px;
-      animation: scroll 60s linear infinite;
+      width: max-content;
+      animation: scroll 30s linear infinite;
     }
 
-    .testimonial {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      flex: 0 0 300px;
-      transition: transform 0.3s ease;
-    }
-
-    .testimonial:hover {
+    .testimonial-carousel:hover {
       animation-play-state: paused;
-    }
-
-    .testimonial p {
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-
-    .testimonial .name {
-      font-weight: 600;
-      color: #00796b;
     }
 
     @keyframes scroll {
       0% {
         transform: translateX(0);
       }
-
       100% {
-        transform: translateX(-3000px);
+        transform: translateX(-50%);
       }
     }
 
-    .newsletter {
-      background: #004d40;
-      color: white;
-      padding: 40px 20px;
+    .testimonial-card {
+      flex: 0 0 auto;
+      width: 300px;
+      margin-right: 1.5rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 150, 136, 0.8), rgba(0, 150, 136, 0.8)), url('hero-banner.jpg') center/cover no-repeat;
+      padding: 5rem 2rem;
       text-align: center;
+      color: #fff;
     }
 
-    .newsletter h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-
-    .newsletter form {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .newsletter input[type="email"] {
-      padding: 10px 15px;
+    .hero .cta-button {
+      background-color: #fff;
+      color: #009688;
+      padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 4px;
-      width: 250px;
-      font-size: 1rem;
+      border-radius: 30px;
+      margin-top: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
     }
 
-    .newsletter button {
-      padding: 10px 20px;
-      background: #00bfa5;
-      border: none;
-      border-radius: 4px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    footer {
-      background: #00251a;
-      color: #ccc;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
+    .hero .cta-button:hover {
+      background-color: #e0f2f1;
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="logo">Noor Fatima Healthcare Group</div>
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="order.html">Order Medicines</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="about.html">About Us</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="navbar">
+      <div class="logo">Noor Fatima Healthcare Group</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="order.html">Buy Medicines</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <section class="hero" id="home">
-    <h1>Affordable Medicines Delivered to Your Doorstep</h1>
-    <p>Same-day delivery across most locations. Trusted by thousands.</p>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Your Health, Our Priority</h1>
+      <p>Trusted medicine delivery from Noor Fatima Healthcare Group — fast, reliable, and caring service every day.</p>
+      <a href="order.html" class="cta-button">Order on WhatsApp</a>
+    </div>
   </section>
 
-  <section>
-    <h2 class="section-title">Our Services</h2>
-    <div class="services">
-      <div class="service-box" data-aos="fade-up">
-        <h3>Order via WhatsApp</h3>
-        <p>Just send us your prescription or medicine name to place your order instantly.</p>
+  <section class="services">
+    <h2>Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <i class="fas fa-capsules"></i>
+        <h3>Buy Medicines</h3>
+        <p>Order medicines directly via WhatsApp. We deliver across most locations within a few hours.</p>
       </div>
-      <div class="service-box" data-aos="fade-up" data-aos-delay="100">
-        <h3>Same Day Delivery</h3>
-        <p>We ensure your order reaches your doorstep quickly and safely, usually within hours.</p>
-      </div>
-      <div class="service-box" data-aos="fade-up" data-aos-delay="200">
-        <h3>24/7 Customer Support</h3>
-        <p>Have a question? Our team is available anytime to assist you with your order.</p>
+      <div class="service-card">
+        <i class="fas fa-user-nurse"></i>
+        <h3>Healthcare Guidance</h3>
+        <p>Need help understanding your prescriptions? Our team is here to guide you.</p>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2 class="section-title">What Our Customers Say</h2>
-    <div class="testimonials">
-      <div class="testimonial-container">
-        <div class="testimonial">
-          <p>Excellent service and fast delivery!</p>
-          <div class="name">- Aamir S.</div>
-        </div>
-        <div class="testimonial">
-          <p>Reliable and trustworthy, I order monthly.</p>
-          <div class="name">- Shaista K.</div>
-        </div>
-        <div class="testimonial">
-          <p>Prices are good and support is helpful.</p>
-          <div class="name">- Irfan R.</div>
-        </div>
-        <div class="testimonial">
-          <p>Always get my medicines on time.</p>
-          <div class="name">- Neha M.</div>
-        </div>
-        <div class="testimonial">
-          <p>Very smooth ordering experience.</p>
-          <div class="name">- Bilal H.</div>
-        </div>
-        <div class="testimonial">
-          <p>Friendly staff and excellent service.</p>
-          <div class="name">- Sameena Q.</div>
-        </div>
-        <div class="testimonial">
-          <p>Customer care is quick to respond!</p>
-          <div class="name">- Yasir A.</div>
-        </div>
-        <div class="testimonial">
-          <p>I recommend them to all my friends.</p>
-          <div class="name">- Hiba R.</div>
-        </div>
-        <div class="testimonial">
-          <p>Very professional and well-organized.</p>
-          <div class="name">- Zubair N.</div>
-        </div>
-        <div class="testimonial">
-          <p>Best pharmacy service in the region.</p>
-          <div class="name">- Nida F.</div>
-        </div>
+  <section class="testimonials">
+  <h2>What Our Customers Say</h2>
+  <div class="testimonial-slider">
+    <div class="testimonial-track">
+      <div class="testimonial-card">
+        <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
+        <h4>– Aisha Khan</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
+        <h4>– Rahul Mehta</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Highly professional and trustworthy team. Always helpful!”</p>
+        <h4>– Dr. Sana Mir</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Saved my time and effort. Reliable delivery every time.”</p>
+        <h4>– Imran Wani</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“I recommend Noor Fatima Group to all my friends and family.”</p>
+        <h4>– Parveen Akhtar</h4>
+      </div>
+
+      <!-- Duplicate for seamless infinite loop -->
+      <div class="testimonial-card">
+        <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
+        <h4>– Aisha Khan</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
+        <h4>– Rahul Mehta</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Highly professional and trustworthy team. Always helpful!”</p>
+        <h4>– Dr. Sana Mir</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“Saved my time and effort. Reliable delivery every time.”</p>
+        <h4>– Imran Wani</h4>
+      </div>
+      <div class="testimonial-card">
+        <p>“I recommend Noor Fatima Group to all my friends and family.”</p>
+        <h4>– Parveen Akhtar</h4>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="newsletter">
-    <h2>Subscribe to Our Newsletter</h2>
-    <form>
-      <input type="email" placeholder="Enter your email" required>
-      <button type="submit">Subscribe</button>
-    </form>
-  </section>
 
-  <footer>
-    &copy; 2025 Noor Fatima Healthcare Group. All rights reserved.
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
+    </div>
   </footer>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
 </body>
-
 </html>
