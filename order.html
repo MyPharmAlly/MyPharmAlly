@@ -244,6 +244,38 @@
     </form>
   </div>
 </section>
+<script>
+  const uploadForm = document.getElementById('uploadForm');
+  const statusText = document.getElementById('uploadStatus');
+
+  uploadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fileInput = document.getElementById('prescriptionFile');
+    const formData = new FormData();
+    formData.append('prescription', fileInput.files[0]);
+
+    statusText.textContent = 'Uploading...';
+
+    try {
+      const response = await fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        statusText.textContent = '✅ Prescription uploaded successfully!';
+        fileInput.value = ''; // Clear the input
+      } else {
+        statusText.textContent = '❌ Upload failed. Please try again.';
+      }
+    } catch (err) {
+      console.error(err);
+      statusText.textContent = '⚠️ Error connecting to server.';
+    }
+  });
+</script>
 
 </body>
 
