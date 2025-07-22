@@ -1,122 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About Us | MyPharmAlly</title>
-  <meta name="description" content="Learn about the journey and mission behind MyPharmAlly – a pharmacy that cares." />
-  <meta name="keywords" content="MyPharmAlly, About, Founders, Noor Fatima Healthcare Group" />
-  <meta name="author" content="MyPharmAlly" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Noor Fatima Healthcare Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fefc;
+      color: #333;
+    }
+    header {
+      background-color: #009688;
+      color: white;
+      padding: 1rem 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 1rem;
+    }
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .navbar nav ul li a {
+      color: white;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .about-section {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .about-section h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #009688;
+    }
+    .about-content {
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+    .values-section {
+      margin-top: 2rem;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .value-box {
+      background-color: #f0faf8;
+      border-left: 5px solid #009688;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .value-box h4 {
+      margin-bottom: 0.5rem;
+      color: #00796b;
+    }
+  </style>
 </head>
+
 <body>
+  <header>
+    <div class="navbar">
+      <div class="logo">Noor Fatima Healthcare Group</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="order.html">Order Medicines</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-  <nav aria-label="Primary navigation">
-    <button id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
-    <ul class="navbar" id="navbar-menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="buy-medicines.html">Buy Medicines</a></li>
-      <li id="nav-login"><a href="login.html">Login</a></li>
-      <li id="nav-signup"><a href="signup.html">Sign Up</a></li>
-      <li id="nav-profile" style="display:none;"><a href="profile.html">My Profile</a></li>
-      <li id="nav-logout" style="display:none;"><a href="#" onclick="logoutUser(event)">Log Out</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li><a href="about.html" aria-current="page">About Us</a></li>
-    </ul>
-  </nav>
+  <section class="about-section">
+    <h2>About Us</h2>
+    <div class="about-content">
+      <p>Founded in the heart of Kashmir, Noor Fatima Healthcare Group is committed to making healthcare accessible and convenient for all. We specialize in timely delivery of essential medications and personalized healthcare solutions through our digital-first approach.</p>
+      <p>We believe in compassion-driven service, professionalism, and building lasting relationships with our customers. With a focus on technology and empathy, we ensure that medicine ordering is seamless and safe for individuals and families.</p>
+    </div>
 
-  <main class="container">
-    <h1>About MyPharmAlly</h1>
-
-    <section>
-      <h2>Our Story</h2>
-      <p>
-        <strong>MyPharmAlly</strong> was founded by <strong>Jibran</strong> and co-founded by <strong>Kamran Nazeer</strong>, with a vision to make healthcare access simpler and more dependable for everyone. It is a product of <strong>Noor Fatima Healthcare Group</strong>, an initiative that started as a small local pharmacy.
-      </p>
-      <p>
-        The foundation of this journey was laid by <strong>Dr. Qaisar War</strong>, whose dedication and commitment to helping people inspired everything that followed. What began as one pharmacy became a larger mission to serve the community through trust and care.
-      </p>
-    </section>
-
-    <section>
-      <h2>Our Aim</h2>
-      <p>
-        At MyPharmAlly, our aim is simple — to offer a smooth, honest, and accessible experience for anyone who needs medicines or health support. Whether it’s uploading a prescription or talking to someone for guidance, we want it to feel effortless and human.
-      </p>
-      <p>
-        We are not just building a platform; we are building relationships — where people feel safe, supported, and respected.
-      </p>
-    </section>
-
-    <section>
-      <h2>Our Values</h2>
-      <ul>
-        <li>✔️ Transparency in pricing and service</li>
-        <li>✔️ Respect for every customer and prescription</li>
-        <li>✔️ Fast, safe, and reliable medicine delivery</li>
-        <li>✔️ Compassionate customer support</li>
-        <li>✔️ Locally rooted, digitally connected</li>
-      </ul>
-    </section>
-  </main>
-
-  <footer role="contentinfo">
-    <p>© 2025 MyPharmAlly. All rights reserved.</p>
-  </footer>
-
-  <div id="toast"></div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBpTbJB6FuxDjrXKmWEzl1WZR9MPvchTbc",
-      authDomain: "mypharmally-b87c5.firebaseapp.com",
-      projectId: "mypharmally-b87c5",
-      storageBucket: "mypharmally-b87c5.appspot.com",
-      messagingSenderId: "302027821610",
-      appId: "1:302027821610:web:9f2e5eb74d7b5d79e0e953"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function updateNavbar() {
-      const loggedIn = localStorage.getItem("loggedIn") === "true";
-      document.getElementById("nav-login").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("nav-signup").style.display = loggedIn ? "none" : "inline-block";
-      document.getElementById("nav-profile").style.display = loggedIn ? "inline-block" : "none";
-      document.getElementById("nav-logout").style.display = loggedIn ? "inline-block" : "none";
-    }
-
-    function logoutUser(event) {
-      event.preventDefault();
-      auth.signOut().then(() => {
-        localStorage.removeItem("loggedIn");
-        updateNavbar();
-        showToast("Logged out.");
-        setTimeout(() => window.location.href = "index.html", 1200);
-      });
-    }
-
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbarMenu = document.getElementById('navbar-menu');
-    menuToggle.addEventListener('click', () => {
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', !expanded);
-      navbarMenu.classList.toggle('show');
-    });
-
-    updateNavbar();
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
-    }
-  </script>
+    <div class="values-section">
+      <h3 style="color:#009688; text-align:center; margin-top:2rem;">Our Core Values</h3>
+      <div class="values-grid">
+        <div class="value-box">
+          <h4>Compassion</h4>
+          <p>We genuinely care about the wellbeing of every customer we serve.</p>
+        </div>
+        <div class="value-box">
+          <h4>Trust</h4>
+          <p>We prioritize transparency and reliability in everything we do.</p>
+        </div>
+        <div class="value-box">
+          <h4>Efficiency</h4>
+          <p>From quick deliveries to responsive support, we make things faster for you.</p>
+        </div>
+        <div class="value-box">
+          <h4>Innovation</h4>
+          <p>We embrace modern solutions to enhance healthcare access and user experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
+
 </html>

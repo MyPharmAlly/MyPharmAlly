@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Medicines | Noor Fatima Healthcare Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p0N5ORDEpuyUp3dvO77a1iW8aVG2Zp2+UoFqL8mV2UzU5rEpr5i9oR+nG+SkHyGZVq1DE9JYmVYFPld6hZL4hQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f7fdfc;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #009688;
+      color: white;
+      padding: 1rem 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 1rem;
+    }
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .navbar nav ul li a {
+      color: white;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+      background: linear-gradient(to right, #009688aa, #009688cc);
+      color: white;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .feature-box {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .steps {
+      margin-top: 3rem;
+    }
+    .steps h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .steps ol {
+      padding-left: 1.2rem;
+    }
+    .steps ol li {
+      margin-bottom: 0.8rem;
+    }
+    .whatsapp-btn {
+      display: block;
+      text-align: center;
+      margin: 3rem auto;
+    }
+    .whatsapp-btn a {
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+    }
+html {
+  overflow-y: scroll;
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">Noor Fatima Healthcare Group</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="order.html">Order Medicines</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Order Medicines from Anywhere, Anytime</h1>
+    <p>Fast delivery. Verified products. Trusted by hundreds daily.</p>
+  </section>
+
+  <section class="section features">
+    <div class="feature-box" data-aos="fade-up">
+      <h3>Same Day Delivery</h3>
+      <p>We ensure your medicines reach your door the same day in most areas.</p>
+    </div>
+    <div class="feature-box" data-aos="fade-up" data-aos-delay="100">
+      <h3>100% Genuine Medicines</h3>
+      <p>We partner only with licensed pharmacies and verified distributors.</p>
+    </div>
+    <div class="feature-box" data-aos="fade-up" data-aos-delay="200">
+      <h3>Support on WhatsApp</h3>
+      <p>Have a question or need help? Message us anytime on WhatsApp.</p>
+    </div>
+  </section>
+
+  <section class="section steps">
+    <h2>How to Order</h2>
+    <ol>
+      <li>Click the WhatsApp button below</li>
+      <li>Send us your medicine list or image</li>
+      <li>Our team will confirm and deliver</li>
+    </ol>
+  </section>
+
+  <div class="whatsapp-btn">
+    <a href="https://wa.me/917051899758" target="_blank">Order on WhatsApp</a>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+
+</html>
