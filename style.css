@@ -228,3 +228,108 @@ nav a:hover {
     grid-template-columns: 1fr;
   }
 }
+/* ───────── Store Locator Section ───────── */
+.store-section {
+  padding: 4rem 2rem;
+  background: #f9f9f9;
+}
+
+.store-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #009688;
+  margin-bottom: 2rem;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.store-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  animation: fadeInUp 0.8s ease both;
+}
+
+.store-card:hover {
+  transform: translateY(-5px);
+}
+
+.store-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.store-info {
+  padding: 1.5rem;
+}
+
+.store-info h3 {
+  color: #222;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.store-info p {
+  color: #555;
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.store-info .cta-button {
+  margin-top: 1rem;
+  display: inline-block;
+  background: #009688;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.store-info .cta-button:hover {
+  background: #00796b;
+}
+
+.coming-soon {
+  color: #ff5722;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.store-info .status-icon {
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+
+.expansion-note {
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  color: #444;
+  text-align: center;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ───────── Animations ───────── */
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

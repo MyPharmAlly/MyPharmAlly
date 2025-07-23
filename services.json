@@ -1,0 +1,12 @@
+{
+  "s1": {
+    "icon": "fas fa-capsules",
+    "title": "Buy Medicines",
+    "description": "Order medicines directly via WhatsApp. We deliver across most locations within a few hours."
+  },
+  "s2": {
+    "icon": "fas fa-user-nurse",
+    "title": "Healthcare Guidance",
+    "description": "Need help understanding your prescriptions? Our team is here to guide you."
+  }
+}

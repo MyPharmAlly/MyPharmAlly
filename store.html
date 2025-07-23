@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locate a Store | Noor Fatima Healthcare Group</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    .store-section {
+      padding: 4rem 2rem;
+      background: #f9f9f9;
+    }
+    .store-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #009688;
+      margin-bottom: 2rem;
+      animation: fadeInDown 1s ease-in-out;
+    }
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .store-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      animation: fadeInUp 0.8s ease both;
+    }
+    .store-card:hover {
+      transform: translateY(-5px);
+    }
+    .store-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .store-info {
+      padding: 1.5rem;
+    }
+    .store-info h3 {
+      color: #222;
+      margin-bottom: 0.5rem;
+    }
+    .store-info p {
+      color: #555;
+      margin: 0.3rem 0;
+    }
+    .store-info .cta-button {
+      margin-top: 1rem;
+      display: inline-block;
+      background: #009688;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .store-info .cta-button:hover {
+      background: #00796b;
+    }
+    .coming-soon {
+      color: #ff5722;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .expansion-note {
+      margin-top: 3rem;
+      font-size: 1.1rem;
+      color: #444;
+      text-align: center;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .store-info .status-icon {
+      font-size: 1rem;
+      margin-right: 0.3rem;
+    }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="navbar">
+      <div class="logo">Noor Fatima Healthcare Group</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="order.html">Buy Medicines</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="store.html" class="active">Locate a Store</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Store Locator Section -->
+  <section class="store-section">
+    <h2>Our Medical Stores</h2>
+    <div class="store-grid">
+
+      <!-- Open Store -->
+      <div class="store-card">
+        <img src="store-photo.jpg" alt="Noor Fatima Medical Shop" />
+        <div class="store-info">
+          <h3><span class="status-icon">✅</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Chanduna Deh Nowabad</p>
+          <p><i class="fas fa-clock"></i> Every day from 10:00 AM to 5:00 PM</p>
+          <a href="https://maps.app.goo.gl/fYK2wVAN4ZYCwt597" target="_blank" class="cta-button">Get Directions</a>
+        </div>
+      </div>
+
+      <!-- Coming Soon Stores -->
+      <div class="store-card">
+        <div class="store-info">
+          <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Ganderbal</p>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-info">
+          <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Srinagar</p>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-info">
+          <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Baramulla</p>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-info">
+          <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Kulgam</p>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+      </div>
+
+      <div class="store-card">
+        <div class="store-info">
+          <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Anantnag</p>
+          <p class="coming-soon">Coming Soon</p>
+        </div>
+      </div>
+
+    </div>
+    <p class="expansion-note">We are constantly expanding to serve more locations across Kashmir and beyond. Stay tuned for new Noor Fatima Medical Shops near you.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

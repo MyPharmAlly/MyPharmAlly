@@ -7,19 +7,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <script type="module" src="firebase-config.js"></script>
 </head>
 <body>
-
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Loading...</div>
       <nav>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="order.html">Buy Medicines</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="index.html" id="nav-home">Home</a></li>
+          <li><a href="order.html" id="nav-buy">Buy Medicines</a></li>
+          <li><a href="contact.html" id="nav-contact">Contact Us</a></li>
+          <li><a href="about.html" id="nav-about">About Us</a></li>
+          <li><a href="store.html" id="nav-store">Locate a Store</a></li>
         </ul>
       </nav>
     </div>
@@ -28,89 +29,114 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-text">
-      <h1>Your Health, Our Priority</h1>
-      <p>Trusted medicine delivery from Noor Fatima Healthcare Group — fast, reliable, and caring service every day.</p>
-      <a href="order.html" class="cta-button">Order on WhatsApp</a>
+      <h1 id="hero-title">Loading...</h1>
+      <p id="hero-subtitle"></p>
+      <a href="order.html" class="cta-button" id="hero-button"></a>
     </div>
   </section>
 
   <!-- Services Section -->
   <section class="services">
     <h2>Our Services</h2>
-    <div class="service-grid">
-      <div class="service-card">
-        <i class="fas fa-capsules"></i>
-        <h3>Buy Medicines</h3>
-        <p>Order medicines directly via WhatsApp. We deliver across most locations within a few hours.</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-user-nurse"></i>
-        <h3>Healthcare Guidance</h3>
-        <p>Need help understanding your prescriptions? Our team is here to guide you.</p>
-      </div>
-    </div>
+    <div class="service-grid" id="services-container"></div>
   </section>
 
   <!-- Testimonials Section -->
   <section class="testimonials">
     <h2>What Our Customers Say</h2>
     <div class="testimonial-slider">
-      <div class="testimonial-track">
-        <div class="testimonial-card">
-          <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
-          <h4>– Aisha Khan</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
-          <h4>– Danish Bhat</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“Highly professional and trustworthy team. Always helpful!”</p>
-          <h4>– Dr. Sana Mir</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“Saved my time and effort. Reliable delivery every time.”</p>
-          <h4>– Ruqaya</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“I recommend Noor Fatima to all my friends and family.”</p>
-          <h4>– Parveen Akhtar</h4>
-        </div>
-
-        <!-- Duplicate cards for seamless infinite scroll -->
-        <div class="testimonial-card">
-          <p>“Noor Fatima’s service is incredible. Got my medicine in just 2 hours!”</p>
-          <h4>– Aisha Khan</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“So convenient to order via WhatsApp. Fast and friendly service.”</p>
-          <h4>– Danish Bhat</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“Highly professional and trustworthy team. Always helpful!”</p>
-          <h4>– Dr. Sana Mir</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“Saved my time and effort. Reliable delivery every time.”</p>
-          <h4>– Ruqaya</h4>
-        </div>
-        <div class="testimonial-card">
-          <p>“I recommend Noor Fatima to all my friends and family.”</p>
-          <h4>– Parveen Akhtar</h4>
-        </div>
-      </div>
+      <div class="testimonial-track" id="testimonial-track"></div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
-      <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
+      <p id="footer-text">Loading footer...</p>
     </div>
   </footer>
 
-  <!-- Script -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="script.js"></script>
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
+      authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
+      databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
+      projectId: "noor-fatima-healthcare-group",
+      storageBucket: "noor-fatima-healthcare-group.appspot.com",
+      messagingSenderId: "251108193993",
+      appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db);
+
+    // Hero
+    get(child(dbRef, "hero")).then(snapshot => {
+      if (snapshot.exists()) {
+        document.getElementById("hero-title").textContent = snapshot.val().title;
+        document.getElementById("hero-subtitle").textContent = snapshot.val().subtitle;
+        document.getElementById("hero-button").textContent = snapshot.val().buttonText;
+      }
+    });
+
+    // Navbar
+    get(child(dbRef, "navbar")).then(snapshot => {
+      if (snapshot.exists()) {
+        document.getElementById("nav-logo").textContent = snapshot.val().logo;
+        document.getElementById("nav-home").textContent = snapshot.val().links.home;
+        document.getElementById("nav-buy").textContent = snapshot.val().links.buy;
+        document.getElementById("nav-contact").textContent = snapshot.val().links.contact;
+        document.getElementById("nav-about").textContent = snapshot.val().links.about;
+        document.getElementById("nav-store").textContent = snapshot.val().links.store;
+      }
+    });
+
+    // Services
+    get(child(dbRef, "services")).then(snapshot => {
+      if (snapshot.exists()) {
+        const container = document.getElementById("services-container");
+        Object.values(snapshot.val()).forEach(service => {
+          const card = document.createElement("div");
+          card.className = "service-card";
+          card.innerHTML = `
+            <i class="${service.icon}"></i>
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
+          `;
+          container.appendChild(card);
+        });
+      }
+    });
+
+    // Testimonials
+    get(child(dbRef, "testimonials")).then(snapshot => {
+      if (snapshot.exists()) {
+        const track = document.getElementById("testimonial-track");
+        const data = Object.values(snapshot.val());
+        data.concat(data).forEach(testimonial => {
+          const card = document.createElement("div");
+          card.className = "testimonial-card";
+          card.innerHTML = `
+            <p>“${testimonial.comment}”</p>
+            <h4>– ${testimonial.name}</h4>
+          `;
+          track.appendChild(card);
+        });
+      }
+    });
+
+    // Footer
+    get(child(dbRef, "footer")).then(snapshot => {
+      if (snapshot.exists()) {
+        document.getElementById("footer-text").textContent = snapshot.val().text;
+      }
+    });
+  </script>
+
 </body>
 </html>

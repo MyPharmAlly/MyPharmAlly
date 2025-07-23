@@ -1,0 +1,16 @@
+{
+  "blogs": {
+    "blog1": {
+      "title": "How to Order Medicines with Noor Fatima",
+      "date": "2025-07-23",
+      "image": "https://i.imgur.com/example.jpg",
+      "content": "Here's how easy it is to order trusted medicines through WhatsApp."
+    },
+    "blog2": {
+      "title": "Why Choose Noor Fatima Healthcare?",
+      "date": "2025-07-22",
+      "image": "https://i.imgur.com/example2.jpg",
+      "content": "We offer fast, verified and caring healthcare delivery across Kashmir."
+    }
+  }
+}
