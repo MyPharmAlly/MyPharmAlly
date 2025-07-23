@@ -10,76 +10,70 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
       <div class="logo">Noor Fatima Healthcare Group</div>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-  </ul>
-</nav>
-
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="order.html">Buy Medicines</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="store.html">Locate a Store</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <!-- Contact Section -->
-  <section class="services">
-    <h2>Contact Us</h2>
-    <p style="text-align:center; margin-bottom:2rem;">Reach out to us anytime — we’re happy to help!</p>
+  <main>
+    <!-- Contact Section -->
+    <section class="services">
+      <h2>Contact Us</h2>
+      <p class="text-center mb-2">Reach out to us anytime — we’re happy to help!</p>
+      <div class="service-grid contact-grid">
+        <!-- Contact Info -->
+        <div class="flex-col" data-aos="fade-right">
+          <div class="service-card flex-row">
+            <i class="fas fa-phone icon-green"></i>
+            <a href="tel:+917051899758">+91 70518 99758</a>
+          </div>
+          <div class="service-card flex-row">
+            <i class="fas fa-phone icon-green"></i>
+            <a href="tel:+919103211416">+91 91032 11416</a>
+          </div>
+          <div class="service-card flex-row">
+            <i class="fas fa-envelope icon-green"></i>
+            <span>NoorFatimaHealthcareGroup@gmail.com</span>
+          </div>
+        </div>
 
-    <div class="service-grid" style="grid-template-columns: 1fr 1fr; max-width:1000px; margin:auto; gap:2rem;">
-      
-      <!-- Contact Info -->
-      <div style="display:flex; flex-direction:column; gap:1rem;" data-aos="fade-right">
-        <div class="service-card" style="flex-direction:row; align-items:center; gap:0.8rem;">
-          <i class="fas fa-phone" style="color:#009688;"></i>
-          <a href="tel:+917051899758">+91 70518 99758</a>
-        </div>
-        <div class="service-card" style="flex-direction:row; align-items:center; gap:0.8rem;">
-          <i class="fas fa-phone" style="color:#009688;"></i>
-          <a href="tel:+919103211416">+91 91032 11416</a>
-        </div>
-        <div class="service-card" style="flex-direction:row; align-items:center; gap:0.8rem;">
-          <i class="fas fa-envelope" style="color:#009688;"></i>
-          <span>NoorFatimaHealthcareGroup@gmail.com</span>
-        </div>
+        <!-- Contact Form -->
+        <form action="https://formsubmit.co/NoorFatimaHealthcareGroup@gmail.com" method="POST" class="contact-form" data-aos="fade-left">
+          <input type="hidden" name="_redirect" value="thank-you.html">
+          <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i> Your Name</label>
+            <input type="text" name="name" id="name" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
+            <input type="email" name="email" id="email" placeholder="Enter your email address" required />
+          </div>
+          <div class="form-group">
+            <label for="message"><i class="fas fa-comment-dots"></i> Your Message</label>
+            <textarea name="message" id="message" rows="5" placeholder="Type your message here..." required></textarea>
+          </div>
+          <button type="submit" class="cta-button mt-1">Send Message</button>
+        </form>
       </div>
+    </section>
 
-      <!-- Professional Contact Form -->
-      <form action="https://formsubmit.co/NoorFatimaHealthcareGroup@gmail.com" method="POST" class="contact-form" data-aos="fade-left">
-        <input type="hidden" name="_redirect" value="thank-you.html">
-
-        <div class="form-group">
-          <label for="name"><i class="fas fa-user"></i> Your Name</label>
-          <input type="text" name="name" id="name" placeholder="Enter your full name" required />
-        </div>
-
-        <div class="form-group">
-          <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
-          <input type="email" name="email" id="email" placeholder="Enter your email address" required />
-        </div>
-
-        <div class="form-group">
-          <label for="message"><i class="fas fa-comment-dots"></i> Your Message</label>
-          <textarea name="message" id="message" rows="5" placeholder="Type your message here..." required></textarea>
-        </div>
-
-        <button type="submit" class="cta-button" style="margin-top: 1rem;">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Store Hours -->
-  <section class="services" style="background:#e0f7f5;">
-    <h2>Store Hours</h2>
-    <p style="text-align:center;">We’re open every day from <strong>10:00 AM to 5:00 PM</strong>.</p>
-  </section>
+    <!-- Store Hours -->
+    <section class="services light-bg">
+      <h2>Store Hours</h2>
+      <p class="text-center">We’re open every day from <strong>10:00 AM to 5:00 PM</strong>.</p>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="site-footer">

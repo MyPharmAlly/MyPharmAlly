@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="firebase-config.js"></script>
 </head>
 <body>
   <!-- Header -->
@@ -26,28 +25,31 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1 id="hero-title">Loading...</h1>
-      <p id="hero-subtitle"></p>
-      <a href="order.html" class="cta-button" id="hero-button"></a>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1 id="hero-title">Loading...</h1>
+        <p id="hero-subtitle"></p>
+        <a href="order.html" class="cta-button" id="hero-button"></a>
+      </div>
+    </section>
 
-  <!-- Services Section -->
-  <section class="services">
-    <h2>Our Services</h2>
-    <div class="service-grid" id="services-container"></div>
-  </section>
+    <!-- Services Section -->
+    <section class="services">
+      <h2>Our Services</h2>
+      <div class="service-grid" id="services-container"></div>
+    </section>
 
-  <!-- Testimonials Section -->
-  <section class="testimonials">
-    <h2>What Our Customers Say</h2>
-    <div class="testimonial-slider">
-      <div class="testimonial-track" id="testimonial-track"></div>
-    </div>
-  </section>
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <h2>What Our Customers Say</h2>
+      <div class="testimonial-slider">
+        <div class="testimonial-track" id="testimonial-track"></div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="site-footer">
@@ -56,23 +58,11 @@
     </div>
   </footer>
 
-  <!-- Firebase Scripts -->
+  <!-- Firebase + Dynamic Content -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { db } from "./firebase-config.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
-      authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
-      databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
-      projectId: "noor-fatima-healthcare-group",
-      storageBucket: "noor-fatima-healthcare-group.appspot.com",
-      messagingSenderId: "251108193993",
-      appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
     const dbRef = ref(db);
 
     // Hero
@@ -137,6 +127,5 @@
       }
     });
   </script>
-
 </body>
 </html>
