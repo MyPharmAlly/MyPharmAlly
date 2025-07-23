@@ -7,6 +7,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .fade-in {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .fade-in.loaded {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -28,22 +37,22 @@
   <!-- Main Content -->
   <main>
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero fade-in" id="hero" style="display: none;">
       <div class="hero-text">
-        <h1 id="hero-title">Loading...</h1>
+        <h1 id="hero-title"></h1>
         <p id="hero-subtitle"></p>
         <a href="order.html" class="cta-button" id="hero-button"></a>
       </div>
     </section>
 
     <!-- Services Section -->
-    <section class="services">
+    <section class="services fade-in" id="services-section" style="display: none;">
       <h2>Our Services</h2>
       <div class="service-grid" id="services-container"></div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials">
+    <section class="testimonials fade-in" id="testimonials-section" style="display: none;">
       <h2>What Our Customers Say</h2>
       <div class="testimonial-slider">
         <div class="testimonial-track" id="testimonial-track"></div>
@@ -52,17 +61,29 @@
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer fade-in" id="footer" style="display: none;">
     <div class="footer-content">
-      <p id="footer-text">Loading footer...</p>
+      <p id="footer-text"></p>
     </div>
   </footer>
 
   <!-- Firebase + Dynamic Content -->
   <script type="module">
-    import { ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-    import { db } from "./firebase-config.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
+      authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
+      databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
+      projectId: "noor-fatima-healthcare-group",
+      storageBucket: "noor-fatima-healthcare-group.appspot.com",
+      messagingSenderId: "251108193993",
+      appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
     const dbRef = ref(db);
 
     // Hero
@@ -71,18 +92,23 @@
         document.getElementById("hero-title").textContent = snapshot.val().title;
         document.getElementById("hero-subtitle").textContent = snapshot.val().subtitle;
         document.getElementById("hero-button").textContent = snapshot.val().buttonText;
+
+        const heroSection = document.getElementById("hero");
+        heroSection.style.display = "block";
+        heroSection.classList.add("loaded");
       }
     });
 
     // Navbar
     get(child(dbRef, "navbar")).then(snapshot => {
       if (snapshot.exists()) {
-        document.getElementById("nav-logo").textContent = snapshot.val().logo;
-        document.getElementById("nav-home").textContent = snapshot.val().links.home;
-        document.getElementById("nav-buy").textContent = snapshot.val().links.buy;
-        document.getElementById("nav-contact").textContent = snapshot.val().links.contact;
-        document.getElementById("nav-about").textContent = snapshot.val().links.about;
-        document.getElementById("nav-store").textContent = snapshot.val().links.store;
+        const nav = snapshot.val();
+        document.getElementById("nav-logo").textContent = nav.logo;
+        document.getElementById("nav-home").textContent = nav.links.home;
+        document.getElementById("nav-buy").textContent = nav.links.buy;
+        document.getElementById("nav-contact").textContent = nav.links.contact;
+        document.getElementById("nav-about").textContent = nav.links.about;
+        document.getElementById("nav-store").textContent = nav.links.store;
       }
     });
 
@@ -100,6 +126,9 @@
           `;
           container.appendChild(card);
         });
+        const section = document.getElementById("services-section");
+        section.style.display = "block";
+        section.classList.add("loaded");
       }
     });
 
@@ -117,6 +146,9 @@
           `;
           track.appendChild(card);
         });
+        const section = document.getElementById("testimonials-section");
+        section.style.display = "block";
+        section.classList.add("loaded");
       }
     });
 
@@ -124,6 +156,9 @@
     get(child(dbRef, "footer")).then(snapshot => {
       if (snapshot.exists()) {
         document.getElementById("footer-text").textContent = snapshot.val().text;
+        const footer = document.getElementById("footer");
+        footer.style.display = "block";
+        footer.classList.add("loaded");
       }
     });
   </script>
