@@ -107,11 +107,68 @@
       </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="services fade-in" id="services-section" style="display: none;">
-      <h2>Our Services</h2>
-      <div class="service-grid" id="services-container"></div>
-    </section>
+    <!-- SERVICES SECTION -->
+<section class="services fade-in" id="services-section" style="display: none;">
+  <h2>Our Services</h2>
+  <div class="service-grid" id="services-container"></div>
+</section>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, child, get, push, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
+    authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
+    databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
+    projectId: "noor-fatima-healthcare-group",
+    storageBucket: "noor-fatima-healthcare-group.appspot.com",
+    messagingSenderId: "251108193993",
+    appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const dbRef = ref(db);
+
+  get(child(dbRef, "services")).then(snapshot => {
+    if (snapshot.exists()) {
+      const container = document.getElementById("services-container");
+      const services = snapshot.val();
+      services["general-consultation"] = {
+        icon: "fas fa-user-md",
+        title: "General Consultation",
+        description: "In-person and virtual checkups with experienced doctors."
+      };
+      services["mental-health"] = {
+        icon: "fas fa-brain",
+        title: "Mental Health Support",
+        description: "Counseling and support for mental well-being."
+      };
+      services["online-appointment"] = {
+        icon: "fas fa-calendar-check",
+        title: "Online Appointment",
+        description: "Book consultations from your phone or laptop."
+      };
+
+      Object.values(services).forEach(service => {
+        const card = document.createElement("div");
+        card.className = "service-card";
+        card.innerHTML = `
+          <i class="${service.icon}"></i>
+          <h3>${service.title}</h3>
+          <p>${service.description}</p>
+        `;
+        container.appendChild(card);
+      });
+
+      const section = document.getElementById("services-section");
+      section.style.display = "block";
+      section.classList.add("loaded");
+    }
+  });
+</script>
+
 
     <!-- Testimonials Section -->
     <section class="testimonials fade-in" id="testimonials-section" style="display: none;">
