@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: 'Poppins', sans-serif; padding: 2rem; background: #f9f9f9; }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    form { max-width: 600px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input, select, textarea { width: 100%; padding: 0.7rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+    button { margin-top: 1.5rem; padding: 0.8rem 1.5rem; background: #009688; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    #response-message { margin-top: 1rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <h1>Book Your Appointment</h1>
+  <form id="appointment-form">
+    <label for="name">Full Name *</label>
+    <input type="text" id="name" required>
+
+    <label for="phone">Phone Number *</label>
+    <input type="text" id="phone" required>
+
+    <label for="email">Email Address *</label>
+    <input type="email" id="email" required>
+
+    <label for="date">Appointment Date *</label>
+    <input type="date" id="date" required>
+
+    <label for="time">Preferred Time *</label>
+    <select id="time" required>
+      <option value="">Select a time slot</option>
+      <option>9:00 AM – 10:00 AM</option>
+      <option>10:00 AM – 11:00 AM</option>
+      <option>11:00 AM – 12:00 PM</option>
+      <option>2:00 PM – 3:00 PM</option>
+      <option>3:00 PM – 4:00 PM</option>
+    </select>
+
+    <label for="department">Doctor / Department</label>
+    <select id="department">
+      <option value="">Select a department</option>
+      <option>General Medicine</option>
+      <option>Gynecology</option>
+      <option>Pediatrics</option>
+      <option>ENT</option>
+    </select>
+
+    <label for="notes">Additional Notes</label>
+    <textarea id="notes" rows="3" placeholder="Optional..."></textarea>
+
+    <button type="submit">Confirm Appointment</button>
+    <div id="response-message"></div>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getDatabase, ref, push, set } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
+      authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
+      databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
+      projectId: "noor-fatima-healthcare-group",
+      storageBucket: "noor-fatima-healthcare-group.appspot.com",
+      messagingSenderId: "251108193993",
+      appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById('appointment-form');
+    const responseMsg = document.getElementById('response-message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        department: document.getElementById('department').value,
+        notes: document.getElementById('notes').value.trim(),
+        timestamp: Date.now()
+      };
+
+      try {
+        const newRef = push(ref(db, 'appointments'));
+        await set(newRef, data);
+        responseMsg.textContent = "✅ Your appointment has been submitted successfully.";
+        responseMsg.style.color = "green";
+        form.reset();
+      } catch (err) {
+        responseMsg.textContent = "❌ There was an error. Please try again.";
+        responseMsg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
