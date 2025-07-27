@@ -2,78 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us | Noor Fatima Healthcare Group</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Noor Fatima Healthcare Group</div>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-    <li><a href="blog.html">Blog</a></li> <!-- 🔥 Add this line -->
-  </ul>
-</nav>
-
+        <ul id="nav-list">
+          <li><a id="nav-home" href="index.html">Home</a></li>
+          <li><a id="nav-buy" href="order.html">Buy Medicines</a></li>
+          <li><a id="nav-contact" class="active" href="contact.html">Contact Us</a></li>
+          <li><a id="nav-about" href="about.html">About Us</a></li>
+          <li><a id="nav-store" href="store.html">Locate a Store</a></li>
+          <li><a id="nav-blog" href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <!-- Contact Section -->
-    <section class="services">
-      <h2>Contact Us</h2>
-      <p class="text-center mb-2">Reach out to us anytime — we’re happy to help!</p>
-      <div class="service-grid contact-grid">
-        <!-- Contact Info -->
-        <div class="flex-col" data-aos="fade-right">
-          <div class="service-card flex-row">
-            <i class="fas fa-phone icon-green"></i>
-            <a href="tel:+917051899758">+91 70518 99758</a>
-          </div>
-          <div class="service-card flex-row">
-            <i class="fas fa-phone icon-green"></i>
-            <a href="tel:+919103211416">+91 91032 11416</a>
-          </div>
-          <div class="service-card flex-row">
-            <i class="fas fa-envelope icon-green"></i>
-            <span>NoorFatimaHealthcareGroup@gmail.com</span>
-          </div>
-        </div>
-
-        <!-- Contact Form -->
-        <form action="https://formsubmit.co/NoorFatimaHealthcareGroup@gmail.com" method="POST" class="contact-form" data-aos="fade-left">
-          <input type="hidden" name="_redirect" value="thank-you.html">
-          <div class="form-group">
-            <label for="name"><i class="fas fa-user"></i> Your Name</label>
-            <input type="text" name="name" id="name" placeholder="Enter your full name" required />
-          </div>
-          <div class="form-group">
-            <label for="email"><i class="fas fa-envelope"></i> Your Email</label>
-            <input type="email" name="email" id="email" placeholder="Enter your email address" required />
-          </div>
-          <div class="form-group">
-            <label for="message"><i class="fas fa-comment-dots"></i> Your Message</label>
-            <textarea name="message" id="message" rows="5" placeholder="Type your message here..." required></textarea>
-          </div>
-          <button type="submit" class="cta-button mt-1">Send Message</button>
-        </form>
-      </div>
-    </section>
-
-    <!-- Store Hours -->
-    <section class="services light-bg">
-      <h2>Store Hours</h2>
-      <p class="text-center">We’re open every day from <strong>10:00 AM to 5:00 PM</strong>.</p>
+  <!-- Main -->
+  <main data-aos="fade-up">
+    <section class="contact-section">
+      <!-- Your contact form or details here -->
+      <h1>Get in Touch</h1>
+      <form>
+        <!-- form fields -->
+      </form>
     </section>
   </main>
 
@@ -84,7 +52,30 @@
     </div>
   </footer>
 
+  <!-- Firebase & Hamburger -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    const firebaseConfig = { /* same as above */ };
+    const app = initializeApp(firebaseConfig), db = getDatabase(app), dbRef = ref(db);
+    get(child(dbRef, "navbar")).then(snap => {
+      if (!snap.exists()) return;
+      const nav = snap.val();
+      document.getElementById("nav-logo").textContent    = nav.logo;
+      document.getElementById("nav-home").textContent    = nav.links.home;
+      document.getElementById("nav-buy").textContent     = nav.links.buy;
+      document.getElementById("nav-contact").textContent = nav.links.contact;
+      document.getElementById("nav-about").textContent   = nav.links.about;
+      document.getElementById("nav-store").textContent   = nav.links.store;
+      document.getElementById("nav-blog").textContent    = nav.links.blog;
+    });
+    document.querySelector(".hamburger").addEventListener("click", () => {
+      document.getElementById("nav-list").classList.toggle("open");
+    });
+  </script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="script.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+  </script>
 </body>
 </html>

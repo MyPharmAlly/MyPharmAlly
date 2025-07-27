@@ -1,86 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Medicines | Noor Fatima Healthcare Group</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Noor Fatima Healthcare Group</div>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-    <li><a href="blog.html">Blog</a></li> <!-- 🔥 Add this line -->
-  </ul>
-</nav>
-
+        <ul id="nav-list">
+          <li><a id="nav-home" href="index.html">Home</a></li>
+          <li><a id="nav-buy" class="active" href="order.html">Buy Medicines</a></li>
+          <li><a id="nav-contact" href="contact.html">Contact Us</a></li>
+          <li><a id="nav-about" href="about.html">About Us</a></li>
+          <li><a id="nav-store" href="store.html">Locate a Store</a></li>
+          <li><a id="nav-blog" href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-text">
-        <h1>Order Medicines from Anywhere, Anytime</h1>
-        <p>Fast delivery. Verified products. Trusted by hundreds daily.</p>
-      </div>
+  <!-- Main -->
+  <main data-aos="fade-up">
+    <section class="order-section">
+      <!-- Your order form here -->
+      <h1>Buy Your Medicines</h1>
+      <form>
+        <!-- fields -->
+      </form>
     </section>
-
-    <!-- Features -->
-    <section class="services">
-      <div class="service-grid">
-        <div class="service-card" data-aos="fade-up">
-          <h3>Same Day Delivery</h3>
-          <p>We ensure your medicines reach your door the same day in most areas.</p>
-        </div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-          <h3>100% Genuine Medicines</h3>
-          <p>We partner only with licensed pharmacies and verified distributors.</p>
-        </div>
-        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-          <h3>Support on WhatsApp</h3>
-          <p>Have a question or need help? Message us anytime on WhatsApp.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- How to Order -->
-    <section class="services" data-aos="fade-up">
-      <h2>How to Order</h2>
-      <div class="service-grid">
-        <div class="service-card">
-          <i class="fab fa-whatsapp fa-2x icon-green"></i>
-          <h3>Step 1</h3>
-          <p>Click the WhatsApp button below to begin your order.</p>
-        </div>
-        <div class="service-card">
-          <i class="fas fa-file-medical fa-2x icon-green"></i>
-          <h3>Step 2</h3>
-          <p>Send us your medicine list or a photo of your prescription.</p>
-        </div>
-        <div class="service-card">
-          <i class="fas fa-truck fa-2x icon-green"></i>
-          <h3>Step 3</h3>
-          <p>We confirm the order and deliver your medicines quickly.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WhatsApp CTA -->
-    <div class="text-center my-3">
-      <a href="https://wa.me/917051899758" target="_blank" class="cta-button">Order on WhatsApp</a>
-    </div>
   </main>
 
   <!-- Footer -->
@@ -90,7 +52,30 @@
     </div>
   </footer>
 
+  <!-- Firebase & Hamburger -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    const firebaseConfig = { /* same */ };
+    const app = initializeApp(firebaseConfig), db = getDatabase(app), dbRef = ref(db);
+    get(child(dbRef, "navbar")).then(snap => {
+      if (!snap.exists()) return;
+      const nav = snap.val();
+      document.getElementById("nav-logo").textContent    = nav.logo;
+      document.getElementById("nav-home").textContent    = nav.links.home;
+      document.getElementById("nav-buy").textContent     = nav.links.buy;
+      document.getElementById("nav-contact").textContent = nav.links.contact;
+      document.getElementById("nav-about").textContent   = nav.links.about;
+      document.getElementById("nav-store").textContent   = nav.links.store;
+      document.getElementById("nav-blog").textContent    = nav.links.blog;
+    });
+    document.querySelector(".hamburger").addEventListener("click", () => {
+      document.getElementById("nav-list").classList.toggle("open");
+    });
+  </script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="script.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+  </script>
 </body>
 </html>

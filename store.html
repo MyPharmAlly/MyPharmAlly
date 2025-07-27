@@ -1,92 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Locate a Store | Noor Fatima Healthcare Group</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Noor Fatima Healthcare Group</div>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-    <li><a href="blog.html">Blog</a></li> <!-- 🔥 Add this line -->
-  </ul>
-</nav>
-
+        <ul id="nav-list">
+          <li><a id="nav-home" href="index.html">Home</a></li>
+          <li><a id="nav-buy" href="order.html">Buy Medicines</a></li>
+          <li><a id="nav-contact" href="contact.html">Contact Us</a></li>
+          <li><a id="nav-about" href="about.html">About Us</a></li>
+          <li><a id="nav-store" class="active" href="store.html">Locate a Store</a></li>
+          <li><a id="nav-blog" href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
+  <!-- Main -->
   <main>
-    <!-- Store Locator Section -->
     <section class="store-section">
-      <h2>Our Medical Stores</h2>
-      <div class="store-grid">
-
-        <!-- Open Store -->
-        <div class="store-card">
-          <img src="store-photo.jpg" alt="Noor Fatima Medical Shop" />
-          <div class="store-info">
-            <h3><span class="status-icon">✅</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Chanduna Deh Nowabad</p>
-            <p><i class="fas fa-clock"></i> Every day from 10:00 AM to 5:00 PM</p>
-            <a href="https://maps.app.goo.gl/fYK2wVAN4ZYCwt597" target="_blank" class="cta-button">Get Directions</a>
-          </div>
-        </div>
-
-        <!-- Coming Soon Stores -->
-        <div class="store-card">
-          <div class="store-info">
-            <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Ganderbal</p>
-            <p class="coming-soon">Coming Soon</p>
-          </div>
-        </div>
-
-        <div class="store-card">
-          <div class="store-info">
-            <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Srinagar</p>
-            <p class="coming-soon">Coming Soon</p>
-          </div>
-        </div>
-
-        <div class="store-card">
-          <div class="store-info">
-            <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Baramulla</p>
-            <p class="coming-soon">Coming Soon</p>
-          </div>
-        </div>
-
-        <div class="store-card">
-          <div class="store-info">
-            <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Kulgam</p>
-            <p class="coming-soon">Coming Soon</p>
-          </div>
-        </div>
-
-        <div class="store-card">
-          <div class="store-info">
-            <h3><span class="status-icon">⏳</span>Noor Fatima Medical Shop</h3>
-            <p><i class="fas fa-map-marker-alt"></i> Anantnag</p>
-            <p class="coming-soon">Coming Soon</p>
-          </div>
-        </div>
-
-      </div>
-      <p class="expansion-note">We are constantly expanding to serve more locations across Kashmir and beyond. Stay tuned for new Noor Fatima Medical Shops near you.</p>
+      <!-- Your store locator content here -->
+      <h1>Our Store Locations</h1>
+      <ul>
+        <li>123 Main St, City</li>
+        <li>456 Oak Ave, Town</li>
+        <!-- etc. -->
+      </ul>
     </section>
   </main>
 
@@ -96,5 +52,27 @@
       <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Firebase & Hamburger -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    const firebaseConfig = { /* same */ };
+    const app = initializeApp(firebaseConfig), db = getDatabase(app), dbRef = ref(db);
+    get(child(dbRef, "navbar")).then(snap => {
+      if (!snap.exists()) return;
+      const nav = snap.val();
+      document.getElementById("nav-logo").textContent    = nav.logo;
+      document.getElementById("nav-home").textContent    = nav.links.home;
+      document.getElementById("nav-buy").textContent     = nav.links.buy;
+      document.getElementById("nav-contact").textContent = nav.links.contact;
+      document.getElementById("nav-about").textContent   = nav.links.about;
+      document.getElementById("nav-store").textContent   = nav.links.store;
+      document.getElementById("nav-blog").textContent    = nav.links.blog;
+    });
+    document.querySelector(".hamburger").addEventListener("click", () => {
+      document.getElementById("nav-list").classList.toggle("open");
+    });
+  </script>
 </body>
 </html>

@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Blog | Noor Fatima Healthcare Group</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"/>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css"/>
+
   <style>
     .blog-section {
       padding: 4rem 1rem;
@@ -14,109 +20,90 @@
     .blog-section h2 {
       text-align: center;
       font-size: 2.5rem;
-      color: #009688;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
-    .blog-grid {
-      max-width: 1200px;
-      margin: 0 auto;
+    .blog-cards {
       display: grid;
-      gap: 2rem;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
     }
     .blog-card {
       background: #fff;
-      border-radius: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s;
     }
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
+    .blog-card:hover { transform: translateY(-5px); }
     .blog-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+      width: 100%; height: 160px; object-fit: cover;
     }
     .blog-card-content {
-      padding: 1.5rem;
+      padding: 1rem;
     }
-    .blog-card-content h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-    .blog-card-content p {
-      font-size: 0.95rem;
-      color: #666;
-      margin-bottom: 1rem;
-    }
+    .blog-card-content h3 { margin: 0 0 0.5rem; font-size: 1.25rem; }
     .blog-card-content .date {
-      font-size: 0.85rem;
-      color: #999;
+      font-size: 0.9rem; color: #777; margin-bottom: 0.75rem;
     }
   </style>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database-compat.js"></script>
 </head>
 <body>
-
   <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Noor Fatima Healthcare Group</div>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-    <li><a href="blog.html">Blog</a></li> <!-- 🔥 Add this line -->
-  </ul>
-</nav>
-
+        <ul id="nav-list">
+          <li><a id="nav-home" href="index.html">Home</a></li>
+          <li><a id="nav-buy" href="order.html">Buy Medicines</a></li>
+          <li><a id="nav-contact" href="contact.html">Contact Us</a></li>
+          <li><a id="nav-about" href="about.html">About Us</a></li>
+          <li><a id="nav-store" href="store.html">Locate a Store</a></li>
+          <li><a id="nav-blog" class="active" href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
   <!-- Blog Section -->
   <section class="blog-section">
-    <h2>Our Blog</h2>
-    <div class="blog-grid" id="blogContainer">
-      <!-- Blogs will load here dynamically -->
+    <h2>Latest from Our Blog</h2>
+    <div class="blog-cards" id="blogContainer">
+      <p>Loading posts…</p>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
-    </div>
-  </footer>
+  <!-- Firebase + Dynamic Content -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, child, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  <!-- Firebase Config + Blog Script -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBZi12tqCNYaGHENKuunmZ8ZJ5i1W4tQSE",
-      authDomain: "noor-fatima-healthcare-group.firebaseapp.com",
-      databaseURL: "https://noor-fatima-healthcare-group-default-rtdb.firebaseio.com",
-      projectId: "noor-fatima-healthcare-group",
-      storageBucket: "noor-fatima-healthcare-group.firebasestorage.app",
-      messagingSenderId: "251108193993",
-      appId: "1:251108193993:web:e09f8ba7d8899725a87f18"
-    };
+    const firebaseConfig = { /* same */ };
+    const app = initializeApp(firebaseConfig), db = getDatabase(app), dbRef = ref(db);
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    // Navbar text
+    get(child(dbRef, "navbar")).then(snap => {
+      if (!snap.exists()) return;
+      const nav = snap.val();
+      document.getElementById("nav-logo").textContent    = nav.logo;
+      document.getElementById("nav-home").textContent    = nav.links.home;
+      document.getElementById("nav-buy").textContent     = nav.links.buy;
+      document.getElementById("nav-contact").textContent = nav.links.contact;
+      document.getElementById("nav-about").textContent   = nav.links.about;
+      document.getElementById("nav-store").textContent   = nav.links.store;
+      document.getElementById("nav-blog").textContent    = nav.links.blog;
+    });
 
-    db.ref("blogs").once("value").then(snapshot => {
-      const blogs = snapshot.val();
+    // Blog posts
+    onValue(ref(db, "blogs"), snapshot => {
       const container = document.getElementById("blogContainer");
+      const blogs = snapshot.val();
+      container.innerHTML = "";
       if (!blogs) {
-        container.innerHTML = "<p>No blogs available right now.</p>";
+        container.innerHTML = "<p>No blog posts available right now.</p>";
         return;
       }
       Object.values(blogs).forEach(blog => {
@@ -127,13 +114,17 @@
           <div class="blog-card-content">
             <h3>${blog.title}</h3>
             <p class="date">${blog.date}</p>
-            <p>${blog.content.slice(0, 100)}...</p>
+            <p>${blog.content.slice(0, 100)}…</p>
           </div>
         `;
         container.appendChild(card);
       });
     });
-  </script>
 
+    // Hamburger toggle
+    document.querySelector(".hamburger").addEventListener("click", () => {
+      document.getElementById("nav-list").classList.toggle("open");
+    });
+  </script>
 </body>
 </html>

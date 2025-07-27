@@ -2,80 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us | Noor Fatima Healthcare Group</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Color Palette & Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    :root {
+      --primary: #007bff;
+      --bg:      #ffffff;
+      --text:    #222222;
+    }
+    .site-header {
+      position: sticky;
+      top: 0; z-index: 1000;
+      background: var(--bg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem;
+    }
+    .logo, nav ul li a {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1.25rem;
+      color: var(--text);
+    }
+    nav ul {
+      display: flex; list-style: none;
+    }
+    nav ul li {
+      margin-left: 1.5rem;
+    }
+    nav ul li a {
+      position: relative; padding: 0.25rem 0;
+      transition: color 0.3s ease;
+    }
+    nav ul li a::after {
+      content: ""; position: absolute;
+      bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      color: var(--primary);
+    }
+    nav ul li a:hover::after, nav ul li a.active::after {
+      width: 100%;
+    }
+    .hamburger {
+      display: none; background: none; border: none;
+      font-size: 1.5rem; color: var(--text); cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        position: absolute; top: 100%; right: 0;
+        flex-direction: column; background: var(--bg);
+        width: 200px; padding: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        transform: translateX(100%); transition: transform 0.3s ease;
+      }
+      nav ul.open { transform: translateX(0); }
+      nav ul li { margin: 0.5rem 0; text-align: right; margin-right: 1rem; }
+      .hamburger { display: block; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="site-header">
     <div class="navbar">
-      <div class="logo">Noor Fatima Healthcare Group</div>
+      <div class="logo" id="nav-logo">Noor Fatima Healthcare Group</div>
+      <button class="hamburger" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html">Buy Medicines</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="store.html">Locate a Store</a></li>
-    <li><a href="blog.html">Blog</a></li> <!-- 🔥 Add this line -->
-  </ul>
-</nav>
-
+        <ul id="nav-list">
+          <li><a id="nav-home" href="index.html">Home</a></li>
+          <li><a id="nav-buy" href="order.html">Buy Medicines</a></li>
+          <li><a id="nav-contact" href="contact.html">Contact Us</a></li>
+          <li><a id="nav-about" class="active" href="about.html">About Us</a></li>
+          <li><a id="nav-store" href="store.html">Locate a Store</a></li>
+          <li><a id="nav-blog" href="blog.html">Blog</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
   <main>
-    <!-- About Section -->
-    <section class="services">
-      <h2>About Us</h2>
-      <div class="service-grid about-intro text-left">
-        <div class="span-2">
-          <p>
-            This platform is a proud product of Noor Fatima Healthcare Group, dedicated to transforming how healthcare is accessed across Kashmir and beyond. Launched in 2025, it represents a new chapter in a journey that began with a small community pharmacy built on the principles of care, trust, and service.
-          </p>
-          <p>
-            From these modest beginnings, the platform has evolved into a modern digital solution — offering reliable medicine delivery, patient support, and easy access to healthcare services, all from the comfort of home.
-          </p>
-          <p>
-            We are continuously developing and enhancing this platform — introducing new features, improving performance, and adapting to your needs — to serve you better every single day.
-          </p>
-          <p>
-            Backed by the values of accessibility, compassion, and innovation, Noor Fatima Healthcare Group remains committed to delivering dependable healthcare — not just to Kashmir, but to every community we can reach.
-          </p>
-        </div>
-      </div>
-
-      <!-- Core Values -->
-      <h2 class="mt-4">Our Core Values</h2>
-      <div class="service-grid mt-2">
-        <div class="service-card">
-          <h3>Compassion</h3>
-          <p>We genuinely care about the wellbeing of every customer we serve.</p>
-        </div>
-        <div class="service-card">
-          <h3>Trust</h3>
-          <p>We prioritize transparency and reliability in everything we do.</p>
-        </div>
-        <div class="service-card">
-          <h3>Efficiency</h3>
-          <p>From quick deliveries to responsive support, we make things faster for you.</p>
-        </div>
-        <div class="service-card">
-          <h3>Innovation</h3>
-          <p>We embrace modern solutions to enhance healthcare access and user experience.</p>
-        </div>
-      </div>
+    <section class="about-section">
+      <h1>About Noor Fatima Healthcare Group</h1>
+      <p>We embrace modern solutions to enhance healthcare access and user experience.</p>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
       <p>&copy; 2025 Noor Fatima Healthcare Group. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    // Hamburger toggle
+    document.querySelector(".hamburger").addEventListener("click", () => {
+      document.getElementById("nav-list").classList.toggle("open");
+    });
+  </script>
 </body>
 </html>
